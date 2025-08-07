@@ -1,0 +1,642 @@
+[
+  {
+    "id": "1",
+    "nom": "Pompes",
+    "categorie": "Haut du corps",
+    "difficulte": "F",
+    "muscles": [
+      "Pectoraux",
+      "Triceps",
+      "Deltoïdes antérieurs"
+    ],
+    "description": "Exercice de poussée au sol pour développer la force de base du haut du corps.",
+    "instructions": [
+      "Placez-vous en position de planche, mains écartées largeur d'épaules",
+      "Gardez le corps droit, de la tête aux talons",
+      "Descendez lentement jusqu'à ce que la poitrine touche presque le sol",
+      "Remontez en poussant fort avec les bras",
+      "Respirez en descendant, expirez en remontant"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "2",
+    "nom": "Rowing inversé",
+    "categorie": "Haut du corps",
+    "difficulte": "F",
+    "muscles": [
+      "Grand dorsal",
+      "Trapèzes",
+      "Biceps"
+    ],
+    "description": "Tirage en suspension sous une barre pour renforcer la chaîne postérieure et le dos.",
+    "instructions": [
+      "Suspendez-vous sous une barre horizontale, corps incliné",
+      "Mains en pronation, écartées largeur d'épaules",
+      "Tirez votre poitrine vers la barre",
+      "Descendez lentement en contrôlant le mouvement",
+      "Gardez le corps droit pendant tout l'exercice"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "3",
+    "nom": "Tractions",
+    "categorie": "Haut du corps",
+    "difficulte": "D",
+    "muscles": [
+      "Grand dorsal",
+      "Biceps",
+      "Rhomboïdes"
+    ],
+    "description": "Exercice de traction à la barre fixe pour développer la force de tirage du haut du corps.",
+    "instructions": [
+      "Suspendez-vous à une barre fixe, mains en pronation",
+      "Écartement des mains légèrement plus large que les épaules",
+      "Tirez votre corps vers le haut jusqu'à ce que le menton dépasse la barre",
+      "Descendez lentement jusqu'à extension complète des bras",
+      "Gardez les jambes droites et serrées"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "4",
+    "nom": "Dips",
+    "categorie": "Haut du corps",
+    "difficulte": "D",
+    "muscles": [
+      "Triceps",
+      "Pectoraux",
+      "Deltoïdes antérieurs"
+    ],
+    "description": "Flexion-extension entre deux barres parallèles pour renforcer la poussée verticale.",
+    "instructions": [
+      "Placez-vous entre deux barres parallèles",
+      "Bras tendus, corps suspendu",
+      "Descendez en fléchissant les bras jusqu'à 90°",
+      "Remontez en poussant fort avec les triceps",
+      "Gardez le tronc légèrement incliné vers l'avant"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "5",
+    "nom": "Elbow lever",
+    "categorie": "Core/Abdos",
+    "difficulte": "D",
+    "muscles": [
+      "Épaules",
+      "Triceps",
+      "Abdominaux"
+    ],
+    "description": "Appui sur les coudes en appui planche pour travailler l'équilibre et la force statique.",
+    "instructions": [
+      "Placez-vous à genoux, coudes au sol largeur d'épaules",
+      "Posez les avant-bras au sol, parallèles",
+      "Levez les genoux et équilibrez-vous sur les coudes",
+      "Gardez le corps droit et rigide",
+      "Maintenez la position le plus longtemps possible"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "6",
+    "nom": "L-sit",
+    "categorie": "Core/Abdos",
+    "difficulte": "D",
+    "muscles": [
+      "Abdominaux",
+      "Fléchisseurs de la hanche",
+      "Triceps"
+    ],
+    "description": "Appui sur les mains avec les jambes tendues à l'horizontale pour renforcer le tronc.",
+    "instructions": [
+      "Asseyez-vous, mains posées au sol de chaque côté des hanches",
+      "Poussez sur les mains pour soulever tout le corps",
+      "Gardez les jambes tendues et parallèles au sol",
+      "Maintenez la position le plus longtemps possible",
+      "Contractez fortement les abdominaux"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "7",
+    "nom": "Frogstand",
+    "categorie": "Core/Abdos",
+    "difficulte": "D",
+    "muscles": [
+      "Épaules",
+      "Abdominaux",
+      "Adducteurs"
+    ],
+    "description": "Appui sur les mains en équilibre sur les genoux pour développer la proprioception et la force statique.",
+    "instructions": [
+      "Accroupissez-vous, mains au sol largeur d'épaules",
+      "Placez les genoux sur les coudes",
+      "Penchez-vous vers l'avant et soulevez les pieds",
+      "Équilibrez-vous sur les mains",
+      "Maintenez la position en contractant le core"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "8",
+    "nom": "Pike push-up",
+    "categorie": "Haut du corps",
+    "difficulte": "C",
+    "muscles": [
+      "Deltoïdes",
+      "Triceps",
+      "Trapèzes"
+    ],
+    "description": "Push-up les hanches relevées pour cibler les épaules en angle.",
+    "instructions": [
+      "Position de planche, puis levez les hanches vers le ciel",
+      "Formez un 'V' inversé avec votre corps",
+      "Descendez la tête vers le sol en fléchissant les bras",
+      "Remontez en poussant avec les épaules",
+      "Gardez les jambes aussi droites que possible"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "9",
+    "nom": "Tuck front lever",
+    "categorie": "Haut du corps",
+    "difficulte": "C",
+    "muscles": [
+      "Grand dorsal",
+      "Abdominaux",
+      "Érecteurs spinaux"
+    ],
+    "description": "Position horizontale accroupie en suspension sous barre pour développer la force de planéité.",
+    "instructions": [
+      "Suspendez-vous à une barre fixe",
+      "Tirez les genoux vers la poitrine",
+      "Basculez en arrière jusqu'à être horizontal",
+      "Maintenez la position genoux groupés",
+      "Gardez les bras tendus et le dos droit"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "10",
+    "nom": "Handstand",
+    "categorie": "Haut du corps",
+    "difficulte": "C",
+    "muscles": [
+      "Épaules",
+      "Triceps",
+      "Abdominaux"
+    ],
+    "description": "Équilibre vertical sur les mains pour renforcer le haut du corps et le gainage.",
+    "instructions": [
+      "Placez les mains au sol, largeur d'épaules",
+      "Donnez une impulsion avec les jambes",
+      "Trouvez l'équilibre vertical",
+      "Gardez les bras tendus et le corps droit",
+      "Contractez les abdominaux pour la stabilité"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "11",
+    "nom": "Tuck planche",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes",
+      "Abdominaux"
+    ],
+    "description": "Maintien du corps parallèle au sol, genoux ramenés vers la poitrine, en appui sur les mains.",
+    "instructions": [
+      "Positionnez-vous en appui sur les mains",
+      "Ramenez les genoux vers la poitrine",
+      "Basculez vers l'avant jusqu'à être horizontal",
+      "Maintenez la position sans toucher le sol",
+      "Gardez les bras tendus et stables"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "12",
+    "nom": "Handstand push-up",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Deltoïdes",
+      "Triceps",
+      "Trapèzes"
+    ],
+    "description": "Flexion-extension verticale sur les mains en équilibre pour développer la poussée en appui inversé.",
+    "instructions": [
+      "Placez-vous en équilibre sur les mains contre un mur",
+      "Descendez lentement en fléchissant les bras",
+      "Allez jusqu'à ce que la tête touche presque le sol",
+      "Remontez en poussant fort avec les épaules",
+      "Gardez le corps parfaitement aligné"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "13",
+    "nom": "Advanced tuck planche",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes antérieurs",
+      "Abdominaux"
+    ],
+    "description": "Version plus difficile de la tuck planche avec le buste plus parallèle au sol.",
+    "instructions": [
+      "Positionnez-vous en tuck planche",
+      "Avancez les épaules au-dessus des mains",
+      "Abaissez le torse pour être plus parallèle au sol",
+      "Maintenez l'équilibre sans les pieds au sol",
+      "Contractez intensément tout le corps"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "14",
+    "nom": "Advanced tuck front lever",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Grand dorsal",
+      "Abdominaux",
+      "Lombaires"
+    ],
+    "description": "Progression du tuck front lever avec les genoux légèrement éloignés de la poitrine.",
+    "instructions": [
+      "Partez d'un tuck front lever",
+      "Éloignez légèrement les genoux de la poitrine",
+      "Maintenez la position horizontale",
+      "Gardez les bras tendus",
+      "Contractez le dos et les abdominaux"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "15",
+    "nom": "Muscle-up",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Grand dorsal",
+      "Pectoraux",
+      "Biceps",
+      "Triceps"
+    ],
+    "description": "Combinaison d'une traction et d'un dip pour passer au-dessus de la barre en un mouvement fluide.",
+    "instructions": [
+      "Suspendez-vous à une barre fixe",
+      "Effectuez une traction explosive",
+      "Basculez les poignets au-dessus de la barre",
+      "Poussez pour finir en appui au-dessus",
+      "Contrôlez la descente"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "16",
+    "nom": "V-sit",
+    "categorie": "Core/Abdos",
+    "difficulte": "B",
+    "muscles": [
+      "Abdominaux",
+      "Fléchisseurs de la hanche"
+    ],
+    "description": "Appui sur les mains avec les jambes formant un 'V' pour travailler le gainage avancé.",
+    "instructions": [
+      "Asseyez-vous, mains au sol près des hanches",
+      "Soulevez le corps en appui sur les mains",
+      "Écartez les jambes en forme de V",
+      "Maintenez les jambes et le torse élevés",
+      "Contractez fortement les abdominaux"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "17",
+    "nom": "One-arm push-up",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Pectoraux",
+      "Triceps",
+      "Deltoïdes",
+      "Abdominaux"
+    ],
+    "description": "Push-up sur un bras pour augmenter la difficulté et l'engagement du tronc.",
+    "instructions": [
+      "Position de pompe, un bras dans le dos",
+      "Écartez les jambes pour plus de stabilité",
+      "Descendez lentement sur le bras d'appui",
+      "Poussez pour remonter",
+      "Gardez le corps droit et stable"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "18",
+    "nom": "Straddle planche",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes",
+      "Abdominaux",
+      "Adducteurs"
+    ],
+    "description": "Planche jambes écartées pour accroître la stabilité et la force statique.",
+    "instructions": [
+      "Positionnez-vous en appui sur les mains",
+      "Écartez les jambes largement",
+      "Basculez vers l'avant jusqu'à être horizontal",
+      "Maintenez la position jambes écartées",
+      "Contractez tout le corps"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "19",
+    "nom": "Straddle front lever",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Grand dorsal",
+      "Abdominaux",
+      "Lombaires"
+    ],
+    "description": "Front lever avec jambes écartées pour réduire l'effet de levier.",
+    "instructions": [
+      "Suspendez-vous à une barre fixe",
+      "Basculez en position horizontale",
+      "Écartez les jambes largement",
+      "Maintenez la position bras tendus",
+      "Gardez le corps parfaitement droit"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "20",
+    "nom": "Front lever",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Grand dorsal",
+      "Abdominaux",
+      "Lombaires",
+      "Trapèzes"
+    ],
+    "description": "Corps parfaitement horizontal suspendu sous la barre, progression finale du front lever.",
+    "instructions": [
+      "Suspendez-vous à une barre fixe",
+      "Basculez en position horizontale complète",
+      "Gardez les jambes tendues et jointes",
+      "Maintenez les bras parfaitement tendus",
+      "Corps rigide comme une planche"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "21",
+    "nom": "90° push-up",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Pectoraux",
+      "Triceps",
+      "Deltoïdes",
+      "Abdominaux"
+    ],
+    "description": "Push-up avec les hanches relevées à 90° pour un angle extrême.",
+    "instructions": [
+      "Position de pompe, pieds surélevés",
+      "Relevez les hanches à 90° par rapport au torse",
+      "Descendez verticalement vers le sol",
+      "Poussez pour remonter",
+      "Maintenez l'angle de 90° constant"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "22",
+    "nom": "One-arm pull-up",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Grand dorsal",
+      "Biceps",
+      "Avant-bras"
+    ],
+    "description": "Traction sur un bras pour développer une force de tirage unilatérale extrême.",
+    "instructions": [
+      "Suspendez-vous à une barre d'un seul bras",
+      "L'autre bras peut tenir le poignet ou rester libre",
+      "Tirez votre corps vers le haut d'un seul bras",
+      "Montez jusqu'à ce que le menton dépasse la barre",
+      "Descendez lentement en contrôlant"
+    ],
+    "typeQuantification": "rep"
+  },
+  {
+    "id": "23",
+    "nom": "Manna",
+    "categorie": "Core/Abdos",
+    "difficulte": "A",
+    "muscles": [
+      "Pectoraux",
+      "Épaules",
+      "Abdominaux",
+      "Lombaires"
+    ],
+    "description": "Extension complète du corps en croissant sous la barre, position finale de force et de flexibilité.",
+    "instructions": [
+      "Partez d'un L-sit ou V-sit",
+      "Continuez à lever les jambes vers l'arrière",
+      "Formez un croissant avec le corps",
+      "Les pieds pointent vers le plafond",
+      "Maintenez l'équilibre sur les mains"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "24",
+    "nom": "Full planche",
+    "categorie": "Haut du corps",
+    "difficulte": "S",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes antérieurs",
+      "Abdominaux",
+      "Trapèzes"
+    ],
+    "description": "Maintien du corps parallèle au sol, jambes et buste tendus, en appui sur les mains.",
+    "instructions": [
+      "Positionnez-vous en appui sur les mains",
+      "Basculez vers l'avant, corps parfaitement droit",
+      "Jambes tendues et jointes",
+      "Maintien horizontal complet",
+      "Force et équilibre extrêmes requis"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "25",
+    "nom": "Touch front lever",
+    "categorie": "Haut du corps",
+    "difficulte": "S",
+    "muscles": [
+      "Grand dorsal",
+      "Abdominaux",
+      "Lombaires"
+    ],
+    "description": "Front lever où l'on touche la barre avec les pieds pour augmenter l'amplitude et la difficulté.",
+    "instructions": [
+      "Partez d'un full front lever",
+      "Continuez le mouvement pour toucher la barre avec les pieds",
+      "Revenez en position front lever",
+      "Mouvement contrôlé et fluide",
+      "Force dorsale exceptionnelle requise"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "26",
+    "nom": "Dragon planche",
+    "categorie": "Haut du corps",
+    "difficulte": "SS",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes",
+      "Abdominaux",
+      "Obliques"
+    ],
+    "description": "Planche asymétrique avec un bras plus avancé que l'autre, nécessitant une énorme stabilité.",
+    "instructions": [
+      "Partez d'une full planche",
+      "Avancez un bras plus loin que l'autre",
+      "Créez une asymétrie contrôlée",
+      "Maintenez l'équilibre horizontal",
+      "Stabilité et force exceptionnelles requises"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "27",
+    "nom": "Maltese",
+    "categorie": "Haut du corps",
+    "difficulte": "SS",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes antérieurs",
+      "Triceps"
+    ],
+    "description": "Planche basse, bras tendus latéralement, corps parallèle au sol.",
+    "instructions": [
+      "Positionnez-vous bras écartés latéralement",
+      "Corps horizontal, appui sur les mains",
+      "Bras perpendiculaires au corps",
+      "Maintien statique extrême",
+      "Position inspirée de la gymnastique aux anneaux"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "28",
+    "nom": "Full planche push-up",
+    "categorie": "Haut du corps",
+    "difficulte": "SS",
+    "muscles": [
+      "Pectoraux",
+      "Triceps",
+      "Deltoïdes",
+      "Abdominaux"
+    ],
+    "description": "Push-up complet en full planche pour une tension maximale du tronc.",
+    "instructions": [
+      "Partez d'une full planche",
+      "Effectuez une flexion-extension des bras",
+      "Maintenez la position horizontale",
+      "Mouvement lent et contrôlé",
+      "Combinaison ultime de force et de technique"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "id": "29",
+    "nom": "Croix de Fer",
+    "categorie": "Haut du corps",
+    "difficulte": "SS",
+    "muscles": [
+      "Pectoraux",
+      "Deltoïdes",
+      "Trapèzes",
+      "Abdominaux"
+    ],
+    "description": "Position statique avec les bras étendus latéralement en appui sur les mains ou les barres, extrême épreuve de force. Réalisé aux anneaux.",
+    "instructions": [
+      "Positionnez-vous aux anneaux ou barres parallèles",
+      "Bras tendus horizontalement sur les côtés",
+      "Corps vertical et rigide",
+      "Formation d'une croix parfaite",
+      "Maintien statique de force pure"
+    ],
+    "typeQuantification": "hold"
+  },
+  {
+    "nom": "Back lever",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Deltoïdes postérieurs",
+      "Grand dorsal",
+      "Triceps",
+      "Biceps"
+    ],
+    "description": "Corps parfaitement horizontal suspendu dos et sous la barre, progression finale du back lever.",
+    "instructions": [
+      "Position de base"
+    ],
+    "id": "30",
+    "typeQuantification": "hold"
+  },
+  {
+    "nom": "Straddle Back lever",
+    "categorie": "Haut du corps",
+    "difficulte": "A",
+    "muscles": [
+      "Biceps",
+      "Deltoïdes postérieurs",
+      "Grand dorsal"
+    ],
+    "description": "Back lever avec jambes écartées pour réduire l'effet de levier.",
+    "instructions": [
+      "Position de base"
+    ],
+    "id": "31",
+    "typeQuantification": "hold"
+  },
+  {
+    "nom": "Tirage aux anneaux",
+    "categorie": "Haut du corps",
+    "difficulte": "B",
+    "muscles": [
+      "Biceps",
+      "Deltoïdes postérieurs",
+      "Grand dorsal",
+      "Petit rond",
+      "Trapèzes"
+    ],
+    "description": "Tirage horizontal réalisé avec des anneaux.",
+    "instructions": [
+      "Position de base"
+    ],
+    "id": "32",
+    "typeQuantification": "rep"
+  }
+]

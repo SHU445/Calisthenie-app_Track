@@ -1,0 +1,418 @@
+'use client';
+
+import React, { useEffect, useState, useMemo } from 'react';
+import { useExerciseStore } from '@/stores/exerciseStore';
+import { getRankColor, getRankName, RANKS } from '@/data/ranks';
+import Navigation from '@/components/Navigation';
+import Footer from '@/components/Footer';
+import Link from 'next/link';
+import {
+  BookOpenIcon,
+  MagnifyingGlassIcon,
+  InformationCircleIcon,
+  FunnelIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
+  XMarkIcon,
+  PlusIcon,
+  PencilIcon,
+  TrashIcon
+} from '@heroicons/react/24/outline';
+
+export default function ExercicesPage() {
+  const { exercises, fetchExercises, isLoading, deleteExercise } = useExerciseStore();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
+  const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchExercises();
+  }, [fetchExercises]);
+
+  // Extraire tous les muscles uniques des exercices
+  const allMuscles = useMemo(() => {
+    const musclesSet = new Set<string>();
+    exercises.forEach(exercise => {
+      exercise.muscles.forEach(muscle => musclesSet.add(muscle));
+    });
+    return Array.from(musclesSet).sort();
+  }, [exercises]);
+
+  // Filtrer les exercices
+  const filteredExercises = useMemo(() => {
+    return exercises.filter(exercise => {
+      // Filtre par terme de recherche
+      const matchesSearch = searchTerm === '' || 
+        exercise.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        exercise.description.toLowerCase().includes(searchTerm.toLowerCase());
+
+      // Filtre par rangs
+      const matchesRank = selectedRanks.length === 0 || selectedRanks.includes(exercise.difficulte);
+
+      // Filtre par muscles
+      const matchesMuscles = selectedMuscles.length === 0 || 
+        selectedMuscles.some(muscle => exercise.muscles.includes(muscle));
+
+      return matchesSearch && matchesRank && matchesMuscles;
+    });
+  }, [exercises, searchTerm, selectedRanks, selectedMuscles]);
+
+  const toggleRank = (rank: string) => {
+    setSelectedRanks(prev => 
+      prev.includes(rank) 
+        ? prev.filter(r => r !== rank)
+        : [...prev, rank]
+    );
+  };
+
+  const toggleMuscle = (muscle: string) => {
+    setSelectedMuscles(prev => 
+      prev.includes(muscle) 
+        ? prev.filter(m => m !== muscle)
+        : [...prev, muscle]
+    );
+  };
+
+  const clearFilters = () => {
+    setSelectedRanks([]);
+    setSelectedMuscles([]);
+    setSearchTerm('');
+  };
+
+  const hasActiveFilters = selectedRanks.length > 0 || selectedMuscles.length > 0 || searchTerm !== '';
+
+  const getRankBadgeStyle = (rank: string) => {
+    const color = getRankColor(rank);
+    return {
+      backgroundColor: color,
+      color: 'white',
+      fontWeight: 'bold',
+      fontSize: '14px',
+      padding: '4px 8px',
+      borderRadius: '6px',
+      minWidth: '32px',
+      textAlign: 'center' as const
+    };
+  };
+
+  const handleDeleteExercise = async (exerciseId: string) => {
+    try {
+      await deleteExercise(exerciseId);
+      setShowDeleteConfirm(null);
+    } catch (error) {
+      console.error('Erreur lors de la suppression:', error);
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navigation />
+      
+      <main className="flex-1">
+        {/* Header */}
+        <section className="sport-section pt-20 pb-12">
+          <div className="sport-container">
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center w-16 h-16 bg-sport-accent rounded-full mx-auto mb-6">
+                <BookOpenIcon className="h-8 w-8 text-white" />
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+                Base d'exercices
+              </h1>
+              
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+                Découvrez notre collection complète d'exercices de calisthénie pour tous les rangs
+              </p>
+              
+              {/* Link to ranks documentation */}
+              <div className="mt-8">
+                <Link 
+                  href="/rangs" 
+                  className="inline-flex items-center gap-2 text-sport-accent hover:text-sport-accent-light transition-colors"
+                >
+                  <InformationCircleIcon className="h-5 w-5" />
+                  <span>Comprendre le système de rangs</span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Search Bar */}
+            <div className="max-w-md mx-auto mb-8">
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="sport-input pl-10 w-full"
+                  placeholder="Rechercher un exercice..."
+                />
+              </div>
+            </div>
+
+            {/* Filters Banner */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="sport-card">
+                {/* Filter Toggle Button */}
+                <div className="w-full flex items-center justify-between p-4 hover:bg-sport-gray-light/10 transition-colors rounded-lg">
+                  <button
+                    onClick={() => setFiltersOpen(!filtersOpen)}
+                    className="flex items-center gap-3 flex-1"
+                  >
+                    <FunnelIcon className="h-5 w-5 text-sport-accent" />
+                    <span className="text-white font-medium">Filtres avancés</span>
+                    {hasActiveFilters && (
+                      <span className="bg-sport-accent text-white text-xs px-2 py-1 rounded-full">
+                        {(selectedRanks.length + selectedMuscles.length)} actifs
+                      </span>
+                    )}
+                  </button>
+                  <div className="flex items-center gap-2">
+                    {hasActiveFilters && (
+                      <button
+                        onClick={clearFilters}
+                        className="text-gray-400 hover:text-white transition-colors p-1"
+                        title="Effacer tous les filtres"
+                      >
+                        <XMarkIcon className="h-4 w-4" />
+                      </button>
+                    )}
+                    <button
+                      onClick={() => setFiltersOpen(!filtersOpen)}
+                      className="text-gray-400 hover:text-white transition-colors p-1"
+                    >
+                      {filtersOpen ? (
+                        <ChevronUpIcon className="h-5 w-5" />
+                      ) : (
+                        <ChevronDownIcon className="h-5 w-5" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Filters Content */}
+                {filtersOpen && (
+                  <div className="px-4 pb-4 space-y-6 animate-fade-in">
+                    {/* Rangs Filter */}
+                    <div>
+                      <h3 className="text-sm font-medium text-sport-accent mb-3">Filtrer par rangs</h3>
+                      <div className="flex flex-wrap gap-2">
+                        {RANKS.map((rank) => (
+                          <button
+                            key={rank.rank}
+                            onClick={() => toggleRank(rank.rank)}
+                            className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg border transition-all ${
+                              selectedRanks.includes(rank.rank)
+                                ? 'border-sport-accent bg-sport-accent/20 text-white'
+                                : 'border-sport-gray-light/30 text-gray-300 hover:border-sport-accent/50 hover:text-white'
+                            }`}
+                          >
+                            <span 
+                              className="w-6 h-6 rounded text-white text-xs font-bold flex items-center justify-center"
+                              style={{ backgroundColor: rank.color }}
+                            >
+                              {rank.rank}
+                            </span>
+                            <span className="text-sm">{rank.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Muscles Filter */}
+                    <div>
+                      <h3 className="text-sm font-medium text-sport-accent mb-3">Filtrer par muscles</h3>
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+                        {allMuscles.map((muscle) => (
+                          <button
+                            key={muscle}
+                            onClick={() => toggleMuscle(muscle)}
+                            className={`px-3 py-2 rounded-lg border text-sm transition-all ${
+                              selectedMuscles.includes(muscle)
+                                ? 'border-sport-accent bg-sport-accent/20 text-white'
+                                : 'border-sport-gray-light/30 text-gray-300 hover:border-sport-accent/50 hover:text-white'
+                            }`}
+                          >
+                            {muscle}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Results Summary */}
+                    <div className="flex items-center justify-between pt-4 border-t border-sport-gray-light/20">
+                      <span className="text-sm text-gray-400">
+                        {filteredExercises.length} exercice{filteredExercises.length !== 1 ? 's' : ''} trouvé{filteredExercises.length !== 1 ? 's' : ''}
+                      </span>
+                      {hasActiveFilters && (
+                        <button
+                          onClick={clearFilters}
+                          className="text-sm text-sport-accent hover:text-sport-accent-light transition-colors"
+                        >
+                          Effacer tous les filtres
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Exercises Grid */}
+        <section className="pb-16">
+          <div className="sport-container">
+            {isLoading ? (
+              <div className="sport-grid-3">
+                {[...Array(6)].map((_, index) => (
+                  <div key={index} className="sport-card p-6 animate-pulse">
+                    <div className="h-4 bg-sport-gray-light rounded mb-4"></div>
+                    <div className="h-3 bg-sport-gray-light rounded mb-2"></div>
+                    <div className="h-3 bg-sport-gray-light rounded w-2/3"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="sport-grid-3">
+                {filteredExercises.map((exercise) => (
+                  <div key={exercise.id} className="sport-card-hover p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <h3 className="text-xl font-semibold text-white mb-2">
+                        {exercise.nom}
+                      </h3>
+                      <span style={getRankBadgeStyle(exercise.difficulte)}>
+                        {exercise.difficulte}
+                      </span>
+                    </div>
+                    
+                    <div className="mb-3">
+                      <span className="inline-block bg-sport-secondary text-sport-accent text-xs px-2 py-1 rounded-full">
+                        {exercise.categorie}
+                      </span>
+                    </div>
+                    
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                      {exercise.description}
+                    </p>
+                    
+                    <div className="mb-4">
+                      <p className="text-xs text-gray-400 mb-2">Muscles ciblés :</p>
+                      <div className="flex flex-wrap gap-1">
+                        {exercise.muscles.slice(0, 3).map((muscle, index) => (
+                          <span
+                            key={index}
+                            className="text-xs bg-sport-gray-light text-gray-300 px-2 py-1 rounded"
+                          >
+                            {muscle}
+                          </span>
+                        ))}
+                        {exercise.muscles.length > 3 && (
+                          <span className="text-xs text-gray-400">
+                            +{exercise.muscles.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Boutons d'actions */}
+                    <div className="flex gap-2">
+                      <Link
+                        href={`/exercices/modifier/${exercise.id}`}
+                        className="flex-1 inline-flex items-center justify-center gap-2 bg-sport-secondary hover:bg-sport-secondary/80 text-sport-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-sport-accent/20"
+                      >
+                        <PencilIcon className="h-4 w-4" />
+                        <span>Modifier</span>
+                      </Link>
+                      <button
+                        onClick={() => setShowDeleteConfirm(exercise.id)}
+                        className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-600/50 hover:bg-red-500/70 text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-500/30 hover:border-red-400/50"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                        <span>Supprimer</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {filteredExercises.length === 0 && !isLoading && exercises.length > 0 && (
+              <div className="text-center py-16">
+                <FunnelIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  Aucun exercice ne correspond aux filtres
+                </h3>
+                <p className="text-gray-400 mb-4">
+                  Essayez de modifier vos critères de recherche
+                </p>
+                <button
+                  onClick={clearFilters}
+                  className="sport-btn-secondary"
+                >
+                  Effacer tous les filtres
+                </button>
+              </div>
+            )}
+
+            {exercises.length === 0 && !isLoading && (
+              <div className="text-center py-16">
+                <BookOpenIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  Aucun exercice trouvé
+                </h3>
+                <p className="text-gray-400">
+                  La base d'exercices se charge...
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+      </main>
+
+      {/* Bouton flottant pour ajouter un exercice */}
+      <Link
+        href="/exercices/ajouter"
+        className="fixed bottom-6 right-6 bg-sport-accent hover:bg-sport-accent-light text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110 z-50"
+        title="Ajouter un exercice"
+      >
+        <PlusIcon className="h-6 w-6" />
+      </Link>
+
+      {/* Modal de confirmation de suppression */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
+          <div className="bg-sport-gray-dark border border-sport-gray-light/30 rounded-lg p-6 max-w-md mx-4">
+            <h3 className="text-lg font-semibold text-white mb-4">
+              Confirmer la suppression
+            </h3>
+            <p className="text-gray-300 mb-6">
+              Êtes-vous sûr de vouloir supprimer cet exercice ? Cette action est irréversible.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowDeleteConfirm(null)}
+                className="flex-1 px-4 py-2 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={() => handleDeleteExercise(showDeleteConfirm)}
+                className="flex-1 px-4 py-2 bg-red-500/70 hover:bg-red-500/90 text-white rounded-lg transition-colors border border-red-400/50"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Footer />
+    </div>
+  );
+} 

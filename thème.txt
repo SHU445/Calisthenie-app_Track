@@ -1,0 +1,276 @@
+# ANALYSE COMPLÈTE DU THÈME - CALISTHÉNIE TRACKER APP « Océan Profond »
+
+# COULEURS PRINCIPALES
+
+COULEURS DE BASE :
+
+* primaire : #1E3A5F (Bleu marine profond)
+* secondaire : #2E5E8E (Bleu océan moyen)
+* accent : #47B7CC (Turquoise lumineux)
+* dark : #0C1E33 (Bleu très sombre)
+* dark-light : #162A44 (Bleu nuit)
+
+COULEURS FONCTIONNELLES :
+
+* success : #10B981 (Vert océanique)
+* warning : #F59E0B (Orangé doux)
+* danger : #EF4444 (Rouge corail)
+
+COULEURS DE NIVEAUX :
+
+* gray-light : #162A44 (Bleu nuit)
+* gray-lighter : #274460 (Bleu-gris clair)
+
+COULEURS DE RÉCOMPENSES :
+
+* gold : #D4AF37 (Or doux)
+* silver : #BCCCDC (Argent pâle)
+* bronze : #CD7C2F (Bronze chaud)
+
+COULEURS DES RANGS SYSTÈME :
+
+* Rang F : #274460 (Bleu-gris)
+* Rang D : #10B981 (Vert océanique)
+* Rang C : #2E79C5 (Bleu vif)
+* Rang B : #65AFFF (Bleu clair)
+* Rang A : #D4AF37 (Or doux)
+* Rang S : #EF4444 (Rouge corail)
+
+# COULEURS DE GRAPHIQUES
+
+Pour garantir une distinction claire des séries et données :
+
+* Série 1 : #47B7CC (Turquoise)
+* Série 2 : #10B981 (Vert océanique)
+* Série 3 : #2E79C5 (Bleu vif)
+* Série 4 : #F59E0B (Orangé doux)
+* Série 5 : #EF4444 (Rouge corail)
+
+# ARRIÈRE-PLANS
+
+ARRIÈRE-PLAN PRINCIPAL :
+
+* body : linear-gradient(135deg, #0C1E33 0%, #162A44 50%, #2E5E8E 100%)
+
+ARRIÈRE-PLANS COMPOSANTS :
+
+* sport-card : linear-gradient(145deg, #162A44 0%, #0C1E33 100%)
+* sport-navbar : linear-gradient(90deg, #1E3A5F 0%, #2E5E8E 100%)
+* sport-gradient : linear-gradient(135deg, #1E3A5F 0%, #2E5E8E 50%, #47B7CC 100%)
+
+ARRIÈRE-PLANS SPÉCIAUX :
+
+* backdrop-blur-sport : rgba(12, 30, 51, 0.8) + blur(12px)
+* border-gradient : linear-gradient(145deg, #162A44, #0C1E33) + linear-gradient(45deg, #47B7CC, #10B981)
+
+# TEXTE
+
+TEXTE PRINCIPAL :
+
+* titre : #FFFFFF (blanc)
+* texte-accent : gradient turquoise (#47B7CC → #10B981)
+* texte-secondary : #A0B1C1 / #7692A6 (gris-bleu)
+* placeholder : #A0B1C1 (gris-bleu)
+
+TEXTE ÉTAT :
+
+* success : #10B981
+* warning : #F59E0B
+* danger : #EF4444
+* accent : #47B7CC
+
+TEXTE NAVIGATION :
+
+* normal : #C1D2E3 (gris pâle)
+* hover : #47B7CC
+* active : #FFFFFF
+
+# BOUTONS
+
+BOUTON PRIMAIRE :
+
+* fond : #47B7CC (turquoise)
+* hover : rgba(71, 183, 204, 0.9)
+* texte : #FFFFFF
+* ombre : rgba(71, 183, 204, 0.3)
+
+BOUTON SECONDAIRE :
+
+* fond : #162A44
+* hover : #274460
+* bordure : #47B7CC
+* texte : #FFFFFF
+
+BOUTON SUCCESS :
+
+* fond : #10B981
+* hover : rgba(16, 185, 129, 0.9)
+* texte : #FFFFFF
+
+BOUTON DANGER :
+
+* fond : #EF4444
+* hover : rgba(239, 68, 68, 0.9)
+* texte : #FFFFFF
+
+# BORDURES
+
+BORDURE PRINCIPALE :
+
+* sport-gray-light : #162A44
+* sport-accent : #47B7CC
+* transparent : utilisé avec gradients
+
+BORDURE GRADIENT :
+
+* intérieur : linear-gradient(145deg, #162A44, #0C1E33)
+* extérieur : linear-gradient(45deg, #47B7CC, #10B981)
+
+# BADGES
+
+BADGE SUCCESS :
+
+* fond : rgba(16, 185, 129, 0.2)
+* texte : #10B981
+* bordure : rgba(16, 185, 129, 0.3)
+
+BADGE WARNING :
+
+* fond : rgba(245, 158, 11, 0.2)
+* texte : #F59E0B
+* bordure : rgba(245, 158, 11, 0.3)
+
+BADGE DANGER :
+
+* fond : rgba(239, 68, 68, 0.2)
+* texte : #EF4444
+* bordure : rgba(239, 68, 68, 0.3)
+
+BADGE GOLD :
+
+* fond : rgba(212, 175, 55, 0.2)
+* texte : #D4AF37
+* bordure : rgba(212, 175, 55, 0.3)
+
+BADGE SILVER :
+
+* fond : rgba(188, 204, 220, 0.2)
+* texte : #BCCCDC
+* bordure : rgba(188, 204, 220, 0.3)
+
+BADGE BRONZE :
+
+* fond : rgba(205, 124, 47, 0.2)
+* texte : #CD7C2F
+* bordure : rgba(205, 124, 47, 0.3)
+
+# OMBRES
+
+OMBRES SPORT :
+
+* shadow-sport : 0 10px 25px rgba(71, 183, 204, 0.1)
+* shadow-sport-lg : 0 20px 40px rgba(71, 183, 204, 0.15)
+
+OMBRES TEXTE :
+
+* text-shadow : 0 2px 4px rgba(0, 0, 0, 0.5)
+* text-shadow-lg : 0 4px 8px rgba(0, 0, 0, 0.7)
+
+OMBRES GLOW :
+
+* glow-effet : 0 0 5px #47B7CC, 0 0 10px #47B7CC, 0 0 15px #47B7CC
+
+# FORMULAIRES
+
+CHAMPS INPUT :
+
+* fond : #162A44
+* bordure : #274460
+* texte : #FFFFFF
+* placeholder : #A0B1C1
+* focus-ring : #47B7CC
+
+SELECT :
+
+* même base que input
+* cursor : pointer
+
+TEXTAREA :
+
+* même base que input
+* resize : none
+* min-height : 100px
+
+# SCROLLBAR PERSONNALISÉE
+
+SCROLLBAR SPORT :
+
+* largeur : 8px
+* track : #162A44
+* thumb : #47B7CC
+* thumb-hover : rgba(71, 183, 204, 0.8)
+
+# ANIMATIONS
+
+ANIMATIONS PERSONNALISÉES :
+
+* float : translateY oscillant
+* pulse-slow : pulse 3s
+* bounce-slow : bounce 2s
+* glow : text-shadow oscillant avec #47B7CC
+* fade-in-up : opacity + translateY
+* slide-in-right : opacity + translateX
+* zoom-in : opacity + scale
+
+# POLICES
+
+POLICES PRINCIPALES :
+
+* titres : 'Oswald', sans-serif (weight: 600)
+* texte : 'Roboto', system-ui, sans-serif
+* import : Google Fonts (Roboto: 300,400,500,700 | Oswald: 400,500,600,700)
+
+# COMPOSANTS SPÉCIAUX
+
+NAVIGATION :
+
+* fond : sport-navbar (gradient + backdrop-blur)
+* logo : accent turquoise #47B7CC
+* liens : gris pâle → turquoise hover
+
+FOOTER :
+
+* fond : rgba(30, 58, 95, 0.9) (primaire transparent)
+* bordure-top : #162A44
+
+CARTES :
+
+* sport-card : gradient + bordure + ombre
+* hover : bordure turquoise + ombre turquoise
+
+MODAL :
+
+* overlay : rgba(0, 0, 0, 0.5) + backdrop-blur
+* contenu : sport-card + scrollbar personnalisée
+
+GRAPHIQUES :
+
+* fond : transparent
+* palette distincte : #47B7CC, #10B981, #2E79C5, #F59E0B, #EF4444
+* mode sombre : détection automatique pour adaptation couleurs
+
+# THÈME GÉNÉRAL
+
+PHILOSOPHIE COULEUR :
+
+* Univers océanique sombre et reposant
+* Contrastes répartis pour lisibilité et hiérarchie
+* Accents lumineux pour guider l’œil
+
+IDENTITÉ VISUELLE :
+
+* Turquoise #47B7CC comme signature
+* Gradients profonds pour immersion
+* Ombres subtiles pour relief
+* Typographie claire et moderne
+* Responsive & accessibilité optimisée
