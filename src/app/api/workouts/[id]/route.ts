@@ -1,24 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile, readFile } from 'fs/promises';
-import { join } from 'path';
+import { connectToDatabase } from '@/lib/mongodb';
 import { Workout } from '@/types';
-
-const WORKOUTS_FILE = join(process.cwd(), 'src/data/workouts.json');
-
-// Fonction pour lire les entraînements
-async function getWorkouts(): Promise<Workout[]> {
-  try {
-    const data = await readFile(WORKOUTS_FILE, 'utf8');
-    return JSON.parse(data);
-  } catch (error) {
-    return [];
-  }
-}
-
-// Fonction pour sauvegarder les entraînements
-async function saveWorkouts(workouts: Workout[]): Promise<void> {
-  await writeFile(WORKOUTS_FILE, JSON.stringify(workouts, null, 2));
-}
+import { ObjectId } from 'mongodb';
 
 // GET - Récupérer un entraînement spécifique
 export async function GET(
@@ -27,8 +10,19 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const workouts = await getWorkouts();
-    const workout = workouts.find(w => w.id === id);
+    const { db } = await connectToDatabase();
+    
+    // Chercher l'entraînement par id ou _id
+    let query;
+    if (ObjectId.isValid(id)) {
+      // Si l'id est un ObjectId valide, chercher par _id ou id
+      query = { $or: [{ id }, { _id: new ObjectId(id) }] };
+    } else {
+      // Sinon chercher seulement par id
+      query = { id };
+    }
+    
+    const workout = await db.collection('workouts').findOne(query);
 
     if (!workout) {
       return NextResponse.json(
@@ -37,7 +31,13 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(workout);
+    // Retourner sans l'_id MongoDB
+    const responseWorkout = {
+      ...workout,
+      _id: undefined
+    };
+
+    return NextResponse.json(responseWorkout);
   } catch (error) {
     console.error('Error fetching workout:', error);
     return NextResponse.json(
@@ -55,27 +55,51 @@ export async function PUT(
   try {
     const { id } = await params;
     const updateData = await request.json();
-    const workouts = await getWorkouts();
+    const { db } = await connectToDatabase();
     
-    const workoutIndex = workouts.findIndex(w => w.id === id);
+    // Chercher l'entraînement par id ou _id
+    let query;
+    if (ObjectId.isValid(id)) {
+      // Si l'id est un ObjectId valide, chercher par _id ou id
+      query = { $or: [{ id }, { _id: new ObjectId(id) }] };
+    } else {
+      // Sinon chercher seulement par id
+      query = { id };
+    }
     
-    if (workoutIndex === -1) {
+    // Vérifier si l'entraînement existe
+    const existingWorkout = await db.collection('workouts').findOne(query);
+    
+    if (!existingWorkout) {
       return NextResponse.json(
         { error: 'Workout not found' },
         { status: 404 }
       );
     }
 
-    // Mettre à jour l'entraînement
-    workouts[workoutIndex] = {
-      ...workouts[workoutIndex],
-      ...updateData,
-      id: id // S'assurer que l'ID ne change pas
+    // Mettre à jour l'entraînement dans MongoDB
+    const result = await db.collection('workouts').updateOne(
+      query,
+      { $set: updateData }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { error: 'Workout not found' },
+        { status: 404 }
+      );
+    }
+
+    // Récupérer l'entraînement mis à jour
+    const updatedWorkout = await db.collection('workouts').findOne(query);
+
+    // Retourner sans l'_id MongoDB
+    const responseWorkout = {
+      ...updatedWorkout,
+      _id: undefined
     };
 
-    await saveWorkouts(workouts);
-
-    return NextResponse.json(workouts[workoutIndex]);
+    return NextResponse.json(responseWorkout);
   } catch (error) {
     console.error('Error updating workout:', error);
     return NextResponse.json(
@@ -92,19 +116,37 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const workouts = await getWorkouts();
-    const workoutIndex = workouts.findIndex(w => w.id === id);
+    const { db } = await connectToDatabase();
     
-    if (workoutIndex === -1) {
+    // Chercher l'entraînement par id ou _id
+    let query;
+    if (ObjectId.isValid(id)) {
+      // Si l'id est un ObjectId valide, chercher par _id ou id
+      query = { $or: [{ id }, { _id: new ObjectId(id) }] };
+    } else {
+      // Sinon chercher seulement par id
+      query = { id };
+    }
+    
+    // Vérifier si l'entraînement existe avant suppression
+    const existingWorkout = await db.collection('workouts').findOne(query);
+    
+    if (!existingWorkout) {
       return NextResponse.json(
         { error: 'Workout not found' },
         { status: 404 }
       );
     }
 
-    // Supprimer l'entraînement
-    workouts.splice(workoutIndex, 1);
-    await saveWorkouts(workouts);
+    // Supprimer l'entraînement de MongoDB
+    const result = await db.collection('workouts').deleteOne(query);
+
+    if (result.deletedCount === 0) {
+      return NextResponse.json(
+        { error: 'Workout not found' },
+        { status: 404 }
+      );
+    }
 
     return NextResponse.json({ message: 'Workout deleted successfully' });
   } catch (error) {

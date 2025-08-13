@@ -1,8 +1,5 @@
 import { create } from 'zustand';
 import { WorkoutState, Workout } from '@/types';
-import { storage, generateId } from '@/lib/utils';
-
-const WORKOUTS_STORAGE_KEY = 'calisthenie_workouts';
 
 interface WorkoutStore extends WorkoutState {}
 
@@ -16,12 +13,12 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      // Récupérer tous les entraînements du localStorage
-      const allWorkouts: Workout[] = storage.get(WORKOUTS_STORAGE_KEY) || [];
+      const response = await fetch(`/api/workouts?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error('Erreur lors du chargement des entraînements');
+      }
       
-      // Filtrer les entraînements de l'utilisateur connecté
-      const userWorkouts = allWorkouts.filter(workout => workout.userId === userId);
-      
+      const userWorkouts = await response.json();
       set({ workouts: userWorkouts, isLoading: false });
     } catch (error) {
       set({ 
@@ -35,22 +32,22 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      const newWorkout: Workout = {
-        ...workoutData,
-        id: generateId()
-      };
+      const response = await fetch('/api/workouts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(workoutData),
+      });
 
-      // Récupérer tous les entraînements existants
-      const allWorkouts: Workout[] = storage.get(WORKOUTS_STORAGE_KEY) || [];
-      
-      // Ajouter le nouvel entraînement
-      const updatedWorkouts = [...allWorkouts, newWorkout];
-      storage.set(WORKOUTS_STORAGE_KEY, updatedWorkouts);
+      if (!response.ok) {
+        throw new Error('Erreur lors de l\'ajout de l\'entraînement');
+      }
 
-      // Mettre à jour le state avec les entraînements de l'utilisateur
+      const savedWorkout = await response.json();
       const { workouts } = get();
       set({ 
-        workouts: [...workouts, newWorkout],
+        workouts: [...workouts, savedWorkout],
         isLoading: false 
       });
     } catch (error) {
@@ -58,6 +55,7 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
         error: error instanceof Error ? error.message : 'Erreur lors de l\'ajout de l\'entraînement',
         isLoading: false 
       });
+      throw error;
     }
   },
 
@@ -65,21 +63,22 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      // Récupérer tous les entraînements
-      const allWorkouts: Workout[] = storage.get(WORKOUTS_STORAGE_KEY) || [];
-      
-      // Mettre à jour l'entraînement spécifique
-      const updatedAllWorkouts = allWorkouts.map(workout =>
-        workout.id === id ? { ...workout, ...workoutData } : workout
-      );
-      
-      // Sauvegarder
-      storage.set(WORKOUTS_STORAGE_KEY, updatedAllWorkouts);
+      const response = await fetch(`/api/workouts/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(workoutData),
+      });
 
-      // Mettre à jour le state local
+      if (!response.ok) {
+        throw new Error('Erreur lors de la modification de l\'entraînement');
+      }
+
+      const updatedWorkout = await response.json();
       const { workouts } = get();
       const updatedWorkouts = workouts.map(workout =>
-        workout.id === id ? { ...workout, ...workoutData } : workout
+        workout.id === id ? updatedWorkout : workout
       );
 
       set({ 
@@ -91,6 +90,7 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
         error: error instanceof Error ? error.message : 'Erreur lors de la modification de l\'entraînement',
         isLoading: false 
       });
+      throw error;
     }
   },
 
@@ -98,16 +98,14 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      // Récupérer tous les entraînements
-      const allWorkouts: Workout[] = storage.get(WORKOUTS_STORAGE_KEY) || [];
-      
-      // Supprimer l'entraînement spécifique
-      const updatedAllWorkouts = allWorkouts.filter(workout => workout.id !== id);
-      
-      // Sauvegarder
-      storage.set(WORKOUTS_STORAGE_KEY, updatedAllWorkouts);
+      const response = await fetch(`/api/workouts/${id}`, {
+        method: 'DELETE',
+      });
 
-      // Mettre à jour le state local
+      if (!response.ok) {
+        throw new Error('Erreur lors de la suppression de l\'entraînement');
+      }
+
       const { workouts } = get();
       const updatedWorkouts = workouts.filter(workout => workout.id !== id);
 
@@ -120,6 +118,7 @@ export const useWorkoutStore = create<WorkoutStore>((set, get) => ({
         error: error instanceof Error ? error.message : 'Erreur lors de la suppression de l\'entraînement',
         isLoading: false 
       });
+      throw error;
     }
   },
 

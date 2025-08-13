@@ -1,17 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { connectToDatabase } from '@/lib/mongodb';
 import { Exercise } from '@/types';
-
-const EXERCISES_FILE_PATH = path.join(process.cwd(), 'src/data/liste_exercices.json');
 
 // GET - Récupérer tous les exercices
 export async function GET() {
   try {
-    const fileContents = await fs.readFile(EXERCISES_FILE_PATH, 'utf8');
-    const exercises: Exercise[] = JSON.parse(fileContents);
+    const { db } = await connectToDatabase();
+    const exercises = await db.collection('exercises').find({}).toArray();
     
-    return NextResponse.json(exercises);
+    // Convertir les _id MongoDB en id string
+    const exercisesWithStringId = exercises.map(exercise => ({
+      ...exercise,
+      id: exercise._id ? exercise._id.toString() : exercise.id,
+      _id: undefined
+    }));
+    
+    return NextResponse.json(exercisesWithStringId);
   } catch (error) {
     console.error('Erreur lors de la lecture des exercices:', error);
     return NextResponse.json(
@@ -34,12 +38,13 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Lire le fichier existant
-    const fileContents = await fs.readFile(EXERCISES_FILE_PATH, 'utf8');
-    const exercises: Exercise[] = JSON.parse(fileContents);
+    const { db } = await connectToDatabase();
     
     // Vérifier si un exercice avec le même nom existe déjà
-    const existingExercise = exercises.find(ex => ex.nom.toLowerCase() === newExercise.nom.toLowerCase());
+    const existingExercise = await db.collection('exercises').findOne({
+      nom: { $regex: new RegExp(`^${newExercise.nom}$`, 'i') }
+    });
+    
     if (existingExercise) {
       return NextResponse.json(
         { error: 'Un exercice avec ce nom existe déjà' },
@@ -48,17 +53,23 @@ export async function POST(request: NextRequest) {
     }
     
     // Générer un nouvel ID
-    const maxId = exercises.length > 0 ? Math.max(...exercises.map(ex => parseInt(ex.id))) : 0;
+    const lastExercise = await db.collection('exercises').findOne({}, { sort: { id: -1 } });
+    const maxId = lastExercise?.id ? parseInt(lastExercise.id) : 0;
     const newId = (maxId + 1).toString();
     
     // Ajouter le nouvel exercice avec l'ID généré
     const exerciseWithId = { ...newExercise, id: newId };
-    exercises.push(exerciseWithId);
     
-    // Sauvegarder le fichier
-    await fs.writeFile(EXERCISES_FILE_PATH, JSON.stringify(exercises, null, 2));
+    // Insérer dans MongoDB
+    const result = await db.collection('exercises').insertOne(exerciseWithId);
     
-    return NextResponse.json(exerciseWithId, { status: 201 });
+    // Retourner l'exercice sans l'_id MongoDB
+    const responseExercise = {
+      ...exerciseWithId,
+      _id: undefined
+    };
+    
+    return NextResponse.json(responseExercise, { status: 201 });
   } catch (error) {
     console.error('Erreur lors de l\'ajout de l\'exercice:', error);
     return NextResponse.json(
