@@ -1,6 +1,6 @@
 import { MongoClient, Db } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
+const uri = process.env.MONGODB_URI || 'mongodb+srv://yanismorel382008:EEMo4ypOoL55Abos@cluster0.v4lkvuy.mongodb.net/';
 const dbName = process.env.MONGODB_DB_NAME || 'calisthenie_app';
 
 let client: MongoClient;
