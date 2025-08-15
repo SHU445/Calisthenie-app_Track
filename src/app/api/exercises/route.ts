@@ -6,7 +6,16 @@ import { Exercise } from '@/types';
 export async function GET() {
   try {
     const { db } = await connectToDatabase();
-    const exercises = await db.collection('exercises').find({}).toArray();
+    
+    // Optimisation : Créer des index pour les recherches fréquentes
+    await db.collection('exercises').createIndex({ nom: 1 });
+    await db.collection('exercises').createIndex({ categorie: 1 });
+    
+    // Optimisation : Trier directement en base
+    const exercises = await db.collection('exercises')
+      .find({})
+      .sort({ nom: 1 }) // Trier par nom alphabétique
+      .toArray();
     
     // Convertir les _id MongoDB en id string
     const exercisesWithStringId = exercises.map(exercise => ({

@@ -16,18 +16,25 @@ export async function GET(request: NextRequest) {
     }
 
     const { db } = await connectToDatabase();
-    const workouts = await db.collection('workouts').find({ userId }).toArray();
     
-    // Convertir les _id MongoDB en format sans _id et trier par date décroissante
-    const workoutsWithStringId = workouts
-      .map(workout => {
-        const { _id, ...workoutWithoutId } = workout;
-        return {
-          ...workoutWithoutId,
-          id: workout.id || _id.toString(), // Préférer le champ id s'il existe
-        } as any; // Type assertion pour éviter l'erreur TypeScript
-      })
-      .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Optimisation : Créer un index pour userId si pas déjà fait
+    await db.collection('workouts').createIndex({ userId: 1 });
+    
+    // Optimisation : Limiter les champs récupérés et ajouter une limite
+    const workouts = await db.collection('workouts')
+      .find({ userId })
+      .sort({ date: -1 }) // Trier par date décroissante directement en DB
+      .limit(100) // Limiter à 100 entraînements récents
+      .toArray();
+    
+    // Convertir les _id MongoDB en format sans _id (tri déjà fait en DB)
+    const workoutsWithStringId = workouts.map(workout => {
+      const { _id, ...workoutWithoutId } = workout;
+      return {
+        ...workoutWithoutId,
+        id: workout.id || _id.toString(), // Préférer le champ id s'il existe
+      } as any; // Type assertion pour éviter l'erreur TypeScript
+    });
 
     return NextResponse.json(workoutsWithStringId);
   } catch (error) {
