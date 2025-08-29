@@ -24,8 +24,9 @@ export default function Home() {
   const { fetchExercises, exercises } = useExerciseStore();
 
   useEffect(() => {
-    fetchExercises();
-  }, [fetchExercises]);
+    // Passer l'userId pour obtenir les exercices de base + exercices personnalisés
+    fetchExercises(user?.id);
+  }, [fetchExercises, user?.id]);
 
   const features = [
     {

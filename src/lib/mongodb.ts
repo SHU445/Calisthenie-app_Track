@@ -1,18 +1,7 @@
 import { MongoClient, Db } from 'mongodb';
 
-const uri = process.env.MONGODB_URI || 'mongodb+srv://yanismorel382008:EEMo4ypOoL55Abos@cluster0.v4lkvuy.mongodb.net/';
+const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = process.env.MONGODB_DB_NAME || 'calisthenie_app';
-
-// Options optimisées pour Vercel et MongoDB Atlas
-const options = {
-  maxPoolSize: 10, // Limite le nombre de connexions simultanées
-  serverSelectionTimeoutMS: 5000, // Timeout rapide pour la sélection du serveur
-  socketTimeoutMS: 45000, // Timeout pour les opérations socket
-  retryWrites: true, // Active les tentatives de réécriture automatiques
-  writeConcern: {
-    w: 'majority',
-  },
-};
 
 let client: MongoClient;
 let clientPromise: Promise<MongoClient>;
@@ -25,13 +14,13 @@ if (process.env.NODE_ENV === 'development') {
   };
 
   if (!globalWithMongo._mongoClientPromise) {
-    client = new MongoClient(uri, options);
+    client = new MongoClient(uri);
     globalWithMongo._mongoClientPromise = client.connect();
   }
   clientPromise = globalWithMongo._mongoClientPromise;
 } else {
-  // En production (Vercel), optimiser pour les fonctions serverless
-  client = new MongoClient(uri, options);
+  // En production, créer une nouvelle connexion
+  client = new MongoClient(uri);
   clientPromise = client.connect();
 }
 

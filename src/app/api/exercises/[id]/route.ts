@@ -3,7 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import { Exercise } from '@/types';
 import { ObjectId } from 'mongodb';
 
-// PUT - Modifier un exercice existant
+// PUT - Modifier un exercice personnalisé
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,6 +11,16 @@ export async function PUT(
   try {
     const { id } = await params;
     const updateData: Partial<Exercise> = await request.json();
+    
+    console.log('PUT request - exerciseId:', id, 'userId:', updateData.userId);
+    
+    // Validation: userId requis pour les modifications
+    if (!updateData.userId || updateData.userId === 'undefined' || updateData.userId === 'null') {
+      return NextResponse.json(
+        { error: 'userId requis pour modifier un exercice' },
+        { status: 400 }
+      );
+    }
     
     const { db } = await connectToDatabase();
     
@@ -34,10 +44,27 @@ export async function PUT(
       );
     }
     
-    // Vérifier si le nouveau nom existe déjà (si le nom est modifié)
+    // Vérifier si c'est un exercice de base (sans userId) - ne peut pas être modifié
+    if (!existingExercise.userId) {
+      return NextResponse.json(
+        { error: 'Les exercices de base ne peuvent pas être modifiés' },
+        { status: 403 }
+      );
+    }
+    
+    // Vérifier si l'utilisateur est le propriétaire de l'exercice
+    if (existingExercise.userId !== updateData.userId) {
+      return NextResponse.json(
+        { error: 'Vous ne pouvez modifier que vos propres exercices' },
+        { status: 403 }
+      );
+    }
+    
+    // Vérifier si le nouveau nom existe déjà pour cet utilisateur (si le nom est modifié)
     if (updateData.nom && updateData.nom !== existingExercise.nom) {
       const duplicateQuery = {
         nom: { $regex: new RegExp(`^${updateData.nom}$`, 'i') },
+        userId: updateData.userId,
         $and: [
           { $nor: [query] } // Exclure l'exercice actuel
         ]
@@ -47,7 +74,7 @@ export async function PUT(
       
       if (duplicateExercise) {
         return NextResponse.json(
-          { error: 'Un exercice avec ce nom existe déjà' },
+          { error: 'Vous avez déjà un exercice avec ce nom' },
           { status: 409 }
         );
       }
@@ -85,13 +112,25 @@ export async function PUT(
   }
 }
 
-// DELETE - Supprimer un exercice
+// DELETE - Supprimer un exercice personnalisé
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+    
+    console.log('DELETE request - exerciseId:', id, 'userId:', userId);
+    
+    // Validation: userId requis pour les suppressions
+    if (!userId || userId === 'undefined' || userId === 'null') {
+      return NextResponse.json(
+        { error: 'userId requis pour supprimer un exercice' },
+        { status: 400 }
+      );
+    }
     
     const { db } = await connectToDatabase();
     
@@ -112,6 +151,22 @@ export async function DELETE(
       return NextResponse.json(
         { error: 'Exercice non trouvé' },
         { status: 404 }
+      );
+    }
+    
+    // Vérifier si c'est un exercice de base (sans userId) - ne peut pas être supprimé
+    if (!existingExercise.userId) {
+      return NextResponse.json(
+        { error: 'Les exercices de base ne peuvent pas être supprimés' },
+        { status: 403 }
+      );
+    }
+    
+    // Vérifier si l'utilisateur est le propriétaire de l'exercice
+    if (existingExercise.userId !== userId) {
+      return NextResponse.json(
+        { error: 'Vous ne pouvez supprimer que vos propres exercices' },
+        { status: 403 }
       );
     }
     

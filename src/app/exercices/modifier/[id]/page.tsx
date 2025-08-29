@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useExerciseStore } from '@/stores/exerciseStore';
+import { useAuthStore } from '@/stores/authStore';
 import { RANKS } from '@/data/ranks';
 import { ExerciseCategory, DifficultyRank, QuantificationType } from '@/types';
 import Navigation from '@/components/Navigation';
@@ -109,6 +110,7 @@ export default function ModifierExercicePage() {
   const params = useParams();
   const exerciseId = params.id as string;
   const { exercises, updateExercise, fetchExercises } = useExerciseStore();
+  const { user } = useAuthStore();
   
   const [formData, setFormData] = useState({
     nom: '',
@@ -126,8 +128,8 @@ export default function ModifierExercicePage() {
 
   useEffect(() => {
     const loadExercise = async () => {
-      if (exercises.length === 0) {
-        await fetchExercises();
+      if (exercises.length === 0 && user?.id) {
+        await fetchExercises(user.id);
       }
       
       const exercise = exercises.find(ex => ex.id === exerciseId);
@@ -184,6 +186,11 @@ export default function ModifierExercicePage() {
       return;
     }
 
+    if (!user) {
+      setErrors({ submit: 'Vous devez être connecté pour modifier un exercice' });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -193,16 +200,21 @@ export default function ModifierExercicePage() {
         difficulte: formData.difficulte as DifficultyRank,
         muscles: formData.muscles,
         description: formData.description.trim(),
-        typeQuantification: formData.typeQuantification
+        typeQuantification: formData.typeQuantification,
+        userId: user.id // Ajouter l'ID de l'utilisateur
       };
 
       await updateExercise(exerciseId, exerciseData);
       
-      // Redirection vers la page des exercices
-      router.push('/exercices');
+      // Redirection vers la page des exercices avec un message de succès
+      router.push('/exercices?modified=true');
     } catch (error) {
       console.error('Erreur lors de la modification de l\'exercice:', error);
-      setErrors({ submit: 'Erreur lors de la modification de l\'exercice' });
+      if (error instanceof Error) {
+        setErrors({ submit: error.message });
+      } else {
+        setErrors({ submit: 'Erreur lors de la modification de l\'exercice' });
+      }
     } finally {
       setIsSubmitting(false);
     }

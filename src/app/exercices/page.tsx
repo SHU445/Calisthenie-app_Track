@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { useExerciseStore } from '@/stores/exerciseStore';
+import { useAuthStore } from '@/stores/authStore';
 import { getRankColor, getRankName, RANKS } from '@/data/ranks';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -19,17 +21,50 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline';
 
-export default function ExercicesPage() {
+// Composant qui utilise useSearchParams
+function ExercicesContent() {
   const { exercises, fetchExercises, isLoading, deleteExercise } = useExerciseStore();
+  const { user } = useAuthStore();
+  const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
   const [selectedMuscles, setSelectedMuscles] = useState<string[]>([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchExercises();
-  }, [fetchExercises]);
+    // Passer l'userId pour obtenir les exercices de base + exercices personnalisés
+    fetchExercises(user?.id);
+  }, [fetchExercises, user?.id]);
+
+  useEffect(() => {
+    // Vérifier les paramètres de succès
+    const added = searchParams.get('added');
+    const modified = searchParams.get('modified');
+    
+    if (added === 'true') {
+      setSuccessMessage('Exercice ajouté avec succès !');
+      // Recharger la liste des exercices
+      if (user?.id) {
+        fetchExercises(user.id);
+      }
+    } else if (modified === 'true') {
+      setSuccessMessage('Exercice modifié avec succès !');
+      // Recharger la liste des exercices
+      if (user?.id) {
+        fetchExercises(user.id);
+      }
+    }
+
+    // Supprimer le message après 3 secondes
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, user?.id, fetchExercises, successMessage]);
 
   // Extraire tous les muscles uniques des exercices
   const allMuscles = useMemo(() => {
@@ -98,17 +133,39 @@ export default function ExercicesPage() {
   };
 
   const handleDeleteExercise = async (exerciseId: string) => {
-    try {
-      await deleteExercise(exerciseId);
+    if (!user || !user.id) {
+      console.error('Utilisateur non connecté ou ID manquant');
+      alert('Vous devez être connecté pour supprimer un exercice.');
       setShowDeleteConfirm(null);
+      return;
+    }
+    
+    try {
+      await deleteExercise(exerciseId, user.id);
+      setShowDeleteConfirm(null);
+      // Recharger la liste des exercices après suppression
+      await fetchExercises(user.id);
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
+      if (error instanceof Error) {
+        alert(`Erreur: ${error.message}`);
+      } else {
+        alert('Erreur lors de la suppression de l\'exercice');
+      }
+      setShowDeleteConfirm(null);
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
+      
+      {/* Message de succès */}
+      {successMessage && (
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+          {successMessage}
+        </div>
+      )}
       
       <main className="flex-1">
         {/* Header */}
@@ -291,10 +348,20 @@ export default function ExercicesPage() {
                       </span>
                     </div>
                     
-                    <div className="mb-3">
+                    <div className="mb-3 flex items-center gap-2">
                       <span className="inline-block bg-sport-secondary text-sport-accent text-xs px-2 py-1 rounded-full">
                         {exercise.categorie}
                       </span>
+                      {/* Badge pour indiquer le type d'exercice */}
+                      {exercise.userId ? (
+                        <span className="inline-block bg-blue-500/20 text-blue-300 text-xs px-2 py-1 rounded-full border border-blue-400/30">
+                          Personnalisé
+                        </span>
+                      ) : (
+                        <span className="inline-block bg-gray-500/20 text-gray-300 text-xs px-2 py-1 rounded-full border border-gray-400/30">
+                          Base
+                        </span>
+                      )}
                     </div>
                     
                     <p className="text-gray-300 text-sm mb-4 line-clamp-3">
@@ -322,20 +389,29 @@ export default function ExercicesPage() {
                     
                     {/* Boutons d'actions */}
                     <div className="flex gap-2">
-                      <Link
-                        href={`/exercices/modifier/${exercise.id}`}
-                        className="flex-1 inline-flex items-center justify-center gap-2 bg-sport-secondary hover:bg-sport-secondary/80 text-sport-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-sport-accent/20"
-                      >
-                        <PencilIcon className="h-4 w-4" />
-                        <span>Modifier</span>
-                      </Link>
-                      <button
-                        onClick={() => setShowDeleteConfirm(exercise.id)}
-                        className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-600/50 hover:bg-red-500/70 text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-500/30 hover:border-red-400/50"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                        <span>Supprimer</span>
-                      </button>
+                      {/* Afficher les boutons uniquement pour les exercices personnalisés */}
+                      {exercise.userId && user && exercise.userId === user.id ? (
+                        <>
+                          <Link
+                            href={`/exercices/modifier/${exercise.id}`}
+                            className="flex-1 inline-flex items-center justify-center gap-2 bg-sport-secondary hover:bg-sport-secondary/80 text-sport-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-sport-accent/20"
+                          >
+                            <PencilIcon className="h-4 w-4" />
+                            <span>Modifier</span>
+                          </Link>
+                          <button
+                            onClick={() => setShowDeleteConfirm(exercise.id)}
+                            className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-600/50 hover:bg-red-500/70 text-gray-300 hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-500/30 hover:border-red-400/50"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                            <span>Supprimer</span>
+                          </button>
+                        </>
+                      ) : (
+                        <div className="flex-1 text-center text-gray-400 text-sm py-2">
+                          {exercise.userId ? 'Exercice d\'un autre utilisateur' : 'Exercice de base'}
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -414,5 +490,30 @@ export default function ExercicesPage() {
 
       <Footer />
     </div>
+  );
+}
+
+// Composant de fallback pendant le chargement
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navigation />
+      <main className="flex-1 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sport-accent mx-auto mb-4"></div>
+          <p className="text-gray-400">Chargement...</p>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+// Export principal avec Suspense
+export default function ExercicesPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <ExercicesContent />
+    </Suspense>
   );
 } 

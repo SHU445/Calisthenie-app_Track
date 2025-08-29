@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useExerciseStore } from '@/stores/exerciseStore';
+import { useAuthStore } from '@/stores/authStore';
 import { RANKS } from '@/data/ranks';
 import { ExerciseCategory, DifficultyRank, QuantificationType } from '@/types';
 import Navigation from '@/components/Navigation';
@@ -107,6 +108,7 @@ const allMuscles = [
 export default function AjouterExercicePage() {
   const router = useRouter();
   const { addExercise } = useExerciseStore();
+  const { user } = useAuthStore();
   
   const [formData, setFormData] = useState({
     nom: '',
@@ -155,6 +157,11 @@ export default function AjouterExercicePage() {
       return;
     }
 
+    if (!user) {
+      setErrors({ submit: 'Vous devez être connecté pour ajouter un exercice' });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -165,16 +172,21 @@ export default function AjouterExercicePage() {
         muscles: formData.muscles,
         description: formData.description.trim(),
         instructions: ['Position de base'], // Instruction minimale pour compatibilité
-        typeQuantification: formData.typeQuantification
+        typeQuantification: formData.typeQuantification,
+        userId: user.id // Ajouter l'ID de l'utilisateur
       };
 
       await addExercise(exerciseData);
       
-      // Redirection vers la page des exercices
-      router.push('/exercices');
+      // Redirection vers la page des exercices avec un message de succès
+      router.push('/exercices?added=true');
     } catch (error) {
       console.error('Erreur lors de l\'ajout de l\'exercice:', error);
-      setErrors({ submit: 'Erreur lors de l\'ajout de l\'exercice' });
+      if (error instanceof Error) {
+        setErrors({ submit: error.message });
+      } else {
+        setErrors({ submit: 'Erreur lors de l\'ajout de l\'exercice' });
+      }
     } finally {
       setIsSubmitting(false);
     }

@@ -28,19 +28,20 @@ const workoutTypes: WorkoutType[] = [
   'Récupération'
 ];
 
+interface SerieForm {
+  id: string;
+  repetitions: number;
+  poids?: number; // Poids en kg (optionnel)
+  tempsRepos: number; // Temps de repos en secondes
+  tempsExecution?: number; // Pour les exercices de maintien
+}
+
 interface WorkoutSetForm {
   id: string;
   exerciceId: string;
-  nbSeries: number;
-  repetitions: number;
-  duree?: number;
-  tempsRepos: number;
+  series: SerieForm[];
   notes?: string;
-  // Nouveaux champs
   repetitionType: 'repetitions' | 'temps'; // Type de mesure
-  tempsExecution?: number; // Temps en secondes pour les exercices de gainage
-  poids?: number;
-  chargeType: 'poids' | 'corps'; // Type de charge
 }
 
 export default function AjouterSeancePage() {
@@ -65,10 +66,10 @@ export default function AjouterSeancePage() {
   const [showExerciseDropdown, setShowExerciseDropdown] = useState<string | null>(null);
 
   useEffect(() => {
-    if (exercises.length === 0) {
-      fetchExercises();
+    if (exercises.length === 0 && user?.id) {
+      fetchExercises(user.id);
     }
-  }, [exercises.length, fetchExercises]);
+  }, [exercises.length, fetchExercises, user?.id]);
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -94,16 +95,23 @@ export default function AjouterSeancePage() {
     }
 
     // Validation des sets
-    workoutSets.forEach((set, index) => {
+    workoutSets.forEach((set, setIndex) => {
       if (!set.exerciceId) {
-        newErrors[`set_${index}_exercise`] = 'Exercice requis';
+        newErrors[`set_${setIndex}_exercise`] = 'Exercice requis';
       }
-      if (set.repetitionType === 'repetitions' && set.repetitions <= 0) {
-        newErrors[`set_${index}_reps`] = 'Répétitions requises';
+      
+      if (set.series.length === 0) {
+        newErrors[`set_${setIndex}_series`] = 'Au moins une série est requise';
       }
-      if (set.repetitionType === 'temps' && (!set.tempsExecution || set.tempsExecution <= 0)) {
-        newErrors[`set_${index}_temps`] = 'Temps d\'exécution requis';
-      }
+
+      set.series.forEach((serie, serieIndex) => {
+        if (set.repetitionType === 'repetitions' && serie.repetitions <= 0) {
+          newErrors[`set_${setIndex}_serie_${serieIndex}_reps`] = 'Répétitions requises';
+        }
+        if (set.repetitionType === 'temps' && (!serie.tempsExecution || serie.tempsExecution <= 0)) {
+          newErrors[`set_${setIndex}_serie_${serieIndex}_temps`] = 'Temps d\'exécution requis';
+        }
+      });
     });
 
     setErrors(newErrors);
@@ -128,15 +136,15 @@ export default function AjouterSeancePage() {
         description: formData.description.trim(),
         ressenti: formData.ressenti,
         userId: user.id,
-        sets: workoutSets.flatMap(set => 
-          Array.from({ length: set.nbSeries }, () => ({
+        sets: workoutSets.flatMap(workoutSet => 
+          workoutSet.series.map(serie => ({
             id: generateId(),
-            exerciceId: set.exerciceId,
-            repetitions: set.repetitionType === 'repetitions' ? set.repetitions : 0,
-            poids: set.poids || undefined,
-            duree: set.repetitionType === 'temps' ? set.tempsExecution : set.duree,
-            tempsRepos: set.tempsRepos,
-            notes: set.notes?.trim() || undefined
+            exerciceId: workoutSet.exerciceId,
+            repetitions: workoutSet.repetitionType === 'repetitions' ? serie.repetitions : 0,
+            poids: serie.poids || undefined,
+            duree: workoutSet.repetitionType === 'temps' ? serie.tempsExecution : undefined,
+            tempsRepos: serie.tempsRepos,
+            notes: workoutSet.notes?.trim() || undefined
           }))
         ) as WorkoutSet[]
       };
@@ -155,15 +163,17 @@ export default function AjouterSeancePage() {
     const newSet: WorkoutSetForm = {
       id: generateId(),
       exerciceId: '',
-      nbSeries: 3,
-      repetitions: 1,
-      poids: undefined,
-      duree: undefined,
-      tempsRepos: 60,
+      series: [
+        {
+          id: generateId(),
+          repetitions: 1,
+          poids: undefined,
+          tempsRepos: 60,
+          tempsExecution: undefined
+        }
+      ],
       notes: '',
-      repetitionType: 'repetitions',
-      tempsExecution: undefined,
-      chargeType: 'corps'
+      repetitionType: 'repetitions'
     };
     setWorkoutSets([...workoutSets, newSet]);
   };
@@ -192,18 +202,59 @@ export default function AjouterSeancePage() {
           
           updatedSet.repetitionType = exerciseType === 'hold' ? 'temps' : 'repetitions';
           
-          // Réinitialiser les valeurs selon le type
-          if (exerciseType === 'hold') {
-            updatedSet.repetitions = 0;
-            updatedSet.tempsExecution = updatedSet.tempsExecution || 30;
-          } else {
-            updatedSet.repetitions = updatedSet.repetitions || 1;
-            updatedSet.tempsExecution = undefined;
-          }
+          // Mettre à jour toutes les séries selon le nouveau type
+          updatedSet.series = updatedSet.series.map(serie => ({
+            ...serie,
+            repetitions: exerciseType === 'hold' ? 0 : (serie.repetitions || 1),
+            tempsExecution: exerciseType === 'hold' ? (serie.tempsExecution || 30) : undefined
+          }));
         }
       }
       
       return updatedSet;
+    }));
+  };
+
+  const addSerie = (exerciseId: string) => {
+    setWorkoutSets(workoutSets.map(set => {
+      if (set.id !== exerciseId) return set;
+      
+      const newSerie: SerieForm = {
+        id: generateId(),
+        repetitions: set.repetitionType === 'repetitions' ? 1 : 0,
+        poids: undefined,
+        tempsRepos: 60,
+        tempsExecution: set.repetitionType === 'temps' ? 30 : undefined
+      };
+      
+      return {
+        ...set,
+        series: [...set.series, newSerie]
+      };
+    }));
+  };
+
+  const removeSerie = (exerciseId: string, serieId: string) => {
+    setWorkoutSets(workoutSets.map(set => {
+      if (set.id !== exerciseId) return set;
+      
+      return {
+        ...set,
+        series: set.series.filter(serie => serie.id !== serieId)
+      };
+    }));
+  };
+
+  const updateSerie = (exerciseId: string, serieId: string, field: keyof SerieForm, value: any) => {
+    setWorkoutSets(workoutSets.map(set => {
+      if (set.id !== exerciseId) return set;
+      
+      return {
+        ...set,
+        series: set.series.map(serie => 
+          serie.id === serieId ? { ...serie, [field]: value } : serie
+        )
+      };
     }));
   };
 
@@ -223,12 +274,16 @@ export default function AjouterSeancePage() {
   };
 
   const getTotalEstimatedTime = () => {
-    const exerciseTime = workoutSets.reduce((total, set) => {
-      const exerciseTime = (set.duree || 30) * set.nbSeries; // 30 secondes par défaut pour les exercices × nombre de séries
-      const restTime = (set.tempsRepos || 60) * set.nbSeries;
-      return total + exerciseTime + restTime;
+    const totalTime = workoutSets.reduce((total, set) => {
+      return total + set.series.reduce((setTotal, serie) => {
+        const exerciseTime = set.repetitionType === 'temps' 
+          ? (serie.tempsExecution || 30) 
+          : 30; // 30 secondes par défaut pour les exercices à répétitions
+        const restTime = serie.tempsRepos || 60;
+        return setTotal + exerciseTime + restTime;
+      }, 0);
     }, 0);
-    return Math.ceil(exerciseTime / 60); // en minutes
+    return Math.ceil(totalTime / 60); // en minutes
   };
 
   return (
@@ -416,223 +471,200 @@ export default function AjouterSeancePage() {
                       </button>
                     </div>
                   ) : (
-                    <div className="space-y-4">
-                      {workoutSets.map((set, index) => (
-                        <div key={set.id} className="bg-sport-gray-light/10 rounded-lg p-6">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-semibold text-white">Exercice {index + 1}</h3>
+                    <div className="space-y-6">
+                      {workoutSets.map((workoutSet, workoutIndex) => (
+                        <div key={workoutSet.id} className="bg-martial-surface-1 rounded-lg p-6 border border-martial-steel/20">
+                          {/* Header avec titre et bouton supprimer */}
+                          <div className="flex items-center justify-between mb-6">
+                            <h3 className="text-lg font-display font-bold text-martial-highlight uppercase tracking-wide">
+                              EXERCICE {workoutIndex + 1}
+                            </h3>
                             <button
                               type="button"
-                              onClick={() => removeExerciseSet(set.id)}
-                              className="text-red-400 hover:text-red-300 p-1"
-                              title="Supprimer"
+                              onClick={() => removeExerciseSet(workoutSet.id)}
+                              className="text-martial-steel hover:text-martial-danger-accent p-2 rounded-md transition-colors"
+                              title="Supprimer cet exercice"
                             >
                               <TrashIcon className="h-5 w-5" />
                             </button>
                           </div>
 
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                            {/* Sélection d'exercice */}
-                            <div className="lg:col-span-2">
-                              <label className="block text-sm font-medium text-sport-accent mb-2">
-                                Exercice *
-                              </label>
-                              <div className="relative">
-                                <button
-                                  type="button"
-                                  onClick={() => setShowExerciseDropdown(showExerciseDropdown === set.id ? null : set.id)}
-                                  className="sport-input w-full text-left flex items-center justify-between"
-                                >
-                                  <span className={set.exerciceId ? 'text-white' : 'text-gray-400'}>
-                                    {getExerciseName(set.exerciceId)}
-                                  </span>
-                                  <svg className={`h-5 w-5 transition-transform ${showExerciseDropdown === set.id ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                                  </svg>
-                                </button>
+                          {/* Sélection d'exercice */}
+                          <div className="mb-6">
+                            <label className="block text-sm font-medium text-martial-steel mb-2">
+                              Exercice
+                            </label>
+                            <div className="relative">
+                              <button
+                                type="button"
+                                onClick={() => setShowExerciseDropdown(showExerciseDropdown === workoutSet.id ? null : workoutSet.id)}
+                                className="martial-input w-full text-left flex items-center justify-between"
+                              >
+                                <span className={workoutSet.exerciceId ? 'text-martial-highlight' : 'text-martial-steel'}>
+                                  {getExerciseName(workoutSet.exerciceId)}
+                                </span>
+                                <svg className={`h-5 w-5 transition-transform ${showExerciseDropdown === workoutSet.id ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </button>
 
-                                {showExerciseDropdown === set.id && (
-                                  <div className="absolute z-10 w-full mt-1 bg-gray-900/98 backdrop-blur-md border border-sport-gray-light/30 rounded-lg shadow-2xl max-h-60 overflow-y-auto">
-                                    <div className="p-2">
-                                      <input
-                                        type="text"
-                                        placeholder="Rechercher un exercice..."
-                                        value={exerciseSearch}
-                                        onChange={(e) => setExerciseSearch(e.target.value)}
-                                        className="sport-input w-full text-sm"
-                                      />
-                                    </div>
-                                    {filteredExercises.map((exercise) => (
-                                      <button
-                                        key={exercise.id}
-                                        type="button"
-                                        onClick={() => {
-                                          updateExerciseSet(set.id, 'exerciceId', exercise.id);
-                                          setShowExerciseDropdown(null);
-                                          setExerciseSearch('');
-                                        }}
-                                        className="w-full text-left px-4 py-2 hover:bg-sport-gray-light/20 transition-colors text-gray-300"
-                                      >
-                                        <div className="flex items-center justify-between">
-                                          <div>
-                                            <div className="font-medium">{exercise.nom}</div>
-                                            <div className="text-xs text-gray-400">{exercise.categorie} • Rang {exercise.difficulte}</div>
-                                          </div>
-                                          <div className="flex items-center gap-1">
-                                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                              (exercise.typeQuantification || 'rep') === 'hold' 
-                                                ? 'bg-purple-500/20 text-purple-300' 
-                                                : 'bg-blue-500/20 text-blue-300'
-                                            }`}>
-                                              {(exercise.typeQuantification || 'rep') === 'hold' ? '⏱️ Hold' : '🔢 Rep'}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      </button>
-                                    ))}
+                              {showExerciseDropdown === workoutSet.id && (
+                                <div className="absolute z-10 w-full mt-1 bg-martial-surface-1 border border-martial-steel/30 rounded-lg shadow-2xl max-h-60 overflow-y-auto">
+                                  <div className="p-2">
+                                    <input
+                                      type="text"
+                                      placeholder="Rechercher un exercice..."
+                                      value={exerciseSearch}
+                                      onChange={(e) => setExerciseSearch(e.target.value)}
+                                      className="martial-input w-full text-sm"
+                                    />
                                   </div>
-                                )}
-                              </div>
-                              {errors[`set_${index}_exercise`] && (
-                                <p className="mt-1 text-sm text-red-400">{errors[`set_${index}_exercise`]}</p>
-                              )}
-                              {/* Indicateur du type détecté */}
-                              {set.exerciceId && (
-                                <div className="mt-2 flex items-center gap-2">
-                                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                                    set.repetitionType === 'temps' 
-                                      ? 'bg-purple-500/20 text-purple-300' 
-                                      : 'bg-blue-500/20 text-blue-300'
-                                  }`}>
-                                    {set.repetitionType === 'temps' ? '⏱️ Exercice de maintien' : '🔢 Exercice à répétitions'}
-                                  </span>
-                                  <span className="text-xs text-gray-400">
-                                    (détecté automatiquement)
-                                  </span>
+                                  {filteredExercises.map((exercise) => (
+                                    <button
+                                      key={exercise.id}
+                                      type="button"
+                                      onClick={() => {
+                                        updateExerciseSet(workoutSet.id, 'exerciceId', exercise.id);
+                                        setShowExerciseDropdown(null);
+                                        setExerciseSearch('');
+                                      }}
+                                      className="w-full text-left px-4 py-2 hover:bg-martial-surface-hover transition-colors text-martial-steel"
+                                    >
+                                      <div className="flex items-center justify-between">
+                                        <div>
+                                          <div className="font-medium text-martial-highlight">{exercise.nom}</div>
+                                          <div className="text-xs text-martial-steel">{exercise.categorie} • Rang {exercise.difficulte}</div>
+                                        </div>
+                                        <div className="flex items-center gap-1">
+                                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                            (exercise.typeQuantification || 'rep') === 'hold' 
+                                              ? 'bg-martial-warning/20 text-martial-warning' 
+                                              : 'bg-martial-success/20 text-martial-success'
+                                          }`}>
+                                            {(exercise.typeQuantification || 'rep') === 'hold' ? '⏱️ Hold' : '🔢 Rep'}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </button>
+                                  ))}
                                 </div>
                               )}
                             </div>
+                            {errors[`set_${workoutIndex}_exercise`] && (
+                              <p className="mt-1 text-sm text-martial-danger-accent">{errors[`set_${workoutIndex}_exercise`]}</p>
+                            )}
+                          </div>
 
-                            {/* Nombre de séries */}
+                          {/* Section Séries */}
+                          {workoutSet.exerciceId && (
                             <div>
-                              <label className="block text-sm font-medium text-sport-accent mb-2">
-                                Nombre de séries *
-                              </label>
-                              <select
-                                value={set.nbSeries}
-                                onChange={(e) => updateExerciseSet(set.id, 'nbSeries', parseInt(e.target.value))}
-                                className="sport-input w-full"
-                              >
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => (
-                                  <option key={num} value={num}>{num} série{num > 1 ? 's' : ''}</option>
+                              <div className="flex items-center justify-between mb-4">
+                                <h4 className="text-sm font-display font-bold text-martial-steel uppercase tracking-wide">
+                                  SÉRIES
+                                </h4>
+                                {workoutSet.repetitionType === 'temps' ? (
+                                  <span className="text-xs text-martial-warning bg-martial-warning/10 px-2 py-1 rounded">
+                                    ⏱️ Exercice de maintien
+                                  </span>
+                                ) : (
+                                  <span className="text-xs text-martial-success bg-martial-success/10 px-2 py-1 rounded">
+                                    🔢 Exercice à répétitions
+                                  </span>
+                                )}
+                              </div>
+
+                              {/* En-têtes des colonnes */}
+                              <div className="grid grid-cols-4 gap-4 mb-2 text-xs font-medium text-martial-steel uppercase tracking-wide">
+                                <div>Répétitions</div>
+                                <div>Poids (kg, optionnel)</div>
+                                <div>Repos (secondes)</div>
+                                <div></div>
+                              </div>
+
+                              {/* Lignes de séries */}
+                              <div className="space-y-3">
+                                {workoutSet.series.map((serie, serieIndex) => (
+                                  <div key={serie.id} className="grid grid-cols-4 gap-4 items-center">
+                                    {/* Répétitions ou Temps */}
+                                    <div>
+                                      {workoutSet.repetitionType === 'repetitions' ? (
+                                        <input
+                                          type="number"
+                                          min="1"
+                                          value={serie.repetitions || ''}
+                                          onChange={(e) => updateSerie(workoutSet.id, serie.id, 'repetitions', parseInt(e.target.value) || 0)}
+                                          className="martial-input w-full"
+                                          placeholder="10"
+                                        />
+                                      ) : (
+                                        <input
+                                          type="number"
+                                          min="1"
+                                          value={serie.tempsExecution || ''}
+                                          onChange={(e) => updateSerie(workoutSet.id, serie.id, 'tempsExecution', parseInt(e.target.value) || 0)}
+                                          className="martial-input w-full"
+                                          placeholder="30s"
+                                        />
+                                      )}
+                                      {errors[`set_${workoutIndex}_serie_${serieIndex}_${workoutSet.repetitionType === 'repetitions' ? 'reps' : 'temps'}`] && (
+                                        <p className="text-xs text-martial-danger-accent mt-1">Requis</p>
+                                      )}
+                                    </div>
+
+                                    {/* Poids */}
+                                    <div>
+                                      <input
+                                        type="number"
+                                        min="0"
+                                        step="0.5"
+                                        value={serie.poids || ''}
+                                        onChange={(e) => updateSerie(workoutSet.id, serie.id, 'poids', e.target.value ? parseFloat(e.target.value) : undefined)}
+                                        className="martial-input w-full"
+                                        placeholder=""
+                                      />
+                                    </div>
+
+                                    {/* Temps de repos */}
+                                    <div>
+                                      <input
+                                        type="number"
+                                        min="0"
+                                        value={serie.tempsRepos}
+                                        onChange={(e) => updateSerie(workoutSet.id, serie.id, 'tempsRepos', parseInt(e.target.value) || 60)}
+                                        className="martial-input w-full"
+                                      />
+                                    </div>
+
+                                    {/* Bouton supprimer série */}
+                                    <div className="flex justify-end">
+                                      {workoutSet.series.length > 1 && (
+                                        <button
+                                          type="button"
+                                          onClick={() => removeSerie(workoutSet.id, serie.id)}
+                                          className="text-martial-steel hover:text-martial-danger-accent p-1 rounded transition-colors"
+                                          title="Supprimer cette série"
+                                        >
+                                          <TrashIcon className="h-4 w-4" />
+                                        </button>
+                                      )}
+                                    </div>
+                                  </div>
                                 ))}
-                              </select>
-                            </div>
+                              </div>
 
-                            {/* Répétitions ou Temps */}
-                            <div>
-                              {set.repetitionType === 'repetitions' ? (
-                                <>
-                                  <label className="block text-sm font-medium text-sport-accent mb-2">
-                                    Répétitions par série *
-                                  </label>
-                                  <input
-                                    type="number"
-                                    min="1"
-                                    value={set.repetitions}
-                                    onChange={(e) => updateExerciseSet(set.id, 'repetitions', parseInt(e.target.value) || 0)}
-                                    className="sport-input w-full"
-                                    placeholder="Ex: 10"
-                                  />
-                                  {errors[`set_${index}_reps`] && (
-                                    <p className="mt-1 text-sm text-red-400">{errors[`set_${index}_reps`]}</p>
-                                  )}
-                                </>
-                              ) : (
-                                <>
-                                  <label className="block text-sm font-medium text-sport-accent mb-2">
-                                    Temps par série (sec) *
-                                  </label>
-                                  <input
-                                    type="number"
-                                    min="1"
-                                    value={set.tempsExecution || ''}
-                                    onChange={(e) => updateExerciseSet(set.id, 'tempsExecution', parseInt(e.target.value) || 0)}
-                                    className="sport-input w-full"
-                                    placeholder="Ex: 30"
-                                  />
-                                  {errors[`set_${index}_temps`] && (
-                                    <p className="mt-1 text-sm text-red-400">{errors[`set_${index}_temps`]}</p>
-                                  )}
-                                </>
-                              )}
+                              {/* Bouton ajouter série */}
+                              <div className="mt-4">
+                                <button
+                                  type="button"
+                                  onClick={() => addSerie(workoutSet.id)}
+                                  className="flex items-center gap-2 text-martial-steel hover:text-martial-highlight transition-colors text-sm"
+                                >
+                                  <PlusIcon className="h-4 w-4" />
+                                  <span>Ajouter une série</span>
+                                </button>
+                              </div>
                             </div>
-
-                            {/* Type de charge */}
-                            <div>
-                              <label className="block text-sm font-medium text-sport-accent mb-2">
-                                Type de charge *
-                              </label>
-                              <select
-                                value={set.chargeType}
-                                onChange={(e) => updateExerciseSet(set.id, 'chargeType', e.target.value as 'poids' | 'corps')}
-                                className="sport-input w-full"
-                              >
-                                <option value="corps">Poids du corps</option>
-                                <option value="poids">Charge additionnelle</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          {/* Deuxième ligne - Charge */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Charge */}
-                            <div>
-                              <label className="block text-sm font-medium text-sport-accent mb-2">
-                                {set.chargeType === 'corps' ? 'Poids du corps (kg)' : 'Charge additionnelle (kg)'} *
-                              </label>
-                              <input
-                                type="number"
-                                min="0"
-                                step="0.5"
-                                value={set.poids || ''}
-                                onChange={(e) => updateExerciseSet(set.id, 'poids', e.target.value ? parseFloat(e.target.value) : undefined)}
-                                className="sport-input w-full"
-                                placeholder={set.chargeType === 'corps' ? 'Ex: 70' : 'Ex: 20'}
-                              />
-                            </div>
-                          </div>
-
-                          {/* Troisième ligne - Temps de repos et Notes */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {/* Temps de repos */}
-                            <div>
-                              <label className="block text-sm font-medium text-sport-accent mb-2">
-                                Temps de repos (secondes)
-                              </label>
-                              <input
-                                type="number"
-                                min="0"
-                                value={set.tempsRepos}
-                                onChange={(e) => updateExerciseSet(set.id, 'tempsRepos', parseInt(e.target.value) || 0)}
-                                className="sport-input w-full"
-                              />
-                            </div>
-
-                            {/* Notes */}
-                            <div>
-                              <label className="block text-sm font-medium text-sport-accent mb-2">
-                                Notes
-                              </label>
-                              <input
-                                type="text"
-                                value={set.notes || ''}
-                                onChange={(e) => updateExerciseSet(set.id, 'notes', e.target.value)}
-                                className="sport-input w-full"
-                                placeholder="Observations, sensations..."
-                              />
-                            </div>
-                          </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -645,7 +677,7 @@ export default function AjouterSeancePage() {
                     <div className="text-sm text-gray-400">
                       <div className="flex items-center gap-4">
                         <span>{workoutSets.length} exercice{workoutSets.length > 1 ? 's' : ''} ajouté{workoutSets.length > 1 ? 's' : ''}</span>
-                        <span>{workoutSets.reduce((total, set) => total + set.nbSeries, 0)} série{workoutSets.reduce((total, set) => total + set.nbSeries, 0) > 1 ? 's' : ''} au total</span>
+                        <span>{workoutSets.reduce((total, set) => total + set.series.length, 0)} série{workoutSets.reduce((total, set) => total + set.series.length, 0) > 1 ? 's' : ''} au total</span>
                         <span className="flex items-center gap-1">
                           <ClockIcon className="h-4 w-4" />
                           Temps estimé: {getTotalEstimatedTime()}min

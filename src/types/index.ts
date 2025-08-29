@@ -43,6 +43,7 @@ export interface Exercise {
   image?: string;
   video?: string;
   typeQuantification: QuantificationType;
+  userId?: string; // Optionnel : si absent, c'est un exercice de base accessible à tous
 }
 
 // Utilisateur
@@ -116,10 +117,10 @@ export interface ExerciseState {
   error: string | null;
   selectedCategory: ExerciseCategory | null;
   searchTerm: string;
-  fetchExercises: () => Promise<void>;
+  fetchExercises: (userId?: string) => Promise<void>;
   addExercise: (exercise: Omit<Exercise, 'id'>) => Promise<void>;
   updateExercise: (id: string, exercise: Partial<Exercise>) => Promise<void>;
-  deleteExercise: (id: string) => Promise<void>;
+  deleteExercise: (id: string, userId: string) => Promise<void>;
   setSelectedCategory: (category: ExerciseCategory | null) => void;
   setSearchTerm: (term: string) => void;
   clearError: () => void;

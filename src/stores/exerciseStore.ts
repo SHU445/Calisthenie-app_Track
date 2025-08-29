@@ -11,11 +11,12 @@ export const useExerciseStore = create<ExerciseStore>((set, get) => ({
   selectedCategory: null,
   searchTerm: '',
 
-  fetchExercises: async () => {
+  fetchExercises: async (userId?: string) => {
     set({ isLoading: true, error: null });
     
     try {
-      const response = await fetch('/api/exercises');
+      const url = userId ? `/api/exercises?userId=${userId}` : '/api/exercises';
+      const response = await fetch(url);
       if (!response.ok) {
         throw new Error('Erreur lors du chargement des exercices');
       }
@@ -74,12 +75,14 @@ export const useExerciseStore = create<ExerciseStore>((set, get) => ({
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la modification de l\'exercice');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erreur lors de la modification de l\'exercice');
       }
 
+      const updatedExercise = await response.json();
       const { exercises } = get();
       const updatedExercises = exercises.map(exercise =>
-        exercise.id === id ? { ...exercise, ...exerciseData } : exercise
+        exercise.id === id ? updatedExercise : exercise
       );
 
       set({ 
@@ -91,19 +94,21 @@ export const useExerciseStore = create<ExerciseStore>((set, get) => ({
         error: error instanceof Error ? error.message : 'Erreur inconnue',
         isLoading: false 
       });
+      throw error;
     }
   },
 
-  deleteExercise: async (id) => {
+  deleteExercise: async (id, userId) => {
     set({ isLoading: true, error: null });
     
     try {
-      const response = await fetch(`/api/exercises/${id}`, {
+      const response = await fetch(`/api/exercises/${id}?userId=${userId}`, {
         method: 'DELETE',
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la suppression de l\'exercice');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erreur lors de la suppression de l\'exercice');
       }
 
       const { exercises } = get();
@@ -118,6 +123,7 @@ export const useExerciseStore = create<ExerciseStore>((set, get) => ({
         error: error instanceof Error ? error.message : 'Erreur inconnue',
         isLoading: false 
       });
+      throw error;
     }
   },
 

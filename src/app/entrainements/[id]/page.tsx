@@ -5,9 +5,20 @@ import { useParams, useRouter } from 'next/navigation';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
 import { useAuthStore } from '@/stores/authStore';
+import { useProgressStore } from '@/stores/progressStore';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import { 
+  calculateExerciseDensity, 
+  calculateWorkoutDensity, 
+  formatDensity, 
+  formatWorkoutDensity,
+  calculateExerciseIntensity,
+  calculateWorkoutIntensity,
+  formatIntensity,
+  getIntensityColor
+} from '@/lib/utils';
 import {
   ArrowLeftIcon,
   PencilIcon,
@@ -45,6 +56,18 @@ interface ExerciseGroup {
   maxWeight: number;
   exercise?: any;
   isTimeBasedExercise: boolean;
+  density: number;
+  densityFormatted: {
+    perSecond: string;
+    perMinute: string;
+    unit: string;
+  };
+  intensity: number;
+  intensityFormatted: string;
+  intensityInfo: {
+    color: string;
+    label: string;
+  };
 }
 
 export default function DetailSeancePage() {
@@ -54,6 +77,7 @@ export default function DetailSeancePage() {
   const { user } = useAuthStore();
   const { workouts, fetchWorkouts, deleteWorkout, isLoading } = useWorkoutStore();
   const { exercises, fetchExercises } = useExerciseStore();
+  const { personalRecords, fetchPersonalRecords } = useProgressStore();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('cards');
@@ -65,9 +89,12 @@ export default function DetailSeancePage() {
       fetchWorkouts(user.id);
     }
     if (exercises.length === 0) {
-      fetchExercises();
+      fetchExercises(user?.id);
     }
-  }, [user?.id, workouts.length, exercises.length, fetchWorkouts, fetchExercises]);
+    if (user?.id && personalRecords.length === 0) {
+      fetchPersonalRecords(user.id);
+    }
+  }, [user?.id, workouts.length, exercises.length, personalRecords.length, fetchWorkouts, fetchExercises, fetchPersonalRecords]);
 
   const handleDeleteWorkout = async () => {
     try {
@@ -127,15 +154,54 @@ export default function DetailSeancePage() {
   };
 
   const getWorkoutStats = () => {
-    if (!workout) return { totalSets: 0, totalReps: 0, totalWeight: 0, avgIntensity: 0, uniqueExercises: 0 };
+    if (!workout) return { 
+      totalSets: 0, 
+      totalReps: 0, 
+      totalHoldTime: 0,
+      totalWeight: 0, 
+      avgIntensity: 0, 
+      uniqueExercises: 0,
+      workoutDensity: 0,
+      workoutDensityFormatted: { perSecond: '0.000 unités/s', perMinute: '≈ 0 unités/min' },
+      workoutIntensity: 0,
+      workoutIntensityFormatted: '0%',
+      workoutIntensityInfo: { color: 'text-gray-400', label: 'Non défini' },
+      hasWeights: false
+    };
     
     const totalSets = workout.sets.length;
     const totalReps = workout.sets.reduce((sum, set) => sum + (set.repetitions || 0), 0);
+    const totalHoldTime = workout.sets.reduce((sum, set) => sum + (set.duree || 0), 0);
     const totalWeight = workout.sets.reduce((sum, set) => sum + ((set.poids || 0) * (set.repetitions || 0)), 0);
     const uniqueExercises = new Set(workout.sets.map(set => set.exerciceId)).size;
     const avgIntensity = totalSets > 0 ? Math.round((totalWeight / totalSets) * 10) / 10 : 0;
     
-    return { totalSets, totalReps, totalWeight, avgIntensity, uniqueExercises };
+    // Vérifier s'il y a des charges renseignées
+    const hasWeights = workout.sets.some(set => set.poids && set.poids > 0);
+    
+    // Calculer la densité totale de la séance
+    const workoutDensity = calculateWorkoutDensity(workout.sets, exercises);
+    const workoutDensityFormatted = formatWorkoutDensity(workoutDensity);
+    
+    // Calculer l'intensité totale de la séance
+    const workoutIntensity = calculateWorkoutIntensity(workout.sets, exercises, personalRecords);
+    const workoutIntensityFormatted = formatIntensity(workoutIntensity);
+    const workoutIntensityInfo = getIntensityColor(workoutIntensity);
+    
+    return { 
+      totalSets, 
+      totalReps, 
+      totalHoldTime,
+      totalWeight, 
+      avgIntensity, 
+      uniqueExercises,
+      workoutDensity,
+      workoutDensityFormatted,
+      workoutIntensity,
+      workoutIntensityFormatted,
+      workoutIntensityInfo,
+      hasWeights
+    };
   };
 
   const getGroupedExercises = (): ExerciseGroup[] => {
@@ -158,6 +224,31 @@ export default function DetailSeancePage() {
       const avgRest = sets.reduce((sum, set) => sum + (set.tempsRepos || 0), 0) / sets.length;
       const maxWeight = Math.max(...sets.map(set => set.poids || 0));
 
+      // Calculer la densité de l'exercice
+      let density = 0;
+      let densityFormatted = {
+        perSecond: '0.000 rép/s',
+        perMinute: '≈ 0 rép/min',
+        unit: 'rép'
+      };
+
+      // Calculer l'intensité de l'exercice
+      let intensity = 0;
+      let intensityFormatted = '0%';
+      let intensityInfo = {
+        color: 'text-gray-400',
+        label: 'Non défini'
+      };
+
+      if (exercise) {
+        density = calculateExerciseDensity(sets, exercise);
+        densityFormatted = formatDensity(density, exercise.typeQuantification);
+        
+        intensity = calculateExerciseIntensity(sets, exercise, personalRecords);
+        intensityFormatted = formatIntensity(intensity);
+        intensityInfo = getIntensityColor(intensity);
+      }
+
       return {
         exerciceId,
         nom: getExerciseName(exerciceId),
@@ -176,7 +267,12 @@ export default function DetailSeancePage() {
         avgRest: Math.round(avgRest),
         maxWeight,
         exercise,
-        isTimeBasedExercise
+        isTimeBasedExercise,
+        density,
+        densityFormatted,
+        intensity,
+        intensityFormatted,
+        intensityInfo
       };
     });
   };
@@ -311,7 +407,7 @@ export default function DetailSeancePage() {
         <section className="pb-8">
           <div className="sport-container">
             <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
                 <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
                   <TrophyIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
                   <div className="text-3xl font-bold text-white">{stats.uniqueExercises}</div>
@@ -324,8 +420,16 @@ export default function DetailSeancePage() {
                 </div>
                 <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
                   <BoltIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="text-3xl font-bold text-white">{stats.totalReps}</div>
-                  <div className="text-sm text-gray-400">Répétitions</div>
+                  <div className="space-y-1">
+                    <div className="text-2xl font-bold text-white">{stats.totalReps}</div>
+                    <div className="text-xs text-gray-400">répétitions</div>
+                    {stats.totalHoldTime > 0 && (
+                      <>
+                        <div className="text-2xl font-bold text-sport-accent">{formatExerciseTime(stats.totalHoldTime)}</div>
+                        <div className="text-xs text-gray-400">temps total</div>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
                   <ClockIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
@@ -333,9 +437,18 @@ export default function DetailSeancePage() {
                   <div className="text-sm text-gray-400">Durée</div>
                 </div>
                 <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <FireIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="text-3xl font-bold text-white">{stats.totalWeight}</div>
-                  <div className="text-sm text-gray-400">Volume (kg)</div>
+                  <StarIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
+                  <div className="text-2xl font-bold text-white">{Math.round(stats.workoutDensity * 60)}</div>
+                  <div className="text-sm text-gray-400">unités/min</div>
+                  <div className="text-xs text-gray-500">Densité</div>
+                </div>
+                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
+                  <BoltIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
+                  <div className={`text-2xl font-bold ${stats.workoutIntensityInfo.color}`}>
+                    {stats.workoutIntensityFormatted}
+                  </div>
+                  <div className="text-xs text-gray-400">{stats.workoutIntensityInfo.label}</div>
+                  <div className="text-xs text-gray-500">Intensité</div>
                 </div>
               </div>
             </div>
@@ -430,7 +543,7 @@ export default function DetailSeancePage() {
                         </div>
 
                         {/* Statistiques de l'exercice */}
-                        <div className="grid grid-cols-3 gap-4 mb-4 p-4 bg-sport-gray-light/10 rounded-lg">
+                        <div className={`grid grid-cols-2 gap-4 mb-4 p-4 bg-sport-gray-light/10 rounded-lg ${stats.hasWeights ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
                           <div className="text-center">
                             {group.isTimeBasedExercise ? (
                               <>
@@ -444,13 +557,27 @@ export default function DetailSeancePage() {
                               </>
                             )}
                           </div>
-                          <div className="text-center">
-                            <div className="text-lg font-bold text-white">{group.maxWeight || 0}kg</div>
-                            <div className="text-xs text-gray-400">charge max</div>
-                          </div>
+                          {stats.hasWeights && (
+                            <div className="text-center">
+                              <div className="text-lg font-bold text-white">{group.maxWeight || 0}kg</div>
+                              <div className="text-xs text-gray-400">charge max</div>
+                            </div>
+                          )}
                           <div className="text-center">
                             <div className="text-lg font-bold text-white">{Math.floor(group.avgRest / 60)}:{(group.avgRest % 60).toString().padStart(2, '0')}</div>
                             <div className="text-xs text-gray-400">repos moy.</div>
+                          </div>
+                          <div className="text-center">
+                            <div className="text-lg font-bold text-sport-accent">{Math.round(group.density * 60)}</div>
+                            <div className="text-xs text-gray-400">{group.densityFormatted.unit}/min</div>
+                            <div className="text-xs text-gray-500">densité</div>
+                          </div>
+                          <div className="text-center">
+                            <div className={`text-lg font-bold ${group.intensityInfo.color}`}>
+                              {group.intensityFormatted}
+                            </div>
+                            <div className="text-xs text-gray-400">{group.intensityInfo.label}</div>
+                            <div className="text-xs text-gray-500">intensité</div>
                           </div>
                         </div>
 
@@ -466,7 +593,7 @@ export default function DetailSeancePage() {
                                 ) : (
                                   <span>{set.repetitions} rép.</span>
                                 )}
-                                {set.poids && <span>{set.poids}kg</span>}
+                                {stats.hasWeights && set.poids && <span>{set.poids}kg</span>}
                                 <span>{Math.floor(set.tempsRepos / 60)}:{(set.tempsRepos % 60).toString().padStart(2, '0')}</span>
                               </div>
                             </div>
@@ -494,9 +621,10 @@ export default function DetailSeancePage() {
                           <th className="text-left py-4 px-4 text-sport-accent font-bold">Exercice</th>
                           <th className="text-center py-4 px-4 text-sport-accent font-bold">Séries</th>
                           <th className="text-center py-4 px-4 text-sport-accent font-bold">Rép./Temps</th>
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Charge max</th>
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Volume</th>
+                          {stats.hasWeights && <th className="text-center py-4 px-4 text-sport-accent font-bold">Charge max</th>}
                           <th className="text-center py-4 px-4 text-sport-accent font-bold">Repos moy.</th>
+                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Densité</th>
+                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Intensité</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -526,14 +654,23 @@ export default function DetailSeancePage() {
                             <td className="py-4 px-4 text-center text-white font-semibold">
                               {group.isTimeBasedExercise ? formatExerciseTime(group.totalTime) : group.totalReps}
                             </td>
-                            <td className="py-4 px-4 text-center text-white font-semibold">
-                              {group.maxWeight || 0}kg
-                            </td>
-                            <td className="py-4 px-4 text-center text-white font-semibold">
-                              {group.totalWeight}kg
-                            </td>
+                            {stats.hasWeights && (
+                              <td className="py-4 px-4 text-center text-white font-semibold">
+                                {group.maxWeight || 0}kg
+                              </td>
+                            )}
                             <td className="py-4 px-4 text-center text-gray-300">
                               {Math.floor(group.avgRest / 60)}:{(group.avgRest % 60).toString().padStart(2, '0')}
+                            </td>
+                            <td className="py-4 px-4 text-center">
+                              <div className="text-lg font-bold text-sport-accent">{Math.round(group.density * 60)}</div>
+                              <div className="text-xs text-gray-400">{group.densityFormatted.unit}/min</div>
+                            </td>
+                            <td className="py-4 px-4 text-center">
+                              <div className={`text-lg font-bold ${group.intensityInfo.color}`}>
+                                {group.intensityFormatted}
+                              </div>
+                              <div className="text-xs text-gray-400">{group.intensityInfo.label}</div>
                             </td>
                           </tr>
                         ))}

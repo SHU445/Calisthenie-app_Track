@@ -214,8 +214,8 @@ export default function EntrainementsPage() {
               </div>
             ) : filteredWorkouts.length > 0 ? (
               <div className="space-y-4">
-                {filteredWorkouts.map((workout) => (
-                  <div key={workout.id} className="sport-card-hover p-6">
+                {filteredWorkouts.map((workout, index) => (
+                  <div key={`${workout.id}-${index}`} className="sport-card-hover p-6">
                     <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                       <div className="flex-1 mb-4 lg:mb-0">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-4">

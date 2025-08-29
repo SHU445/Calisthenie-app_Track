@@ -2,20 +2,20 @@ import { NextRequest, NextResponse } from 'next/server';
 import { connectToDatabase } from '@/lib/mongodb';
 import { Exercise } from '@/types';
 
-// GET - Récupérer tous les exercices
-export async function GET() {
+// GET - Récupérer les exercices (de base + personnalisés de l'utilisateur)
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+
     const { db } = await connectToDatabase();
     
-    // Optimisation : Créer des index pour les recherches fréquentes
-    await db.collection('exercises').createIndex({ nom: 1 });
-    await db.collection('exercises').createIndex({ categorie: 1 });
+    // Récupérer exercices de base (sans userId) et exercices personnalisés de l'utilisateur
+    const query = userId 
+      ? { $or: [{ userId: { $exists: false } }, { userId: userId }] }
+      : { userId: { $exists: false } }; // Si pas d'userId, ne renvoyer que les exercices de base
     
-    // Optimisation : Trier directement en base
-    const exercises = await db.collection('exercises')
-      .find({})
-      .sort({ nom: 1 }) // Trier par nom alphabétique
-      .toArray();
+    const exercises = await db.collection('exercises').find(query).toArray();
     
     // Convertir les _id MongoDB en id string
     const exercisesWithStringId = exercises.map(exercise => ({
@@ -34,36 +34,40 @@ export async function GET() {
   }
 }
 
-// POST - Ajouter un nouvel exercice
+// POST - Ajouter un nouvel exercice personnalisé
 export async function POST(request: NextRequest) {
   try {
     const newExercise: Exercise = await request.json();
     
     // Validation des données requises
-    if (!newExercise.nom || !newExercise.categorie || !newExercise.difficulte || !newExercise.description) {
+    if (!newExercise.nom || !newExercise.categorie || !newExercise.difficulte || !newExercise.description || !newExercise.userId) {
       return NextResponse.json(
-        { error: 'Données manquantes pour créer l\'exercice' },
+        { error: 'Données manquantes pour créer l\'exercice (nom, catégorie, difficulté, description, userId requis)' },
         { status: 400 }
       );
     }
     
     const { db } = await connectToDatabase();
     
-    // Vérifier si un exercice avec le même nom existe déjà
+    // Vérifier si un exercice avec le même nom existe déjà pour cet utilisateur
     const existingExercise = await db.collection('exercises').findOne({
-      nom: { $regex: new RegExp(`^${newExercise.nom}$`, 'i') }
+      nom: { $regex: new RegExp(`^${newExercise.nom}$`, 'i') },
+      userId: newExercise.userId
     });
     
     if (existingExercise) {
       return NextResponse.json(
-        { error: 'Un exercice avec ce nom existe déjà' },
+        { error: 'Vous avez déjà un exercice avec ce nom' },
         { status: 409 }
       );
     }
     
-    // Générer un nouvel ID
-    const lastExercise = await db.collection('exercises').findOne({}, { sort: { id: -1 } });
-    const maxId = lastExercise?.id ? parseInt(lastExercise.id) : 0;
+    // Générer un ID unique pour cet utilisateur
+    const lastExercise = await db.collection('exercises').findOne(
+      { userId: newExercise.userId }, 
+      { sort: { id: -1 } }
+    );
+    const maxId = lastExercise?.id ? parseInt(lastExercise.id) : 1000; // Commencer les IDs utilisateur à 1000+
     const newId = (maxId + 1).toString();
     
     // Ajouter le nouvel exercice avec l'ID généré

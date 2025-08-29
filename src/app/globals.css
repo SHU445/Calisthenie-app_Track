@@ -1,250 +1,514 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Oswald:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    font-family: 'Roboto', system-ui, sans-serif;
+    font-family: 'Inter', 'Poppins', system-ui, sans-serif;
   }
   
   body {
-    @apply bg-sport-dark text-white min-h-screen;
-    background: linear-gradient(135deg, #0C1E33 0%, #162A44 50%, #2E5E8E 100%);
+    @apply bg-martial-primary-bg text-martial-highlight min-h-screen;
+    background: linear-gradient(135deg, #0B0F12 0%, #13171A 50%, #1A1F23 100%);
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Oswald', sans-serif;
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
     font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Styles de base martiaux */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  ::selection {
+    background-color: rgba(158, 27, 27, 0.3);
+    color: #DFD9CB;
   }
 }
 
 @layer components {
-  /* Composants de carte sportive */
+  /* === COMPOSANTS MARTIAUX === */
+  
+  /* Cartes martiales */
+  .martial-card {
+    @apply bg-martial-surface-1 border border-martial-steel/20 rounded-lg shadow-martial-lg hover:shadow-martial-xl transition-all duration-300;
+    background: linear-gradient(145deg, #13171A 0%, #0B0F12 100%);
+  }
+  
+  .martial-card-hover {
+    @apply martial-card hover:border-martial-danger-accent/50 hover:shadow-glow-danger;
+  }
+  
+  /* Compatibilité - alias sport-* vers martial-* */
   .sport-card {
-    @apply bg-sport-secondary border border-sport-gray-light rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300;
-    background: linear-gradient(145deg, #162A44 0%, #0C1E33 100%);
+    @apply martial-card;
   }
   
   .sport-card-hover {
-    @apply sport-card hover:border-sport-accent hover:shadow-sport-accent/20;
+    @apply martial-card-hover;
   }
   
-  /* Boutons sportifs */
-  .sport-btn {
-    @apply font-medium py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  /* Boutons martiaux */
+  .martial-btn {
+    @apply font-display font-semibold py-3 px-6 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-martial-primary-bg;
+    transform: scale(1);
   }
   
-  .sport-btn-primary {
-    @apply sport-btn bg-sport-accent hover:bg-sport-accent/90 text-white focus:ring-sport-accent;
-    box-shadow: 0 4px 15px rgba(71, 183, 204, 0.3);
+  .martial-btn:active {
+    @apply animate-scale-press;
   }
   
-  .sport-btn-secondary {
-    @apply sport-btn bg-sport-secondary hover:bg-sport-gray-light text-white border border-sport-accent focus:ring-sport-accent;
+  .martial-btn-primary {
+    @apply martial-btn bg-martial-danger-accent hover:bg-martial-danger-light text-martial-highlight focus:ring-martial-danger-accent;
+    box-shadow: 0 4px 15px rgba(158, 27, 27, 0.4);
   }
   
-  .sport-btn-success {
-    @apply sport-btn bg-sport-success hover:bg-sport-success/90 text-white focus:ring-sport-success;
+  .martial-btn-secondary {
+    @apply martial-btn bg-martial-surface-1 hover:bg-martial-surface-hover text-martial-highlight border border-martial-steel/30 focus:ring-martial-steel;
   }
   
-  .sport-btn-danger {
-    @apply sport-btn bg-sport-danger hover:bg-sport-danger/90 text-white focus:ring-sport-danger;
+  .martial-btn-success {
+    @apply martial-btn bg-martial-success hover:bg-martial-success/90 text-martial-highlight focus:ring-martial-success;
   }
   
-  /* Champs de formulaire sportifs */
-  .sport-input {
-    @apply bg-sport-secondary border border-sport-gray-light text-white placeholder-gray-400 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sport-accent focus:border-transparent transition-all duration-200;
+  .martial-btn-cta {
+    @apply martial-btn bg-martial-danger-accent hover:bg-martial-danger-light text-martial-highlight focus:ring-martial-danger-accent rounded-2xl px-8 py-4 text-lg font-bold;
+    box-shadow: 0 8px 25px rgba(158, 27, 27, 0.5);
   }
   
-  .sport-select {
-    @apply sport-input cursor-pointer;
+  /* Alias pour compatibilité */
+  .sport-btn { @apply martial-btn; }
+  .sport-btn-primary { @apply martial-btn-primary; }
+  .sport-btn-secondary { @apply martial-btn-secondary; }
+  .sport-btn-success { @apply martial-btn-success; }
+  .sport-btn-danger { @apply martial-btn-primary; }
+  
+  /* Champs de formulaire martiaux */
+  .martial-input {
+    @apply bg-martial-surface-1 border border-martial-steel/30 text-martial-highlight placeholder-martial-steel rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-martial-danger-accent focus:border-martial-danger-accent/50 transition-all duration-200;
   }
   
-  .sport-textarea {
-    @apply sport-input resize-none min-h-[100px];
+  .martial-select {
+    @apply martial-input cursor-pointer;
   }
   
-  /* Navigation sportive */
-  .sport-navbar {
-    @apply bg-sport-primary/95 backdrop-blur-md border-b border-sport-gray-light shadow-2xl;
-    background: linear-gradient(90deg, #1E3A5F 0%, #2E5E8E 100%);
+  .martial-textarea {
+    @apply martial-input resize-none min-h-[100px];
   }
   
-  /* Badges et indicateurs */
-  .sport-badge {
-    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wide;
+  /* Alias pour compatibilité */
+  .sport-input { @apply martial-input; }
+  .sport-select { @apply martial-select; }
+  .sport-textarea { @apply martial-textarea; }
+  
+  /* Navigation martiale */
+  .martial-navbar {
+    @apply bg-martial-surface-alpha backdrop-blur-md border-b border-martial-steel/20 shadow-martial-xl;
+    background: linear-gradient(90deg, #13171A 0%, #1A1F23 100%);
   }
   
-  .sport-badge-success {
-    @apply sport-badge bg-sport-success/20 text-sport-success border border-sport-success/30;
+  .sport-navbar { @apply martial-navbar; }
+  
+  /* Badges martiaux avec style stencil */
+  .martial-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-sm text-xs font-display font-bold uppercase tracking-widest;
+    border: 2px solid currentColor;
   }
   
-  .sport-badge-warning {
-    @apply sport-badge bg-sport-warning/20 text-sport-warning border border-sport-warning/30;
+  .martial-badge-success {
+    @apply martial-badge text-martial-success bg-martial-success/10;
   }
   
-  .sport-badge-danger {
-    @apply sport-badge bg-sport-danger/20 text-sport-danger border border-sport-danger/30;
+  .martial-badge-warning {
+    @apply martial-badge text-martial-warning bg-martial-warning/10;
   }
   
-  .sport-badge-gold {
-    @apply sport-badge bg-sport-gold/20 text-sport-gold border border-sport-gold/30;
+  .martial-badge-danger {
+    @apply martial-badge text-martial-danger-accent bg-martial-danger-accent/10;
   }
   
-  .sport-badge-silver {
-    @apply sport-badge bg-sport-silver/20 text-sport-silver border border-sport-silver/30;
+  .martial-badge-rank {
+    @apply martial-badge text-martial-steel bg-martial-steel/10;
   }
   
-  .sport-badge-bronze {
-    @apply sport-badge bg-sport-bronze/20 text-sport-bronze border border-sport-bronze/30;
+  /* Chevrons pour difficulté */
+  .martial-chevron {
+    @apply inline-block w-3 h-3 border-t-2 border-r-2 transform rotate-45;
   }
   
-  /* Gradients thématiques */
-  .sport-gradient {
-    background: linear-gradient(135deg, #1E3A5F 0%, #2E5E8E 50%, #47B7CC 100%);
+  .martial-chevron-danger { @apply border-martial-danger-accent; }
+  .martial-chevron-steel { @apply border-martial-steel; }
+  .martial-chevron-warning { @apply border-martial-warning; }
+  
+  /* Alias pour compatibilité */
+  .sport-badge { @apply martial-badge; }
+  .sport-badge-success { @apply martial-badge-success; }
+  .sport-badge-warning { @apply martial-badge-warning; }
+  .sport-badge-danger { @apply martial-badge-danger; }
+  .sport-badge-gold { @apply martial-badge-warning; }
+  .sport-badge-silver { @apply martial-badge-rank; }
+  .sport-badge-bronze { @apply martial-badge-danger; }
+  
+  /* Gradients martiaux */
+  .martial-gradient {
+    background: linear-gradient(135deg, #0B0F12 0%, #13171A 50%, #1A1F23 100%);
   }
   
-  .sport-text-gradient {
-    @apply bg-gradient-to-r from-sport-accent to-sport-gold bg-clip-text text-transparent;
+  .martial-text-gradient {
+    @apply bg-gradient-to-r from-martial-danger-accent to-martial-steel bg-clip-text text-transparent;
   }
   
-  /* États de chargement */
-  .sport-loading {
-    @apply animate-pulse bg-sport-gray-light rounded;
+  /* Alias pour compatibilité */
+  .sport-gradient { @apply martial-gradient; }
+  .sport-text-gradient { @apply martial-text-gradient; }
+  
+  /* États de chargement martiaux */
+  .martial-loading {
+    @apply animate-pulse bg-martial-surface-hover rounded;
   }
   
-  .sport-skeleton {
-    @apply sport-loading h-4 w-full mb-2;
+  .martial-skeleton {
+    @apply martial-loading h-4 w-full mb-2;
   }
   
-  /* Scrollbar personnalisée */
-  .sport-scrollbar {
+  /* Alias pour compatibilité */
+  .sport-loading { @apply martial-loading; }
+  .sport-skeleton { @apply martial-skeleton; }
+  
+  /* Scrollbar martiale */
+  .martial-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #47B7CC #162A44;
+    scrollbar-color: #AEB6BD #13171A;
   }
   
-  .sport-scrollbar::-webkit-scrollbar {
+  .martial-scrollbar::-webkit-scrollbar {
     width: 8px;
   }
   
-  .sport-scrollbar::-webkit-scrollbar-track {
-    @apply bg-sport-secondary rounded;
+  .martial-scrollbar::-webkit-scrollbar-track {
+    @apply bg-martial-surface-1 rounded;
   }
   
-  .sport-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-sport-accent rounded-full hover:bg-sport-accent/80;
+  .martial-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-martial-steel rounded-full hover:bg-martial-steel-light;
   }
   
-  /* Effets de focus et hover */
-  .sport-focus {
-    @apply focus:outline-none focus:ring-2 focus:ring-sport-accent focus:ring-offset-2 focus:ring-offset-sport-dark;
+  .sport-scrollbar { @apply martial-scrollbar; }
+  
+  /* Effets de focus et hover martiaux */
+  .martial-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-martial-danger-accent focus:ring-offset-2 focus:ring-offset-martial-primary-bg;
   }
   
-  .sport-hover {
-    @apply hover:bg-sport-gray-light transition-colors duration-200;
+  .martial-hover {
+    @apply hover:bg-martial-surface-hover transition-colors duration-200;
   }
+  
+  /* Alias pour compatibilité */
+  .sport-focus { @apply martial-focus; }
+  .sport-hover { @apply martial-hover; }
   
   /* Conteneurs de contenu */
-  .sport-container {
-    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  .martial-container {
+    @apply max-w-7xl mx-auto px-md sm:px-lg lg:px-xl;
   }
   
-  .sport-section {
-    @apply py-16 px-4 sm:px-6 lg:px-8;
+  .martial-section {
+    @apply py-4xl px-md sm:px-lg lg:px-xl;
   }
+  
+  /* Alias pour compatibilité */
+  .sport-container { @apply martial-container; }
+  .sport-section { @apply martial-section; }
   
   /* Grilles et layouts */
-  .sport-grid {
-    @apply grid gap-6;
+  .martial-grid {
+    @apply grid gap-lg;
   }
   
-  .sport-grid-1 {
-    @apply sport-grid grid-cols-1;
+  .martial-grid-1 {
+    @apply martial-grid grid-cols-1;
   }
   
-  .sport-grid-2 {
-    @apply sport-grid grid-cols-1 md:grid-cols-2;
+  .martial-grid-2 {
+    @apply martial-grid grid-cols-1 md:grid-cols-2;
   }
   
-  .sport-grid-3 {
-    @apply sport-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  .martial-grid-3 {
+    @apply martial-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
   }
   
-  .sport-grid-4 {
-    @apply sport-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+  .martial-grid-4 {
+    @apply martial-grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4;
+  }
+  
+  /* Alias pour compatibilité */
+  .sport-grid { @apply martial-grid; }
+  .sport-grid-1 { @apply martial-grid-1; }
+  .sport-grid-2 { @apply martial-grid-2; }
+  .sport-grid-3 { @apply martial-grid-3; }
+  .sport-grid-4 { @apply martial-grid-4; }
+  
+  /* === COMPOSANTS SPÉCIAUX MARTIAUX === */
+  
+  /* Timer martial pour Workout Player */
+  .martial-timer {
+    @apply font-display text-6xl font-black text-martial-highlight;
+    text-shadow: 0 0 20px rgba(223, 217, 203, 0.3);
+  }
+  
+  .martial-timer-critical {
+    @apply martial-timer text-martial-danger-accent animate-timer-pulse;
+    text-shadow: 0 0 20px rgba(158, 27, 27, 0.6);
+  }
+  
+  /* Progress bar avec chevrons */
+  .martial-progress {
+    @apply w-full h-2 bg-martial-surface-1 rounded-full overflow-hidden;
+  }
+  
+  .martial-progress-bar {
+    @apply h-full bg-martial-danger-accent transition-all duration-300;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(223, 217, 203, 0.1) 4px,
+      rgba(223, 217, 203, 0.1) 8px
+    );
+  }
+  
+  /* Header compact pour mobile */
+  .martial-header-mobile {
+    @apply h-16 flex items-center justify-between px-md bg-martial-surface-alpha backdrop-blur-md border-b border-martial-steel/20;
+  }
+  
+  /* Hero dashboard */
+  .martial-hero-dashboard {
+    @apply bg-martial-surface-1 rounded-lg p-lg border border-martial-steel/20;
+    background-image: radial-gradient(circle at 20% 80%, rgba(158, 27, 27, 0.1) 0%, transparent 50%);
   }
 }
 
 @layer utilities {
-  /* Ombres personnalisées */
-  .shadow-sport {
-    box-shadow: 0 10px 25px rgba(71, 183, 204, 0.1);
+  /* === OMBRES MARTIALES === */
+  .shadow-martial {
+    box-shadow: 0 8px 16px rgba(11, 15, 18, 0.2);
   }
   
-  .shadow-sport-lg {
-    box-shadow: 0 20px 40px rgba(71, 183, 204, 0.15);
+  .shadow-martial-lg {
+    box-shadow: 0 12px 24px rgba(11, 15, 18, 0.25);
   }
   
-  /* Effets de texte */
-  .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  .shadow-glow-danger {
+    box-shadow: 0 0 16px rgba(158, 27, 27, 0.4);
   }
   
-  .text-shadow-lg {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  .shadow-glow-steel {
+    box-shadow: 0 0 12px rgba(174, 182, 189, 0.3);
   }
   
-  /* Backdrop blur personnalisé */
-  .backdrop-blur-sport {
+  /* Alias pour compatibilité */
+  .shadow-sport { @apply shadow-martial; }
+  .shadow-sport-lg { @apply shadow-martial-lg; }
+  
+  /* === EFFETS DE TEXTE MARTIAUX === */
+  .text-shadow-martial {
+    text-shadow: 0 2px 4px rgba(11, 15, 18, 0.6);
+  }
+  
+  .text-shadow-martial-lg {
+    text-shadow: 0 4px 8px rgba(11, 15, 18, 0.8);
+  }
+  
+  .text-glow-danger {
+    text-shadow: 0 0 10px rgba(158, 27, 27, 0.6);
+  }
+  
+  .text-stamped {
+    font-family: 'Bebas Neue', 'Oswald', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 
+      0 1px 0 rgba(11, 15, 18, 0.8),
+      0 2px 0 rgba(11, 15, 18, 0.6),
+      0 3px 0 rgba(11, 15, 18, 0.4);
+  }
+  
+  /* Alias pour compatibilité */
+  .text-shadow { @apply text-shadow-martial; }
+  .text-shadow-lg { @apply text-shadow-martial-lg; }
+  
+  /* === BACKDROP BLUR MARTIAL === */
+  .backdrop-blur-martial {
     backdrop-filter: blur(12px);
-    background-color: rgba(12, 30, 51, 0.8);
+    background-color: rgba(11, 15, 18, 0.85);
   }
   
-  /* Bordures avec gradient */
-  .border-gradient {
+  .backdrop-blur-martial-light {
+    backdrop-filter: blur(8px);
+    background-color: rgba(19, 23, 26, 0.8);
+  }
+  
+  /* Alias pour compatibilité */
+  .backdrop-blur-sport { @apply backdrop-blur-martial; }
+  
+  /* === BORDURES MARTIALES === */
+  .border-martial-gradient {
     border: 2px solid transparent;
-    background: linear-gradient(145deg, #162A44, #0C1E33) padding-box,
-                linear-gradient(45deg, #47B7CC, #10B981) border-box;
+    background: 
+      linear-gradient(145deg, #13171A, #0B0F12) padding-box,
+      linear-gradient(45deg, #9E1B1B, #AEB6BD) border-box;
   }
   
-  /* Animations personnalisées */
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+  .border-stencil {
+    border: 3px solid currentColor;
+    border-style: dashed;
   }
   
-  .animate-pulse-slow {
-    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  .border-chevron {
+    position: relative;
+    border: 2px solid currentColor;
   }
   
-  .animate-bounce-slow {
-    animation: bounce 2s infinite;
+  .border-chevron::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid currentColor;
+    transform: translateY(-50%);
   }
   
-  .animate-glow {
-    animation: glow 2s ease-in-out infinite alternate;
+  /* Alias pour compatibilité */
+  .border-gradient { @apply border-martial-gradient; }
+  
+  /* === ANIMATIONS MARTIALES === */
+  .animate-martial-float {
+    animation: martialFloat 4s ease-in-out infinite;
+  }
+  
+  .animate-martial-pulse {
+    animation: martialPulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-martial-glow {
+    animation: martialGlow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-tactical-sweep {
+    animation: tacticalSweep 1.5s ease-out;
+  }
+  
+  .animate-drill-fade {
+    animation: drillFade 0.6s ease-out;
+  }
+  
+  /* Alias pour compatibilité */
+  .animate-float { @apply animate-martial-float; }
+  .animate-pulse-slow { @apply animate-martial-pulse; }
+  .animate-glow { @apply animate-martial-glow; }
+  
+  /* === TEXTURE MÉTALLIQUE === */
+  .texture-metal {
+    background-image: 
+      radial-gradient(circle at 20% 50%, rgba(174, 182, 189, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(174, 182, 189, 0.04) 0%, transparent 50%);
+  }
+  
+  .texture-grain {
+    background-image: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+  }
+  
+  /* === ÉTAT FOCUS RENFORCÉ === */
+  .focus-martial {
+    outline: 3px solid rgba(158, 27, 27, 0.6);
+    outline-offset: 2px;
+  }
+  
+  /* === RESPONSIVE HELPERS === */
+  .mobile-only {
+    @apply block md:hidden;
+  }
+  
+  .desktop-only {
+    @apply hidden md:block;
   }
 }
 
-/* Animations personnalisées */
-@keyframes float {
+/* === ANIMATIONS MARTIALES === */
+
+/* Animation de flottement martial */
+@keyframes martialFloat {
   0%, 100% {
     transform: translateY(0px);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
 }
 
-@keyframes glow {
+/* Animation de pulsation martial */
+@keyframes martialPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+}
+
+/* Animation de lueur martiale */
+@keyframes martialGlow {
   from {
-    text-shadow: 0 0 5px #47B7CC, 0 0 10px #47B7CC, 0 0 15px #47B7CC;
+    text-shadow: 0 0 5px rgba(158, 27, 27, 0.6), 0 0 10px rgba(158, 27, 27, 0.4);
   }
   to {
-    text-shadow: 0 0 10px #47B7CC, 0 0 20px #47B7CC, 0 0 30px #47B7CC;
+    text-shadow: 0 0 10px rgba(158, 27, 27, 0.8), 0 0 20px rgba(158, 27, 27, 0.6), 0 0 30px rgba(158, 27, 27, 0.4);
   }
 }
 
+/* Animation de balayage tactique */
+@keyframes tacticalSweep {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Animation d'apparition drill */
+@keyframes drillFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animations existantes (compatibilité) */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -278,6 +542,18 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Classes d'animation utilitaires */
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out;
 }
@@ -294,33 +570,62 @@
   animation: fadeIn 0.3s ease-out;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* === STYLES SPÉCIALISÉS === */
 
-/* Styles pour les graphiques Chart.js */
+/* Conteneur de graphiques martial */
 .chart-container {
   position: relative;
   height: 300px;
   width: 100%;
+  background: rgba(19, 23, 26, 0.3);
+  border-radius: 8px;
+  padding: 16px;
 }
 
 .chart-container canvas {
   background-color: transparent !important;
 }
 
-/* Styles pour les modales */
+/* Styles pour les modales martiales */
 .modal-overlay {
-  @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4;
+  @apply fixed inset-0 backdrop-blur-martial z-50 flex items-center justify-center p-md;
+  background-color: rgba(11, 15, 18, 0.85);
 }
 
 .modal-content {
-  @apply sport-card max-w-lg w-full max-h-[90vh] overflow-y-auto sport-scrollbar;
+  @apply martial-card max-w-lg w-full max-h-[90vh] overflow-y-auto martial-scrollbar;
+  border: 1px solid rgba(158, 27, 27, 0.3);
+}
+
+/* Schedule Editor Modal spécifique */
+.schedule-modal {
+  @apply modal-content max-w-2xl;
+}
+
+.schedule-modal .modal-header {
+  @apply flex items-center justify-between p-lg border-b border-martial-steel/20;
+}
+
+.schedule-modal .modal-body {
+  @apply p-lg space-y-lg;
+}
+
+.schedule-modal .modal-footer {
+  @apply flex justify-end gap-md p-lg border-t border-martial-steel/20;
+}
+
+/* Timer critique pour Workout Player */
+.timer-critical {
+  animation: timerCritical 1s ease-in-out infinite;
+}
+
+@keyframes timerCritical {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(158, 27, 27, 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 30px rgba(158, 27, 27, 0.9);
+  }
 } 
