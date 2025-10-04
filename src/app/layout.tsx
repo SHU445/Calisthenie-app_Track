@@ -24,6 +24,9 @@ export default function RootLayout({
   return (
     <html lang="fr" className="dark">
       <head>
+        {/* Vérification Google Search Console */}
+        <meta name="google-site-verification" content="IkQZ0yCY4fRZxzrxsl7McIuIsLYl1IgEPg1PP5GOeXo" />
+        
         {/* Données structurées JSON-LD pour le SEO */}
         <JsonLd data={organizationSchema} />
         <JsonLd data={webApplicationSchema} />
