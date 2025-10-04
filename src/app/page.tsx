@@ -66,7 +66,7 @@ export default function Home() {
     'Progression adaptée à votre niveau',
     'Suivi détaillé de vos performances',
     'Interface moderne et intuitive',
-    'Données stockées localement',
+    'Données stockées sur mongo',
     'Accès gratuit à toutes les fonctionnalités'
   ];
 
@@ -85,7 +85,7 @@ export default function Home() {
                 <span className="text-white">Tracker</span>
               </h1>
               <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed animate-fade-in-up">
-                Votre compagnon d'entraînement pour la calisthénie.
+                Le compagnon d'entraînement pour la calisthénie.
                 <br />
                 Suivez vos progrès, dépassez vos limites.
               </p>
@@ -155,7 +155,7 @@ export default function Home() {
           <div className="sport-container">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Tout ce dont vous avez besoin
+                Ce dont vous avez besoin :
               </h2>
               <p className="text-xl text-gray-300 max-w-2xl mx-auto">
                 Une suite complète d'outils pour optimiser vos entraînements de calisthénie
@@ -196,7 +196,7 @@ export default function Home() {
                   Pourquoi choisir la calisthénie ?
                 </h2>
                 <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-                  La calisthénie est l'art de s'entraîner avec son propre poids corporel. 
+                  La calisthénie est l'art de s'entraîner avec son propre poids. 
                   C'est accessible, efficace et permet de développer une force fonctionnelle 
                   exceptionnelle.
                 </p>

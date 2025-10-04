@@ -1,4 +1,4 @@
 module.exports = {
-  siteUrl: "https://calisthenie-app.vercel.app",
+  siteUrl: "https://calisthenie-track.vercel.app",
   generateRobotsTxt: true,
 };

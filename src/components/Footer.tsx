@@ -27,14 +27,12 @@ const Footer = () => {
               </span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Votre compagnon d'entraînement pour la calisthénie. 
+              Compagnon d'entraînement pour la calisthénie. 
               Suivez vos progrès, découvrez de nouveaux exercices et 
-              atteignez vos objectifs fitness.
+              atteignez vos objectifs.
             </p>
             <div className="flex items-center space-x-1 text-sm text-gray-400">
-              <span>Créé avec</span>
-              <HeartIcon className="h-4 w-4 text-sport-accent" />
-              <span>pour la communauté sportive</span>
+              <span>Créé pour la communauté sportive</span>
             </div>
           </div>
 
@@ -87,11 +85,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <InformationCircleIcon className="h-4 w-4" />
-                <span>Application de fitness</span>
+                <span>Application de sport</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-400 text-sm">
                 <ShieldCheckIcon className="h-4 w-4" />
-                <span>Données stockées localement</span>
+                <span>Données stockées sur mongo</span>
               </li>
               <li className="text-gray-400 text-sm">
                 Version 1.0.0
@@ -104,7 +102,7 @@ const Footer = () => {
         <div className="border-t border-sport-gray-light mt-8 pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="text-gray-400 text-sm">
-              © {currentYear} Calisthénie Tracker. Tous droits réservés.
+              © {currentYear} Calisthénie Tracker.
             </div>
             <div className="flex items-center space-x-6">
               <span className="text-gray-400 text-sm">

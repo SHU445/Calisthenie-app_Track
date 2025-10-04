@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://calisthenie-app.vercel.app
+Host: https://calisthenie-track.vercel.app
 
 # Sitemaps
-Sitemap: https://calisthenie-app.vercel.app/sitemap.xml
+Sitemap: https://calisthenie-track.vercel.app/sitemap.xml
