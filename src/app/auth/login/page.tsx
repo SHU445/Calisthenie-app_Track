@@ -171,7 +171,7 @@ export default function LoginPage() {
               </h4>
               <div className="space-y-1 text-xs text-gray-400">
                 <p>Nom d'utilisateur : <span className="text-sport-accent">demo</span></p>
-                <p>Mot de passe : <span className="text-sport-accent">demo123</span></p>
+                <p>Mot de passe : <span className="text-sport-accent">Demo123</span></p>
               </div>
             </div>
           </div>
