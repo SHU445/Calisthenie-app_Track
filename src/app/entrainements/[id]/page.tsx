@@ -345,33 +345,33 @@ export default function DetailSeancePage() {
       
       <main className="flex-1">
         {/* Header amélioré */}
-        <section className="sport-section pt-20 pb-12 relative overflow-hidden">
+        <section className="sport-section pt-16 sm:pt-20 pb-10 sm:pb-12 relative overflow-hidden">
           {/* Gradient de fond */}
           <div className="absolute inset-0 bg-gradient-to-br from-sport-primary via-sport-secondary to-sport-primary opacity-20"></div>
           
           <div className="sport-container relative">
             <div className="max-w-6xl mx-auto">
               {/* Navigation */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 sm:mb-8 gap-3 sm:gap-4">
                 <Link 
                   href="/entrainements" 
-                  className="inline-flex items-center gap-2 text-sport-accent hover:text-sport-accent-light transition-colors mb-4 sm:mb-0"
+                  className="inline-flex items-center gap-2 text-sport-accent hover:text-sport-accent-light transition-colors text-sm sm:text-base"
                 >
-                  <ArrowLeftIcon className="h-5 w-5" />
+                  <ArrowLeftIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                   <span>Retour à l'historique</span>
                 </Link>
                 
                 <div className="flex items-center gap-2">
                   <Link
                     href={`/entrainements/modifier/${workout.id}`}
-                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 sm:px-4 rounded-lg transition-colors text-sm sm:text-base touch-target"
                   >
                     <PencilIcon className="h-4 w-4" />
                     <span>Modifier</span>
                   </Link>
                   <button
                     onClick={() => setShowDeleteConfirm(true)}
-                    className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white px-3 py-2 sm:px-4 rounded-lg transition-colors text-sm sm:text-base touch-target"
                   >
                     <TrashIcon className="h-4 w-4" />
                     <span>Supprimer</span>
@@ -380,22 +380,22 @@ export default function DetailSeancePage() {
               </div>
 
               {/* Titre et badge de type */}
-              <div className="text-center mb-12">
-                <div className="flex items-center justify-center gap-4 mb-4">
-                  <span className="bg-sport-accent text-white px-4 py-2 rounded-full text-sm font-semibold">
+              <div className="text-center mb-8 sm:mb-12 px-4">
+                <div className="flex items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+                  <span className="bg-sport-accent text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
                     {workout.type}
                   </span>
-                  <span className={`${intensityInfo.color} text-2xl`}>
+                  <span className={`${intensityInfo.color} text-xl sm:text-2xl`}>
                     {intensityInfo.icon}
                   </span>
                 </div>
-                <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-white to-sport-accent bg-clip-text text-transparent">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 bg-gradient-to-r from-white to-sport-accent bg-clip-text text-transparent">
                   {workout.nom}
                 </h1>
-                <p className="text-xl text-gray-300 mb-2">
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-2">
                   {formatDate(workout.date)} à {formatTime(workout.date)}
                 </p>
-                <div className={`text-lg ${intensityInfo.color} font-semibold`}>
+                <div className={`text-sm sm:text-base md:text-lg ${intensityInfo.color} font-semibold`}>
                   Ressenti : {intensityInfo.label} ({workout.ressenti}/5)
                 </div>
               </div>
@@ -404,47 +404,47 @@ export default function DetailSeancePage() {
         </section>
 
         {/* Statistiques principales améliorées */}
-        <section className="pb-8">
+        <section className="pb-6 sm:pb-8">
           <div className="sport-container">
             <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
-                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <TrophyIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="text-3xl font-bold text-white">{stats.uniqueExercises}</div>
-                  <div className="text-sm text-gray-400">Exercices</div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
+                  <TrophyIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                  <div className="text-2xl sm:text-3xl font-bold text-white">{stats.uniqueExercises}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Exercices</div>
                 </div>
-                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <ChartBarIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="text-3xl font-bold text-white">{stats.totalSets}</div>
-                  <div className="text-sm text-gray-400">Séries</div>
+                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
+                  <ChartBarIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                  <div className="text-2xl sm:text-3xl font-bold text-white">{stats.totalSets}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Séries</div>
                 </div>
-                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <BoltIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="space-y-1">
-                    <div className="text-2xl font-bold text-white">{stats.totalReps}</div>
+                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
+                  <BoltIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                  <div className="space-y-0.5 sm:space-y-1">
+                    <div className="text-xl sm:text-2xl font-bold text-white">{stats.totalReps}</div>
                     <div className="text-xs text-gray-400">répétitions</div>
                     {stats.totalHoldTime > 0 && (
                       <>
-                        <div className="text-2xl font-bold text-sport-accent">{formatExerciseTime(stats.totalHoldTime)}</div>
+                        <div className="text-xl sm:text-2xl font-bold text-sport-accent">{formatExerciseTime(stats.totalHoldTime)}</div>
                         <div className="text-xs text-gray-400">temps total</div>
                       </>
                     )}
                   </div>
                 </div>
-                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <ClockIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="text-3xl font-bold text-white">{formatDuration(workout.duree)}</div>
-                  <div className="text-sm text-gray-400">Durée</div>
+                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
+                  <ClockIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                  <div className="text-2xl sm:text-3xl font-bold text-white">{formatDuration(workout.duree)}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">Durée</div>
                 </div>
-                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <StarIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-white">{Math.round(stats.workoutDensity * 60)}</div>
-                  <div className="text-sm text-gray-400">unités/min</div>
+                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
+                  <StarIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                  <div className="text-xl sm:text-2xl font-bold text-white">{Math.round(stats.workoutDensity * 60)}</div>
+                  <div className="text-xs sm:text-sm text-gray-400">unités/min</div>
                   <div className="text-xs text-gray-500">Densité</div>
                 </div>
-                <div className="sport-card p-6 text-center group hover:scale-105 transition-transform">
-                  <BoltIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                  <div className={`text-2xl font-bold ${stats.workoutIntensityInfo.color}`}>
+                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
+                  <BoltIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                  <div className={`text-xl sm:text-2xl font-bold ${stats.workoutIntensityInfo.color}`}>
                     {stats.workoutIntensityFormatted}
                   </div>
                   <div className="text-xs text-gray-400">{stats.workoutIntensityInfo.label}</div>
@@ -457,15 +457,15 @@ export default function DetailSeancePage() {
 
         {/* Notes générales */}
         {workout.description && (
-          <section className="pb-8">
+          <section className="pb-6 sm:pb-8">
             <div className="sport-container">
               <div className="max-w-6xl mx-auto">
-                <div className="sport-card p-6">
-                  <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-                    <InformationCircleIcon className="h-6 w-6 text-sport-accent" />
+                <div className="sport-card p-4 sm:p-6">
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                    <InformationCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-sport-accent" />
                     Notes de la séance
                   </h3>
-                  <p className="text-gray-300 leading-relaxed">{workout.description}</p>
+                  <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{workout.description}</p>
                 </div>
               </div>
             </div>
@@ -473,16 +473,16 @@ export default function DetailSeancePage() {
         )}
 
         {/* Exercices regroupés */}
-        <section className="pb-16">
+        <section className="pb-12 sm:pb-16">
           <div className="sport-container">
             <div className="max-w-6xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-bold text-white">Exercices réalisés</h2>
-                <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 sm:mb-8 gap-4">
+                <h2 className="text-2xl sm:text-3xl font-bold text-white">Exercices réalisés</h2>
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
                   <div className="flex bg-sport-gray-light/20 rounded-lg p-1">
                     <button
                       onClick={() => setViewMode('cards')}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                      className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors touch-target ${
                         viewMode === 'cards' 
                           ? 'bg-sport-accent text-white' 
                           : 'text-gray-400 hover:text-white'
@@ -492,7 +492,7 @@ export default function DetailSeancePage() {
                     </button>
                     <button
                       onClick={() => setViewMode('table')}
-                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                      className={`flex-1 sm:flex-none px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors touch-target ${
                         viewMode === 'table' 
                           ? 'bg-sport-accent text-white' 
                           : 'text-gray-400 hover:text-white'
@@ -503,7 +503,7 @@ export default function DetailSeancePage() {
                   </div>
                   <Link
                     href={`/entrainements/modifier/${workout.id}`}
-                    className="inline-flex items-center gap-2 bg-sport-accent hover:bg-sport-accent-light text-white px-4 py-2 rounded-lg transition-colors"
+                    className="inline-flex items-center justify-center gap-2 bg-sport-accent hover:bg-sport-accent-light text-white px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base touch-target"
                   >
                     <PlusIcon className="h-4 w-4" />
                     <span>Modifier</span>
@@ -513,67 +513,67 @@ export default function DetailSeancePage() {
 
               {groupedExercises.length > 0 ? (
                 viewMode === 'cards' ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                     {groupedExercises.map((group) => (
-                      <div key={group.exerciceId} className="sport-card p-6 hover:border-sport-accent/50 transition-all group">
+                      <div key={group.exerciceId} className="sport-card p-4 sm:p-6 hover:border-sport-accent/50 transition-all group">
                         {/* En-tête de l'exercice */}
-                        <div className="flex items-start justify-between mb-4">
-                          <div className="flex-1">
+                        <div className="flex items-start justify-between mb-3 sm:mb-4 gap-3">
+                          <div className="flex-1 min-w-0">
                             <button
                               onClick={() => setSelectedExercise(group.exerciceId)}
-                              className="text-xl font-bold text-white hover:text-sport-accent transition-colors text-left group-hover:text-sport-accent"
+                              className="text-base sm:text-lg lg:text-xl font-bold text-white hover:text-sport-accent transition-colors text-left group-hover:text-sport-accent break-words"
                             >
                               {group.nom}
                             </button>
                             {group.exercise && (
-                              <div className="flex items-center gap-2 mt-2">
-                                <span className="bg-sport-secondary text-sport-accent text-xs px-2 py-1 rounded-full">
+                              <div className="flex flex-wrap items-center gap-2 mt-2">
+                                <span className="bg-sport-secondary text-sport-accent text-xs px-2 py-1 rounded-full whitespace-nowrap">
                                   {group.exercise.categorie}
                                 </span>
-                                <span className={`text-xs font-bold ${getDifficultyColor(group.exercise.difficulte)}`}>
+                                <span className={`text-xs font-bold ${getDifficultyColor(group.exercise.difficulte)} whitespace-nowrap`}>
                                   Rang {group.exercise.difficulte}
                                 </span>
                               </div>
                             )}
                           </div>
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-sport-accent">{group.totalSets}</div>
+                          <div className="text-right flex-shrink-0">
+                            <div className="text-xl sm:text-2xl font-bold text-sport-accent">{group.totalSets}</div>
                             <div className="text-xs text-gray-400">séries</div>
                           </div>
                         </div>
 
                         {/* Statistiques de l'exercice */}
-                        <div className={`grid grid-cols-2 gap-4 mb-4 p-4 bg-sport-gray-light/10 rounded-lg ${stats.hasWeights ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
+                        <div className={`grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 p-3 sm:p-4 bg-sport-gray-light/10 rounded-lg ${stats.hasWeights ? 'md:grid-cols-3 lg:grid-cols-5' : 'md:grid-cols-2 lg:grid-cols-4'}`}>
                           <div className="text-center">
                             {group.isTimeBasedExercise ? (
                               <>
-                                <div className="text-lg font-bold text-white">{formatExerciseTime(group.totalTime)}</div>
+                                <div className="text-base sm:text-lg font-bold text-white">{formatExerciseTime(group.totalTime)}</div>
                                 <div className="text-xs text-gray-400">temps total</div>
                               </>
                             ) : (
                               <>
-                                <div className="text-lg font-bold text-white">{group.totalReps}</div>
+                                <div className="text-base sm:text-lg font-bold text-white">{group.totalReps}</div>
                                 <div className="text-xs text-gray-400">répétitions</div>
                               </>
                             )}
                           </div>
                           {stats.hasWeights && (
                             <div className="text-center">
-                              <div className="text-lg font-bold text-white">{group.maxWeight || 0}kg</div>
+                              <div className="text-base sm:text-lg font-bold text-white">{group.maxWeight || 0}kg</div>
                               <div className="text-xs text-gray-400">charge max</div>
                             </div>
                           )}
                           <div className="text-center">
-                            <div className="text-lg font-bold text-white">{Math.floor(group.avgRest / 60)}:{(group.avgRest % 60).toString().padStart(2, '0')}</div>
+                            <div className="text-base sm:text-lg font-bold text-white">{Math.floor(group.avgRest / 60)}:{(group.avgRest % 60).toString().padStart(2, '0')}</div>
                             <div className="text-xs text-gray-400">repos moy.</div>
                           </div>
                           <div className="text-center">
-                            <div className="text-lg font-bold text-sport-accent">{Math.round(group.density * 60)}</div>
+                            <div className="text-base sm:text-lg font-bold text-sport-accent">{Math.round(group.density * 60)}</div>
                             <div className="text-xs text-gray-400">{group.densityFormatted.unit}/min</div>
                             <div className="text-xs text-gray-500">densité</div>
                           </div>
                           <div className="text-center">
-                            <div className={`text-lg font-bold ${group.intensityInfo.color}`}>
+                            <div className={`text-base sm:text-lg font-bold ${group.intensityInfo.color}`}>
                               {group.intensityFormatted}
                             </div>
                             <div className="text-xs text-gray-400">{group.intensityInfo.label}</div>
@@ -583,18 +583,18 @@ export default function DetailSeancePage() {
 
                         {/* Détail des séries */}
                         <div className="space-y-2">
-                          <h4 className="text-sm font-semibold text-sport-accent mb-2">Détail des séries :</h4>
+                          <h4 className="text-xs sm:text-sm font-semibold text-sport-accent mb-2">Détail des séries :</h4>
                           {group.sets.map((set, index) => (
-                            <div key={set.id} className="flex items-center justify-between py-2 px-3 bg-sport-gray-light/5 rounded text-sm">
-                              <span className="text-gray-400">Série {index + 1}</span>
-                              <div className="flex items-center gap-4 text-gray-300">
+                            <div key={set.id} className="flex items-center justify-between py-2 px-2 sm:px-3 bg-sport-gray-light/5 rounded text-xs sm:text-sm">
+                              <span className="text-gray-400 whitespace-nowrap">Série {index + 1}</span>
+                              <div className="flex items-center gap-2 sm:gap-4 text-gray-300 flex-wrap justify-end">
                                 {group.isTimeBasedExercise ? (
-                                  <span>{formatExerciseTime(set.duree || 0)}</span>
+                                  <span className="whitespace-nowrap">{formatExerciseTime(set.duree || 0)}</span>
                                 ) : (
-                                  <span>{set.repetitions} rép.</span>
+                                  <span className="whitespace-nowrap">{set.repetitions} rép.</span>
                                 )}
-                                {stats.hasWeights && set.poids && <span>{set.poids}kg</span>}
-                                <span>{Math.floor(set.tempsRepos / 60)}:{(set.tempsRepos % 60).toString().padStart(2, '0')}</span>
+                                {stats.hasWeights && set.poids && <span className="whitespace-nowrap">{set.poids}kg</span>}
+                                <span className="whitespace-nowrap">{Math.floor(set.tempsRepos / 60)}:{(set.tempsRepos % 60).toString().padStart(2, '0')}</span>
                               </div>
                             </div>
                           ))}
@@ -614,17 +614,17 @@ export default function DetailSeancePage() {
                   </div>
                 ) : (
                   // Vue tableau améliorée
-                  <div className="sport-card p-6 overflow-x-auto">
-                    <table className="w-full">
+                  <div className="sport-card p-3 sm:p-6 overflow-x-auto">
+                    <table className="w-full min-w-[600px]">
                       <thead>
                         <tr className="border-b-2 border-sport-accent/30">
-                          <th className="text-left py-4 px-4 text-sport-accent font-bold">Exercice</th>
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Séries</th>
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Rép./Temps</th>
-                          {stats.hasWeights && <th className="text-center py-4 px-4 text-sport-accent font-bold">Charge max</th>}
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Repos moy.</th>
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Densité</th>
-                          <th className="text-center py-4 px-4 text-sport-accent font-bold">Intensité</th>
+                          <th className="text-left py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Exercice</th>
+                          <th className="text-center py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Séries</th>
+                          <th className="text-center py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Rép./Temps</th>
+                          {stats.hasWeights && <th className="text-center py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Charge max</th>}
+                          <th className="text-center py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Repos moy.</th>
+                          <th className="text-center py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Densité</th>
+                          <th className="text-center py-3 sm:py-4 px-2 sm:px-4 text-sport-accent font-bold text-xs sm:text-sm">Intensité</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -698,43 +698,43 @@ export default function DetailSeancePage() {
 
       {/* Modal d'info exercice améliorée */}
       {selectedExercise && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
-          <div className="bg-sport-gray-dark/95 backdrop-blur-sm border border-sport-gray-light/30 rounded-xl p-6 max-w-lg w-full shadow-2xl">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-sport-gray-dark/95 backdrop-blur-sm border border-sport-gray-light/30 rounded-xl p-5 sm:p-6 max-w-lg w-full shadow-2xl animate-fade-in max-h-[90vh] overflow-y-auto">
             {(() => {
               const exercise = getExerciseInfo(selectedExercise);
               if (!exercise) return null;
               
               return (
                 <>
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-2xl font-bold text-white">{exercise.nom}</h3>
+                  <div className="flex items-start justify-between mb-4 sm:mb-6 gap-3">
+                    <h3 className="text-xl sm:text-2xl font-bold text-white flex-1">{exercise.nom}</h3>
                     <button
                       onClick={() => setSelectedExercise(null)}
-                      className="text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-sport-gray-light/20 transition-colors"
+                      className="text-gray-400 hover:text-white text-2xl w-8 h-8 flex items-center justify-center rounded-full hover:bg-sport-gray-light/20 transition-colors flex-shrink-0 touch-target"
                     >
                       ×
                     </button>
                   </div>
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-3">
-                      <span className="bg-sport-secondary text-sport-accent text-sm px-3 py-1 rounded-full font-semibold">
+                  <div className="space-y-4 sm:space-y-6">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                      <span className="bg-sport-secondary text-sport-accent text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full font-semibold">
                         {exercise.categorie}
                       </span>
-                      <span className={`text-sm font-bold px-3 py-1 rounded-full border ${getDifficultyColor(exercise.difficulte)} border-current`}>
+                      <span className={`text-xs sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-full border ${getDifficultyColor(exercise.difficulte)} border-current`}>
                         Rang {exercise.difficulte}
                       </span>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-sport-accent mb-3">Description</h4>
-                      <p className="text-gray-300 leading-relaxed">{exercise.description}</p>
+                      <h4 className="text-base sm:text-lg font-semibold text-sport-accent mb-2 sm:mb-3">Description</h4>
+                      <p className="text-sm sm:text-base text-gray-300 leading-relaxed">{exercise.description}</p>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-sport-accent mb-3">Muscles ciblés</h4>
+                      <h4 className="text-base sm:text-lg font-semibold text-sport-accent mb-2 sm:mb-3">Muscles ciblés</h4>
                       <div className="flex flex-wrap gap-2">
                         {exercise.muscles.map((muscle, index) => (
                           <span
                             key={index}
-                            className="text-sm bg-sport-gray-light/20 text-gray-300 px-3 py-1 rounded-full border border-sport-gray-light/30"
+                            className="text-xs sm:text-sm bg-sport-gray-light/20 text-gray-300 px-2 sm:px-3 py-1 rounded-full border border-sport-gray-light/30"
                           >
                             {muscle}
                           </span>
@@ -751,24 +751,24 @@ export default function DetailSeancePage() {
 
       {/* Modal de confirmation de suppression */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-sport-gray-dark/95 backdrop-blur-sm border border-sport-gray-light/30 rounded-lg p-6 max-w-md mx-4 shadow-2xl">
-            <h3 className="text-lg font-semibold text-white mb-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-sport-gray-dark/95 backdrop-blur-sm border border-sport-gray-light/30 rounded-lg p-5 sm:p-6 max-w-md w-full mx-4 shadow-2xl animate-fade-in">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">
               Confirmer la suppression
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-sm sm:text-base text-gray-300 mb-5 sm:mb-6">
               Êtes-vous sûr de vouloir supprimer cette séance ? Cette action est irréversible.
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 px-4 py-2 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors touch-target text-sm sm:text-base"
               >
                 Annuler
               </button>
               <button
                 onClick={handleDeleteWorkout}
-                className="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
+                className="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors touch-target text-sm sm:text-base"
               >
                 Supprimer
               </button>

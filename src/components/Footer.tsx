@@ -14,38 +14,38 @@ const Footer = () => {
 
   return (
     <footer className="bg-sport-primary/90 border-t border-sport-gray-light mt-auto">
-      <div className="sport-container py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="sport-container py-6 sm:py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Branding et description */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-8 h-8 bg-sport-accent rounded-lg">
-                <DocumentMagnifyingGlassIcon className="h-5 w-5 text-white" />
+          <div className="space-y-3 sm:space-y-4">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 bg-sport-accent rounded-lg">
+                <DocumentMagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
-              <span className="text-lg font-bold sport-text-gradient">
+              <span className="text-base sm:text-lg font-bold sport-text-gradient">
                 Calisthénie Tracker
               </span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">
+            <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
               Compagnon d'entraînement pour la calisthénie. 
               Suivez vos progrès, découvrez de nouveaux exercices et 
               atteignez vos objectifs.
             </p>
-            <div className="flex items-center space-x-1 text-sm text-gray-400">
+            <div className="flex items-center space-x-1 text-xs sm:text-sm text-gray-400">
               <span>Créé pour la communauté sportive</span>
             </div>
           </div>
 
           {/* Liens rapides */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-white text-sm uppercase tracking-wide">
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="font-semibold text-white text-xs sm:text-sm uppercase tracking-wide">
               Navigation
             </h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1.5 sm:space-y-2">
               <li>
                 <Link 
                   href="/" 
-                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-sm"
+                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-xs sm:text-sm inline-block py-1"
                 >
                   Accueil
                 </Link>
@@ -53,7 +53,7 @@ const Footer = () => {
               <li>
                 <Link 
                   href="/exercices" 
-                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-sm"
+                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-xs sm:text-sm inline-block py-1"
                 >
                   Base d'exercices
                 </Link>
@@ -61,7 +61,7 @@ const Footer = () => {
               <li>
                 <Link 
                   href="/entrainements" 
-                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-sm"
+                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-xs sm:text-sm inline-block py-1"
                 >
                   Mes entraînements
                 </Link>
@@ -69,7 +69,7 @@ const Footer = () => {
               <li>
                 <Link 
                   href="/progres" 
-                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-sm"
+                  className="text-gray-400 hover:text-sport-accent transition-colors duration-200 text-xs sm:text-sm inline-block py-1"
                 >
                   Suivi des progrès
                 </Link>
@@ -78,20 +78,20 @@ const Footer = () => {
           </div>
 
           {/* Informations */}
-          <div className="space-y-4">
-            <h3 className="font-semibold text-white text-sm uppercase tracking-wide">
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="font-semibold text-white text-xs sm:text-sm uppercase tracking-wide">
               À propos
             </h3>
-            <ul className="space-y-2">
-              <li className="flex items-center space-x-2 text-gray-400 text-sm">
-                <InformationCircleIcon className="h-4 w-4" />
+            <ul className="space-y-1.5 sm:space-y-2">
+              <li className="flex items-center space-x-2 text-gray-400 text-xs sm:text-sm py-1">
+                <InformationCircleIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                 <span>Application de sport</span>
               </li>
-              <li className="flex items-center space-x-2 text-gray-400 text-sm">
-                <ShieldCheckIcon className="h-4 w-4" />
+              <li className="flex items-center space-x-2 text-gray-400 text-xs sm:text-sm py-1">
+                <ShieldCheckIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
                 <span>Données stockées sur mongo</span>
               </li>
-              <li className="text-gray-400 text-sm">
+              <li className="text-gray-400 text-xs sm:text-sm py-1">
                 Version 1.0.0
               </li>
             </ul>
@@ -99,13 +99,13 @@ const Footer = () => {
         </div>
 
         {/* Barre de copyright */}
-        <div className="border-t border-sport-gray-light mt-8 pt-6">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-gray-400 text-sm">
+        <div className="border-t border-sport-gray-light mt-6 sm:mt-8 pt-4 sm:pt-6">
+          <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0 text-center sm:text-left">
+            <div className="text-gray-400 text-xs sm:text-sm">
               © {currentYear} Calisthénie Tracker.
             </div>
-            <div className="flex items-center space-x-6">
-              <span className="text-gray-400 text-sm">
+            <div className="flex items-center space-x-4 sm:space-x-6">
+              <span className="text-gray-400 text-xs sm:text-sm">
                 Construit avec Next.js & Tailwind CSS
               </span>
             </div>

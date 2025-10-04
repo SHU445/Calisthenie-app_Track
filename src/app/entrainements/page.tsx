@@ -110,17 +110,17 @@ export default function EntrainementsPage() {
       
       <main className="flex-1">
         {/* Header */}
-        <section className="sport-section pt-20 pb-12">
+        <section className="sport-section pt-16 sm:pt-20 pb-10 sm:pb-12">
           <div className="sport-container">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
-              <div className="mb-6 lg:mb-0">
-                <div className="flex items-center justify-center lg:justify-start w-16 h-16 bg-sport-accent rounded-full mb-6">
-                  <CalendarDaysIcon className="h-8 w-8 text-white" />
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 sm:mb-8 gap-4 sm:gap-6">
+              <div className="mb-4 sm:mb-6 lg:mb-0">
+                <div className="flex items-center justify-center lg:justify-start w-14 h-14 sm:w-16 sm:h-16 bg-sport-accent rounded-full mb-4 sm:mb-6">
+                  <CalendarDaysIcon className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 text-center lg:text-left">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 text-center lg:text-left">
                   Historique des séances
                 </h1>
-                <p className="text-xl text-gray-300 text-center lg:text-left">
+                <p className="text-base sm:text-lg md:text-xl text-gray-300 text-center lg:text-left">
                   Suivez vos entraînements et analysez vos progrès
                 </p>
               </div>
@@ -128,9 +128,9 @@ export default function EntrainementsPage() {
               {/* Bouton Nouvelle séance */}
               <Link
                 href="/entrainements/ajouter"
-                className="inline-flex items-center gap-2 bg-sport-accent hover:bg-sport-accent-light text-white px-6 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg self-center lg:self-start"
+                className="inline-flex items-center justify-center gap-2 bg-sport-accent hover:bg-sport-accent-light text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg self-center lg:self-start w-full sm:w-auto touch-target text-sm sm:text-base"
               >
-                <PlusIcon className="h-5 w-5" />
+                <PlusIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                 <span>Nouvelle séance</span>
               </Link>
             </div>
@@ -174,26 +174,26 @@ export default function EntrainementsPage() {
             </div>
 
             {/* Zone de résumé */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div className="sport-card p-6 text-center">
-                <ChartBarIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">{stats.totalWorkouts}</div>
-                <div className="text-sm text-gray-400">Séances totales</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6 mb-6 sm:mb-8">
+              <div className="sport-card p-4 sm:p-6 text-center">
+                <ChartBarIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                <div className="text-xl sm:text-2xl font-bold text-white">{stats.totalWorkouts}</div>
+                <div className="text-xs sm:text-sm text-gray-400">Séances totales</div>
               </div>
-              <div className="sport-card p-6 text-center">
-                <CalendarDaysIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">{stats.weeklyAverage}</div>
-                <div className="text-sm text-gray-400">Séances / semaine</div>
+              <div className="sport-card p-4 sm:p-6 text-center">
+                <CalendarDaysIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                <div className="text-xl sm:text-2xl font-bold text-white">{stats.weeklyAverage}</div>
+                <div className="text-xs sm:text-sm text-gray-400">Séances / semaine</div>
               </div>
-              <div className="sport-card p-6 text-center">
-                <ClockIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">{formatDuration(stats.totalTime)}</div>
-                <div className="text-sm text-gray-400">Temps total</div>
+              <div className="sport-card p-4 sm:p-6 text-center">
+                <ClockIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                <div className="text-xl sm:text-2xl font-bold text-white">{formatDuration(stats.totalTime)}</div>
+                <div className="text-xs sm:text-sm text-gray-400">Temps total</div>
               </div>
-              <div className="sport-card p-6 text-center">
-                <FireIcon className="h-8 w-8 text-sport-accent mx-auto mb-2" />
-                <div className="text-2xl font-bold text-white">{stats.averageTime}min</div>
-                <div className="text-sm text-gray-400">Durée moyenne</div>
+              <div className="sport-card p-4 sm:p-6 text-center">
+                <FireIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
+                <div className="text-xl sm:text-2xl font-bold text-white">{stats.averageTime}min</div>
+                <div className="text-xs sm:text-sm text-gray-400">Durée moyenne</div>
               </div>
             </div>
           </div>
@@ -294,24 +294,24 @@ export default function EntrainementsPage() {
 
       {/* Modal de confirmation de suppression */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-          <div className="bg-sport-gray-dark border border-sport-gray-light/30 rounded-lg p-6 max-w-md mx-4">
-            <h3 className="text-lg font-semibold text-white mb-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-sport-gray-dark border border-sport-gray-light/30 rounded-lg p-5 sm:p-6 max-w-md w-full mx-4 animate-fade-in">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">
               Confirmer la suppression
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-sm sm:text-base text-gray-300 mb-5 sm:mb-6">
               Êtes-vous sûr de vouloir supprimer cette séance ? Cette action est irréversible.
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(null)}
-                className="flex-1 px-4 py-2 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors touch-target text-sm sm:text-base"
               >
                 Annuler
               </button>
               <button
                 onClick={() => handleDeleteWorkout(showDeleteConfirm)}
-                className="flex-1 px-4 py-2 bg-red-500/70 hover:bg-red-500/90 text-white rounded-lg transition-colors border border-red-400/50"
+                className="flex-1 px-4 py-2.5 bg-red-500/70 hover:bg-red-500/90 text-white rounded-lg transition-colors border border-red-400/50 touch-target text-sm sm:text-base"
               >
                 Supprimer
               </button>

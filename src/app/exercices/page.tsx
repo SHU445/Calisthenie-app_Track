@@ -169,18 +169,18 @@ function ExercicesContent() {
       
       <main className="flex-1">
         {/* Header */}
-        <section className="sport-section pt-20 pb-12">
+        <section className="sport-section pt-16 sm:pt-20 pb-10 sm:pb-12">
           <div className="sport-container">
-            <div className="text-center mb-12">
-              <div className="flex items-center justify-center w-16 h-16 bg-sport-accent rounded-full mx-auto mb-6">
-                <BookOpenIcon className="h-8 w-8 text-white" />
+            <div className="text-center mb-10 sm:mb-12">
+              <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-sport-accent rounded-full mx-auto mb-4 sm:mb-6">
+                <BookOpenIcon className="h-7 w-7 sm:h-8 sm:w-8 text-white" />
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 sm:mb-4 px-4">
                 Base d'exercices
               </h1>
               
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4">
                 Une collection complète d'exercices de calisthénie pour tous les rangs
               </p>
               
@@ -326,9 +326,9 @@ function ExercicesContent() {
         <section className="pb-16">
           <div className="sport-container">
             {isLoading ? (
-              <div className="sport-grid-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {[...Array(6)].map((_, index) => (
-                  <div key={index} className="sport-card p-6 animate-pulse">
+                  <div key={index} className="sport-card p-4 sm:p-6 animate-pulse">
                     <div className="h-4 bg-sport-gray-light rounded mb-4"></div>
                     <div className="h-3 bg-sport-gray-light rounded mb-2"></div>
                     <div className="h-3 bg-sport-gray-light rounded w-2/3"></div>
@@ -336,14 +336,14 @@ function ExercicesContent() {
                 ))}
               </div>
             ) : (
-              <div className="sport-grid-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {filteredExercises.map((exercise) => (
-                  <div key={exercise.id} className="sport-card-hover p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <h3 className="text-xl font-semibold text-white mb-2">
+                  <div key={exercise.id} className="sport-card-hover p-4 sm:p-6">
+                    <div className="flex justify-between items-start mb-3 sm:mb-4 gap-2">
+                      <h3 className="text-lg sm:text-xl font-semibold text-white mb-2 flex-1">
                         {exercise.nom}
                       </h3>
-                      <span style={getRankBadgeStyle(exercise.difficulte)}>
+                      <span style={getRankBadgeStyle(exercise.difficulte)} className="flex-shrink-0">
                         {exercise.difficulte}
                       </span>
                     </div>
@@ -454,32 +454,32 @@ function ExercicesContent() {
       {/* Bouton flottant pour ajouter un exercice */}
       <Link
         href="/exercices/ajouter"
-        className="fixed bottom-6 right-6 bg-sport-accent hover:bg-sport-accent-light text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110 z-50"
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-sport-accent hover:bg-sport-accent-light text-white p-3 sm:p-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-110 z-50 touch-target"
         title="Ajouter un exercice"
       >
-        <PlusIcon className="h-6 w-6" />
+        <PlusIcon className="h-5 w-5 sm:h-6 sm:w-6" />
       </Link>
 
       {/* Modal de confirmation de suppression */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black flex items-center justify-center z-50">
-          <div className="bg-sport-gray-dark border border-sport-gray-light/30 rounded-lg p-6 max-w-md mx-4">
-            <h3 className="text-lg font-semibold text-white mb-4">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-sport-gray-dark border border-sport-gray-light/30 rounded-lg p-5 sm:p-6 max-w-md w-full mx-4 animate-fade-in">
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">
               Confirmer la suppression
             </h3>
-            <p className="text-gray-300 mb-6">
+            <p className="text-sm sm:text-base text-gray-300 mb-5 sm:mb-6">
               Êtes-vous sûr de vouloir supprimer cet exercice ? Cette action est irréversible.
             </p>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3">
               <button
                 onClick={() => setShowDeleteConfirm(null)}
-                className="flex-1 px-4 py-2 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors"
+                className="flex-1 px-4 py-2.5 border border-sport-gray-light/30 text-gray-300 rounded-lg hover:bg-sport-gray-light/10 transition-colors touch-target text-sm sm:text-base"
               >
                 Annuler
               </button>
               <button
                 onClick={() => handleDeleteExercise(showDeleteConfirm)}
-                className="flex-1 px-4 py-2 bg-red-500/70 hover:bg-red-500/90 text-white rounded-lg transition-colors border border-red-400/50"
+                className="flex-1 px-4 py-2.5 bg-red-500/70 hover:bg-red-500/90 text-white rounded-lg transition-colors border border-red-400/50 touch-target text-sm sm:text-base"
               >
                 Supprimer
               </button>

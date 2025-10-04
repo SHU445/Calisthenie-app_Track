@@ -283,23 +283,23 @@ export default function ProgressPage() {
       
       <main className="flex-1">
         {/* Header */}
-        <section className="sport-section pt-20 pb-12 relative overflow-hidden">
+        <section className="sport-section pt-16 sm:pt-20 pb-10 sm:pb-12 relative overflow-hidden">
           {/* Gradient de fond */}
           <div className="absolute inset-0 bg-gradient-to-br from-sport-primary via-sport-secondary to-sport-primary opacity-20"></div>
           
           <div className="sport-container relative">
-            <div className="max-w-6xl mx-auto text-center">
-              <div className="flex items-center justify-center w-16 h-16 bg-sport-accent rounded-full mx-auto mb-6">
-                <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="max-w-6xl mx-auto text-center px-4">
+              <div className="flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-sport-accent rounded-full mx-auto mb-4 sm:mb-6">
+                <svg className="h-7 w-7 sm:h-8 sm:w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
               
-              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 bg-gradient-to-r from-white to-sport-accent bg-clip-text text-transparent">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3 sm:mb-4 bg-gradient-to-r from-white to-sport-accent bg-clip-text text-transparent">
                 ANALYSE DE PROGRESSION
               </h1>
               
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
                 Analysez vos performances et suivez votre évolution dans vos exercices de calisthénie
               </p>
             </div>
@@ -311,15 +311,16 @@ export default function ProgressPage() {
             <div className="max-w-6xl mx-auto">
 
               {/* Panneau de filtres */}
-              <div className="sport-card p-6 mb-8">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-bold text-white">Filtres d'analyse</h2>
+              <div className="sport-card p-4 sm:p-6 mb-6 sm:mb-8">
+                <div className="flex items-center justify-between mb-4 sm:mb-6 gap-3">
+                  <h2 className="text-lg sm:text-xl font-bold text-white">Filtres d'analyse</h2>
                   <button
                     onClick={() => setIsFilterOpen(!isFilterOpen)}
-                    className="inline-flex items-center gap-2 bg-sport-accent hover:bg-sport-accent-light text-white px-4 py-2 rounded-lg transition-colors"
+                    className="inline-flex items-center gap-2 bg-sport-accent hover:bg-sport-accent-light text-white px-3 py-2 sm:px-4 rounded-lg transition-colors text-sm sm:text-base touch-target"
                   >
-                    <FunnelIcon className="h-4 w-4" />
-                    <span>{isFilterOpen ? 'Masquer les filtres' : 'Afficher les filtres'}</span>
+                    <FunnelIcon className="h-3 w-3 sm:h-4 sm:w-4" />
+                    <span className="hidden sm:inline">{isFilterOpen ? 'Masquer les filtres' : 'Afficher les filtres'}</span>
+                    <span className="sm:hidden">{isFilterOpen ? 'Masquer' : 'Afficher'}</span>
                   </button>
                 </div>
 
@@ -464,49 +465,49 @@ export default function ProgressPage() {
                   {exerciseStats.map(stats => (
                     <div key={stats.exerciseId}>
                       {/* Statistiques principales */}
-                      <div className="sport-card p-6 mb-6">
-                        <h3 className="text-2xl font-semibold text-white mb-4">
+                      <div className="sport-card p-4 sm:p-6 mb-4 sm:mb-6">
+                        <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4 sm:mb-6">
                           {stats.exerciseName}
                         </h3>
                         
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-sport-accent">
+                            <div className="text-xl sm:text-2xl font-bold text-sport-accent">
                               {formatValue(stats.maxValue, stats.type)}
                             </div>
-                            <div className="text-sm text-gray-400">
+                            <div className="text-xs sm:text-sm text-gray-400">
                               Maximum
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-green-400">
+                            <div className="text-xl sm:text-2xl font-bold text-green-400">
                               {formatValue(stats.totalValue, stats.type)}
                             </div>
-                            <div className="text-sm text-gray-400">
+                            <div className="text-xs sm:text-sm text-gray-400">
                               Total
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-400">
+                            <div className="text-xl sm:text-2xl font-bold text-purple-400">
                               {stats.totalSets}
                             </div>
-                            <div className="text-sm text-gray-400">
+                            <div className="text-xs sm:text-sm text-gray-400">
                               Séries totales
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-orange-400">
+                            <div className="text-xl sm:text-2xl font-bold text-orange-400">
                               {formatValue(stats.averageValue, stats.type)}
                             </div>
-                            <div className="text-sm text-gray-400">
+                            <div className="text-xs sm:text-sm text-gray-400">
                               Moyenne ({formatPeriod(averagePeriod)})
                             </div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-red-400">
+                            <div className="text-xl sm:text-2xl font-bold text-red-400">
                               {Math.round(stats.averageSets * 10) / 10}
                             </div>
-                            <div className="text-sm text-gray-400">
+                            <div className="text-xs sm:text-sm text-gray-400">
                               Séries/jour ({formatPeriod(averagePeriod)})
                             </div>
                           </div>
@@ -528,10 +529,10 @@ export default function ProgressPage() {
                 /* Affichage pour plusieurs exercices */
                 <div className="space-y-8">
                   {/* Statistiques par exercice */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                     {exerciseStats.map(stats => (
-                      <div key={stats.exerciseId} className="sport-card p-6">
-                        <h3 className="text-lg font-semibold text-white mb-4">
+                      <div key={stats.exerciseId} className="sport-card p-4 sm:p-6">
+                        <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">
                           {stats.exerciseName}
                         </h3>
                         

@@ -76,50 +76,51 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Section Hero */}
-        <section className="sport-section pt-20 pb-16">
+        <section className="sport-section pt-16 sm:pt-20 pb-12 sm:pb-16">
           <div className="sport-container">
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up">
+            <div className="text-center max-w-4xl mx-auto px-4">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in-up">
                 <span className="sport-text-gradient">Calisthénie</span>
                 <br />
                 <span className="text-white">Tracker</span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed animate-fade-in-up">
+              <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed animate-fade-in-up">
                 Le compagnon d'entraînement pour la calisthénie.
-                <br />
+                <br className="hidden sm:block" />
+                <span className="sm:hidden"> </span>
                 Suivez vos progrès, dépassez vos limites.
               </p>
               
               {isAuthenticated ? (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up">
-                  <div className="flex items-center space-x-2 text-sport-success">
-                    <CheckCircleIcon className="h-5 w-5" />
-                    <span>Connecté en tant que <strong>{user?.username}</strong></span>
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center animate-fade-in-up">
+                  <div className="flex items-center space-x-2 text-sport-success text-sm sm:text-base">
+                    <CheckCircleIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                    <span>Connecté : <strong>{user?.username}</strong></span>
                   </div>
                   <Link
                     href="/entrainements"
-                    className="sport-btn-primary inline-flex items-center space-x-2"
+                    className="sport-btn-primary inline-flex items-center space-x-2 w-full sm:w-auto justify-center"
                   >
-                    <PlayIcon className="h-5 w-5" />
+                    <PlayIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Commencer l'entraînement</span>
-                    <ArrowRightIcon className="h-4 w-4" />
+                    <ArrowRightIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Link>
                 </div>
               ) : (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
+                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-fade-in-up max-w-md mx-auto sm:max-w-none">
                   <Link
                     href="/auth/register"
-                    className="sport-btn-primary inline-flex items-center space-x-2"
+                    className="sport-btn-primary inline-flex items-center justify-center space-x-2 w-full sm:w-auto"
                   >
-                    <UserGroupIcon className="h-5 w-5" />
+                    <UserGroupIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Commencer gratuitement</span>
-                    <ArrowRightIcon className="h-4 w-4" />
+                    <ArrowRightIcon className="h-3 w-3 sm:h-4 sm:w-4" />
                   </Link>
                   <Link
                     href="/exercices"
-                    className="sport-btn-secondary inline-flex items-center space-x-2"
+                    className="sport-btn-secondary inline-flex items-center justify-center space-x-2 w-full sm:w-auto"
                   >
-                    <BookOpenIcon className="h-5 w-5" />
+                    <BookOpenIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Explorer les exercices</span>
                   </Link>
                 </div>
@@ -153,29 +154,29 @@ export default function Home() {
         {/* Section Fonctionnalités */}
         <section className="sport-section">
           <div className="sport-container">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <div className="text-center mb-10 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4">
                 Ce dont vous avez besoin :
               </h2>
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4">
                 Une suite complète d'outils pour optimiser vos entraînements de calisthénie
               </p>
             </div>
 
-            <div className="sport-grid-2 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               {features.map((feature, index) => {
                 const IconComponent = feature.icon;
                 return (
-                  <div key={index} className="sport-card-hover p-8 animate-zoom-in">
-                    <div className="flex items-start space-x-4">
-                      <div className={`p-3 rounded-lg bg-sport-secondary ${feature.color}`}>
-                        <IconComponent className="h-8 w-8" />
+                  <div key={index} className="sport-card-hover p-4 sm:p-6 md:p-8 animate-zoom-in">
+                    <div className="flex items-start space-x-3 sm:space-x-4">
+                      <div className={`p-2 sm:p-3 rounded-lg bg-sport-secondary ${feature.color} flex-shrink-0`}>
+                        <IconComponent className="h-6 w-6 sm:h-8 sm:w-8" />
                       </div>
                       <div>
-                        <h3 className="text-xl font-semibold text-white mb-3">
+                        <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white mb-2 sm:mb-3">
                           {feature.title}
                         </h3>
-                        <p className="text-gray-300 leading-relaxed">
+                        <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                           {feature.description}
                         </p>
                       </div>
@@ -188,44 +189,44 @@ export default function Home() {
         </section>
 
         {/* Section Avantages */}
-        <section className="py-16 bg-sport-secondary/30">
+        <section className="py-12 sm:py-16 bg-sport-secondary/30">
           <div className="sport-container">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
                   Pourquoi choisir la calisthénie ?
                 </h2>
-                <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+                <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed">
                   La calisthénie est l'art de s'entraîner avec son propre poids. 
                   C'est accessible, efficace et permet de développer une force fonctionnelle 
                   exceptionnelle.
                 </p>
-                <ul className="space-y-4">
+                <ul className="space-y-3 sm:space-y-4">
                   {benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-center space-x-3">
-                      <CheckCircleIcon className="h-5 w-5 text-sport-success flex-shrink-0" />
-                      <span className="text-gray-300">{benefit}</span>
+                    <li key={index} className="flex items-start sm:items-center space-x-3">
+                      <CheckCircleIcon className="h-4 w-4 sm:h-5 sm:w-5 text-sport-success flex-shrink-0 mt-0.5 sm:mt-0" />
+                      <span className="text-sm sm:text-base text-gray-300">{benefit}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="lg:text-center">
-                <div className="sport-card p-8 border-gradient">
+              <div className="lg:text-center mt-6 lg:mt-0">
+                <div className="sport-card p-6 sm:p-8 border-gradient">
                   <div className="text-center">
-                    <TrophyIcon className="h-20 w-20 text-sport-gold mx-auto mb-6" />
-                    <h3 className="text-2xl font-bold text-white mb-4">
+                    <TrophyIcon className="h-16 w-16 sm:h-20 sm:w-20 text-sport-gold mx-auto mb-4 sm:mb-6" />
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                       Prêt à commencer ?
                     </h3>
-                    <p className="text-gray-300 mb-6">
+                    <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6">
                       Rejoignez des milliers de pratiquants qui ont transformé leur corps 
                       avec la calisthénie.
                     </p>
                     {!isAuthenticated && (
                       <Link
                         href="/auth/register"
-                        className="sport-btn-primary inline-flex items-center space-x-2"
+                        className="sport-btn-primary inline-flex items-center space-x-2 w-full sm:w-auto justify-center"
                       >
-                        <UserGroupIcon className="h-5 w-5" />
+                        <UserGroupIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                         <span>Créer mon compte</span>
                       </Link>
                     )}
@@ -239,25 +240,25 @@ export default function Home() {
         {/* Section CTA */}
         <section className="sport-section bg-sport-gradient">
           <div className="sport-container text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
               Commencez votre transformation aujourd'hui
             </h2>
-            <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
               Chaque expert était autrefois un débutant. 
               Commencez dès maintenant votre parcours vers la maîtrise de votre corps.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-md sm:max-w-none mx-auto px-4">
               {!isAuthenticated ? (
                 <>
                   <Link
                     href="/auth/register"
-                    className="sport-btn bg-sport-accent text-white hover:bg-sport-accent/90 font-semibold py-4 px-8 rounded-lg transform hover:scale-105 transition-all duration-200"
+                    className="sport-btn bg-sport-accent text-white hover:bg-sport-accent/90 font-semibold py-3 px-6 sm:py-4 sm:px-8 rounded-lg transform hover:scale-105 transition-all duration-200 w-full sm:w-auto text-center"
                   >
                     Inscription gratuite
                   </Link>
                   <Link
                     href="/exercices"
-                    className="sport-btn-secondary py-4 px-8"
+                    className="sport-btn-secondary py-3 px-6 sm:py-4 sm:px-8 w-full sm:w-auto text-center"
                   >
                     Découvrir les exercices
                   </Link>
@@ -265,7 +266,7 @@ export default function Home() {
               ) : (
                 <Link
                   href="/entrainements"
-                  className="sport-btn bg-sport-accent text-white hover:bg-sport-accent/90 font-semibold py-4 px-8 rounded-lg transform hover:scale-105 transition-all duration-200"
+                  className="sport-btn bg-sport-accent text-white hover:bg-sport-accent/90 font-semibold py-3 px-6 sm:py-4 sm:px-8 rounded-lg transform hover:scale-105 transition-all duration-200 w-full sm:w-auto text-center"
                 >
                   Commencer un entraînement
                 </Link>
