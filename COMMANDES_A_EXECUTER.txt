@@ -1,0 +1,138 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║              ⚡ COMMANDES À EXÉCUTER MAINTENANT ⚡                        ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+
+📋 PHASE 1 : CONFIGURATION LOCALE (À FAIRE MAINTENANT)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Modification faite : prisma/schema.prisma (directUrl supprimé)
+
+
+🔴 ÉTAPE 1 : Configurer .env.local
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Action : Modifiez votre fichier .env.local pour qu'il contienne SEULEMENT :
+
+DATABASE_URL="postgresql://user:password@ep-xxxx.neon.tech/neondb?sslmode=require"
+
+⚠️ IMPORTANT :
+- Remplacez par VOTRE URL Neon complète
+- Supprimez la ligne DIRECT_URL si elle existe
+- Il ne doit y avoir QUE DATABASE_URL pour le moment
+
+
+📍 Comment trouver votre URL Neon :
+1. Allez sur : https://console.neon.tech/
+2. Sélectionnez votre projet
+3. Cliquez sur "Connection Details" ou "Dashboard"
+4. Copiez la "Connection string" (celle qui commence par postgresql://)
+
+
+🔴 ÉTAPE 2 : Générer le client Prisma
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dans le terminal, exécutez :
+
+npx prisma generate
+
+✅ Résultat attendu : "Generated Prisma Client"
+
+
+🔴 ÉTAPE 3 : Créer les tables dans la base de données
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dans le terminal, exécutez :
+
+npx prisma db push
+
+✅ Résultat attendu : 
+   "Your database is now in sync with your schema"
+   Les tables users, exercises, workouts, etc. seront créées
+
+
+🔴 ÉTAPE 4 : Importer les exercices de base
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dans le terminal, exécutez :
+
+npm run prisma:seed
+
+✅ Résultat attendu : "32 exercices créés"
+
+
+🔴 ÉTAPE 5 : Démarrer l'application
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dans le terminal, exécutez :
+
+npm run dev
+
+✅ Résultat attendu : "Local: http://localhost:3000"
+
+
+🔴 ÉTAPE 6 : TESTER l'application
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Ouvrez : http://localhost:3000
+2. Créez un nouveau compte
+3. Connectez-vous
+4. Vérifiez que les exercices s'affichent
+
+✅ Si tout fonctionne : PHASE 1 TERMINÉE ! Passez à la PHASE 2
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RÉCAPITULATIF DES COMMANDES (dans l'ordre)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Modifier .env.local (ajouter DATABASE_URL avec votre URL Neon)
+2. npx prisma generate
+3. npx prisma db push
+4. npm run prisma:seed
+5. npm run dev
+6. Tester l'application
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+📚 APRÈS LA PHASE 1 : Configuration pour Deno Deploy
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Une fois que TOUT fonctionne localement, consultez :
+→ CONFIGURATION_RAPIDE.md (PHASE 2 et 3)
+
+Cela vous guidera pour :
+- Configurer Prisma Accelerate (nécessaire pour Deno Deploy)
+- Déployer sur Deno Deploy
+
+
+🆘 EN CAS DE PROBLÈME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ "Cannot find module '@prisma/client'"
+   → Exécutez : npx prisma generate
+
+❌ "Environment variable not found: DATABASE_URL"
+   → Vérifiez que .env.local contient DATABASE_URL
+
+❌ "Can't reach database server"
+   → Vérifiez votre URL Neon
+   → Vérifiez qu'elle se termine par ?sslmode=require
+
+❌ Erreur lors de prisma db push
+   → Vérifiez que votre base Neon est accessible
+   → Essayez : npx prisma db push --force-reset
+
+❌ Application ne démarre pas
+   → Arrêtez avec Ctrl+C
+   → Exécutez : npx prisma generate
+   → Redémarrez : npm run dev
+
+
+⏱️ TEMPS ESTIMÉ : 10-15 minutes
+🎯 OBJECTIF : Application fonctionnelle en local avant Deno Deploy
+

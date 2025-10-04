@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  email         String?  @unique
+  password      String
+  dateCreation  DateTime @default(now())
+  
+  // Preferences (stockées en JSON)
+  theme         String   @default("dark")
+  units         String   @default("metric")
+  language      String   @default("fr")
+  
+  // Relations
+  exercises     Exercise[]
+  workouts      Workout[]
+  personalRecords PersonalRecord[]
+  
+  @@map("users")
+}
+
+model Exercise {
+  id                String   @id @default(cuid())
+  nom               String
+  categorie         String
+  difficulte        String
+  muscles           String[] // Array de strings
+  description       String   @db.Text
+  instructions      String[] // Array de strings
+  image             String?
+  video             String?
+  typeQuantification String  @default("rep")
+  
+  // Relations
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  workoutSets       WorkoutSet[]
+  personalRecords   PersonalRecord[]
+  
+  @@index([userId])
+  @@index([categorie])
+  @@index([difficulte])
+  @@map("exercises")
+}
+
+model Workout {
+  id              String   @id @default(cuid())
+  nom             String
+  date            DateTime
+  duree           Int      @default(0)
+  type            String
+  description     String?  @db.Text
+  caloriesBrulees Int?
+  ressenti        Int      @default(3)
+  
+  // Relations
+  userId          String
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  sets            WorkoutSet[]
+  personalRecords PersonalRecord[]
+  
+  @@index([userId])
+  @@index([date])
+  @@index([type])
+  @@map("workouts")
+}
+
+model WorkoutSet {
+  id            String   @id @default(cuid())
+  repetitions   Int
+  poids         Float?
+  duree         Int?
+  tempsRepos    Int      @default(0)
+  notes         String?  @db.Text
+  
+  // Relations
+  exerciceId    String
+  exercise      Exercise @relation(fields: [exerciceId], references: [id], onDelete: Cascade)
+  
+  workoutId     String
+  workout       Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  
+  @@index([exerciceId])
+  @@index([workoutId])
+  @@map("workout_sets")
+}
+
+model PersonalRecord {
+  id          String   @id @default(cuid())
+  type        String   // 'repetitions' | 'temps' | 'poids'
+  valeur      Float
+  date        DateTime @default(now())
+  
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  exerciceId  String
+  exercise    Exercise @relation(fields: [exerciceId], references: [id], onDelete: Cascade)
+  
+  workoutId   String?
+  workout     Workout? @relation(fields: [workoutId], references: [id], onDelete: SetNull)
+  
+  @@index([userId])
+  @@index([exerciceId])
+  @@index([type])
+  @@index([date])
+  @@map("personal_records")
+}
+

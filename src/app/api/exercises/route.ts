@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import { prisma } from '@/lib/prisma';
 import { Exercise } from '@/types';
 
 // GET - Récupérer les exercices (de base + personnalisés de l'utilisateur)
@@ -8,23 +8,19 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 
-    const { db } = await connectToDatabase();
-    
     // Récupérer exercices de base (sans userId) et exercices personnalisés de l'utilisateur
-    const query = userId 
-      ? { $or: [{ userId: { $exists: false } }, { userId: userId }] }
-      : { userId: { $exists: false } }; // Si pas d'userId, ne renvoyer que les exercices de base
+    const exercises = await prisma.exercise.findMany({
+      where: userId 
+        ? {
+            OR: [
+              { userId: null },
+              { userId: userId }
+            ]
+          }
+        : { userId: null }
+    });
     
-    const exercises = await db.collection('exercises').find(query).toArray();
-    
-    // Convertir les _id MongoDB en id string
-    const exercisesWithStringId = exercises.map(exercise => ({
-      ...exercise,
-      id: exercise._id ? exercise._id.toString() : exercise.id,
-      _id: undefined
-    }));
-    
-    return NextResponse.json(exercisesWithStringId);
+    return NextResponse.json(exercises);
   } catch (error) {
     console.error('Erreur lors de la lecture des exercices:', error);
     return NextResponse.json(
@@ -47,12 +43,15 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    const { db } = await connectToDatabase();
-    
     // Vérifier si un exercice avec le même nom existe déjà pour cet utilisateur
-    const existingExercise = await db.collection('exercises').findOne({
-      nom: { $regex: new RegExp(`^${newExercise.nom}$`, 'i') },
-      userId: newExercise.userId
+    const existingExercise = await prisma.exercise.findFirst({
+      where: {
+        nom: {
+          equals: newExercise.nom,
+          mode: 'insensitive'
+        },
+        userId: newExercise.userId
+      }
     });
     
     if (existingExercise) {
@@ -62,27 +61,23 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Générer un ID unique pour cet utilisateur
-    const lastExercise = await db.collection('exercises').findOne(
-      { userId: newExercise.userId }, 
-      { sort: { id: -1 } }
-    );
-    const maxId = lastExercise?.id ? parseInt(lastExercise.id) : 1000; // Commencer les IDs utilisateur à 1000+
-    const newId = (maxId + 1).toString();
+    // Créer le nouvel exercice
+    const createdExercise = await prisma.exercise.create({
+      data: {
+        nom: newExercise.nom,
+        categorie: newExercise.categorie,
+        difficulte: newExercise.difficulte,
+        muscles: newExercise.muscles || [],
+        description: newExercise.description,
+        instructions: newExercise.instructions || [],
+        image: newExercise.image,
+        video: newExercise.video,
+        typeQuantification: newExercise.typeQuantification || 'rep',
+        userId: newExercise.userId
+      }
+    });
     
-    // Ajouter le nouvel exercice avec l'ID généré
-    const exerciseWithId = { ...newExercise, id: newId };
-    
-    // Insérer dans MongoDB
-    const result = await db.collection('exercises').insertOne(exerciseWithId);
-    
-    // Retourner l'exercice sans l'_id MongoDB
-    const responseExercise = {
-      ...exerciseWithId,
-      _id: undefined
-    };
-    
-    return NextResponse.json(responseExercise, { status: 201 });
+    return NextResponse.json(createdExercise, { status: 201 });
   } catch (error) {
     console.error('Erreur lors de l\'ajout de l\'exercice:', error);
     return NextResponse.json(

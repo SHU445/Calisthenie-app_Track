@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import { prisma } from '@/lib/prisma';
 import { validateEmail, validatePassword, validateUsername } from '@/lib/utils';
 
 export async function POST(request: NextRequest) {
@@ -40,14 +40,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { db } = await connectToDatabase();
-
     // Vérifier si l'utilisateur ou l'email existe déjà
-    const existingUser = await db.collection('users').findOne({
-      $or: [
-        { username: username },
-        { email: email }
-      ]
+    const existingUser = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { username: username },
+          { email: email }
+        ]
+      }
     });
 
     if (existingUser) {
@@ -61,34 +61,32 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Générer un ID unique pour l'utilisateur
-    const lastUser = await db.collection('users').findOne({}, { sort: { id: -1 } });
-    const maxId = lastUser?.id ? parseInt(lastUser.id) : 0;
-    const newId = (maxId + 1).toString();
-
     // Créer le nouvel utilisateur
-    const newUser = {
-      id: newId,
-      username,
-      email,
-      password, // En production, il faudrait hasher le mot de passe
-      dateCreation: new Date().toISOString(),
-      preferences: {
+    const newUser = await prisma.user.create({
+      data: {
+        username,
+        email,
+        password, // En production, il faudrait hasher le mot de passe
         theme: 'dark',
         units: 'metric',
         language: 'fr'
       }
-    };
-
-    // Insérer dans MongoDB
-    await db.collection('users').insertOne(newUser);
+    });
 
     // Retourner l'utilisateur sans le mot de passe
     const { password: _, ...userWithoutPassword } = newUser;
 
     return NextResponse.json({
       success: true,
-      user: userWithoutPassword
+      user: {
+        ...userWithoutPassword,
+        dateCreation: userWithoutPassword.dateCreation.toISOString(),
+        preferences: {
+          theme: userWithoutPassword.theme,
+          units: userWithoutPassword.units,
+          language: userWithoutPassword.language
+        }
+      }
     }, { status: 201 });
 
   } catch (error) {

@@ -67,4 +67,10 @@ Thumbs.db
 
 # Local database files
 *.db
-*.sqlite 
+*.sqlite
+
+# Prisma
+.env
+.env.local
+.env*.local
+node_modules/.prisma/ 

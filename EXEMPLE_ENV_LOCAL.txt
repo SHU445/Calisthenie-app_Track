@@ -1,0 +1,76 @@
+╔══════════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║              📝 EXEMPLE DE FICHIER .env.local                            ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+
+
+🔵 PHASE 1 : Configuration locale (maintenant)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Votre fichier .env.local doit contenir UNIQUEMENT :
+
+DATABASE_URL="postgresql://user:password@ep-xxxx.neon.tech/neondb?sslmode=require"
+
+
+📍 Exemple concret :
+
+DATABASE_URL="postgresql://myuser:mypassword123@ep-cool-shape-123456.us-east-2.aws.neon.tech/neondb?sslmode=require"
+
+
+⚠️ Points importants :
+- Ne mettez PAS de guillemets doubles à l'intérieur de la valeur
+- L'URL doit se terminer par ?sslmode=require
+- Remplacez user, password, et l'URL par VOS valeurs Neon
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+🔵 PHASE 2 : Configuration pour Deno Deploy (plus tard)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Après avoir testé localement, modifiez .env.local pour ajouter les deux URLs :
+
+DATABASE_URL="prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGci..."
+DIRECT_URL="postgresql://user:password@ep-xxxx.neon.tech/neondb?sslmode=require"
+
+
+📍 Exemple concret :
+
+DATABASE_URL="prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+DIRECT_URL="postgresql://myuser:mypassword123@ep-cool-shape-123456.us-east-2.aws.neon.tech/neondb?sslmode=require"
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+❌ ERREURS COURANTES À ÉVITER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❌ Mettre DIRECT_URL au lieu de DATABASE_URL en phase 1
+❌ Oublier ?sslmode=require à la fin de l'URL
+❌ Utiliser des guillemets simples ('') au lieu de doubles ("")
+❌ Mettre des espaces avant ou après le =
+❌ Ne pas remplacer les valeurs d'exemple par les vraies valeurs
+
+
+✅ CORRECT :
+DATABASE_URL="postgresql://real:values@host.neon.tech/db?sslmode=require"
+
+❌ INCORRECT :
+DATABASE_URL = "postgresql://..."  (espace avant =)
+DATABASE_URL='postgresql://...'    (guillemets simples)
+DIRECT_URL="postgresql://..."      (mauvaise variable en phase 1)
+DATABASE_URL="postgresql://...neondb"  (pas de ?sslmode=require)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+🎯 PROCHAINE ÉTAPE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Créez/modifiez votre fichier .env.local avec DATABASE_URL
+2. Suivez les commandes dans : COMMANDES_A_EXECUTER.txt
+

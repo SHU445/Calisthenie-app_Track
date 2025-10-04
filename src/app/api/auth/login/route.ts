@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,15 +12,15 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const { db } = await connectToDatabase();
     
     // Chercher l'utilisateur par username ou email
-    const user = await db.collection('users').findOne({
-      $or: [
-        { username: username },
-        { email: username }
-      ]
+    const user = await prisma.user.findFirst({
+      where: {
+        OR: [
+          { username: username },
+          { email: username }
+        ]
+      }
     });
 
     if (!user) {
@@ -39,10 +39,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Retourner l'utilisateur sans le mot de passe
-    const { password: _, _id, ...userWithoutPassword } = user;
+    const { password: _, ...userWithoutPassword } = user;
     const userResponse = {
       ...userWithoutPassword,
-      id: user.id || user._id.toString()
+      dateCreation: userWithoutPassword.dateCreation.toISOString(),
+      preferences: {
+        theme: userWithoutPassword.theme,
+        units: userWithoutPassword.units,
+        language: userWithoutPassword.language
+      }
     };
 
     return NextResponse.json({

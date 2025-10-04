@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import { prisma } from '@/lib/prisma';
 import { Workout } from '@/types';
-import { ObjectId } from 'mongodb';
 
 // GET - Récupérer un entraînement spécifique
 export async function GET(
@@ -10,19 +9,17 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const { db } = await connectToDatabase();
     
-    // Chercher l'entraînement par id ou _id
-    let query;
-    if (ObjectId.isValid(id)) {
-      // Si l'id est un ObjectId valide, chercher par _id ou id
-      query = { $or: [{ id }, { _id: new ObjectId(id) }] };
-    } else {
-      // Sinon chercher seulement par id
-      query = { id };
-    }
-    
-    const workout = await db.collection('workouts').findOne(query);
+    const workout = await prisma.workout.findUnique({
+      where: { id },
+      include: {
+        sets: {
+          include: {
+            exercise: true
+          }
+        }
+      }
+    });
 
     if (!workout) {
       return NextResponse.json(
@@ -31,10 +28,26 @@ export async function GET(
       );
     }
 
-    // Retourner sans l'_id MongoDB
+    // Formatter la réponse
     const responseWorkout = {
-      ...workout,
-      _id: undefined
+      id: workout.id,
+      nom: workout.nom,
+      date: workout.date.toISOString(),
+      duree: workout.duree,
+      type: workout.type,
+      description: workout.description,
+      userId: workout.userId,
+      ressenti: workout.ressenti,
+      caloriesBrulees: workout.caloriesBrulees,
+      sets: workout.sets.map(set => ({
+        id: set.id,
+        exerciceId: set.exerciceId,
+        repetitions: set.repetitions,
+        poids: set.poids,
+        duree: set.duree,
+        tempsRepos: set.tempsRepos,
+        notes: set.notes
+      }))
     };
 
     return NextResponse.json(responseWorkout);
@@ -55,20 +68,11 @@ export async function PUT(
   try {
     const { id } = await params;
     const updateData = await request.json();
-    const { db } = await connectToDatabase();
-    
-    // Chercher l'entraînement par id ou _id
-    let query;
-    if (ObjectId.isValid(id)) {
-      // Si l'id est un ObjectId valide, chercher par _id ou id
-      query = { $or: [{ id }, { _id: new ObjectId(id) }] };
-    } else {
-      // Sinon chercher seulement par id
-      query = { id };
-    }
     
     // Vérifier si l'entraînement existe
-    const existingWorkout = await db.collection('workouts').findOne(query);
+    const existingWorkout = await prisma.workout.findUnique({
+      where: { id }
+    });
     
     if (!existingWorkout) {
       return NextResponse.json(
@@ -77,26 +81,63 @@ export async function PUT(
       );
     }
 
-    // Mettre à jour l'entraînement dans MongoDB
-    const result = await db.collection('workouts').updateOne(
-      query,
-      { $set: updateData }
-    );
-
-    if (result.matchedCount === 0) {
-      return NextResponse.json(
-        { error: 'Workout not found' },
-        { status: 404 }
-      );
+    // Si des sets sont fournis, on doit les gérer
+    let setsUpdate = {};
+    if (updateData.sets) {
+      // Supprimer les anciens sets et créer les nouveaux
+      setsUpdate = {
+        sets: {
+          deleteMany: {},
+          create: updateData.sets.map((set: any) => ({
+            exerciceId: set.exerciceId,
+            repetitions: set.repetitions,
+            poids: set.poids,
+            duree: set.duree,
+            tempsRepos: set.tempsRepos || 0,
+            notes: set.notes
+          }))
+        }
+      };
     }
 
-    // Récupérer l'entraînement mis à jour
-    const updatedWorkout = await db.collection('workouts').findOne(query);
+    // Mettre à jour l'entraînement
+    const updatedWorkout = await prisma.workout.update({
+      where: { id },
+      data: {
+        ...(updateData.nom && { nom: updateData.nom }),
+        ...(updateData.date && { date: new Date(updateData.date) }),
+        ...(updateData.type && { type: updateData.type }),
+        ...(updateData.duree !== undefined && { duree: updateData.duree }),
+        ...(updateData.description !== undefined && { description: updateData.description }),
+        ...(updateData.ressenti !== undefined && { ressenti: updateData.ressenti }),
+        ...(updateData.caloriesBrulees !== undefined && { caloriesBrulees: updateData.caloriesBrulees }),
+        ...setsUpdate
+      },
+      include: {
+        sets: true
+      }
+    });
 
-    // Retourner sans l'_id MongoDB
+    // Formatter la réponse
     const responseWorkout = {
-      ...updatedWorkout,
-      _id: undefined
+      id: updatedWorkout.id,
+      nom: updatedWorkout.nom,
+      date: updatedWorkout.date.toISOString(),
+      duree: updatedWorkout.duree,
+      type: updatedWorkout.type,
+      description: updatedWorkout.description,
+      userId: updatedWorkout.userId,
+      ressenti: updatedWorkout.ressenti,
+      caloriesBrulees: updatedWorkout.caloriesBrulees,
+      sets: updatedWorkout.sets.map(set => ({
+        id: set.id,
+        exerciceId: set.exerciceId,
+        repetitions: set.repetitions,
+        poids: set.poids,
+        duree: set.duree,
+        tempsRepos: set.tempsRepos,
+        notes: set.notes
+      }))
     };
 
     return NextResponse.json(responseWorkout);
@@ -116,20 +157,11 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const { db } = await connectToDatabase();
-    
-    // Chercher l'entraînement par id ou _id
-    let query;
-    if (ObjectId.isValid(id)) {
-      // Si l'id est un ObjectId valide, chercher par _id ou id
-      query = { $or: [{ id }, { _id: new ObjectId(id) }] };
-    } else {
-      // Sinon chercher seulement par id
-      query = { id };
-    }
     
     // Vérifier si l'entraînement existe avant suppression
-    const existingWorkout = await db.collection('workouts').findOne(query);
+    const existingWorkout = await prisma.workout.findUnique({
+      where: { id }
+    });
     
     if (!existingWorkout) {
       return NextResponse.json(
@@ -138,15 +170,10 @@ export async function DELETE(
       );
     }
 
-    // Supprimer l'entraînement de MongoDB
-    const result = await db.collection('workouts').deleteOne(query);
-
-    if (result.deletedCount === 0) {
-      return NextResponse.json(
-        { error: 'Workout not found' },
-        { status: 404 }
-      );
-    }
+    // Supprimer l'entraînement (les sets seront supprimés automatiquement grâce à onDelete: Cascade)
+    await prisma.workout.delete({
+      where: { id }
+    });
 
     return NextResponse.json({ message: 'Workout deleted successfully' });
   } catch (error) {
@@ -156,4 +183,4 @@ export async function DELETE(
       { status: 500 }
     );
   }
-} 
+}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
+import { prisma } from '@/lib/prisma';
 import { Workout } from '@/types';
 
 // GET - Récupérer tous les entraînements d'un utilisateur
@@ -15,21 +15,43 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { db } = await connectToDatabase();
-    const workouts = await db.collection('workouts').find({ userId }).toArray();
+    const workouts = await prisma.workout.findMany({
+      where: { userId },
+      include: {
+        sets: {
+          include: {
+            exercise: true
+          }
+        }
+      },
+      orderBy: {
+        date: 'desc'
+      }
+    });
     
-    // Convertir les _id MongoDB en format sans _id et trier par date décroissante
-    const workoutsWithStringId = workouts
-      .map(workout => {
-        const { _id, ...workoutWithoutId } = workout;
-        return {
-          ...workoutWithoutId,
-          id: workout.id || `${userId}-${_id.toString()}`, // Clé unique avec userId
-        } as any; // Type assertion pour éviter l'erreur TypeScript
-      })
-      .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Transformer les données pour correspondre au format attendu par l'application
+    const formattedWorkouts = workouts.map(workout => ({
+      id: workout.id,
+      nom: workout.nom,
+      date: workout.date.toISOString(),
+      duree: workout.duree,
+      type: workout.type,
+      description: workout.description,
+      userId: workout.userId,
+      ressenti: workout.ressenti,
+      caloriesBrulees: workout.caloriesBrulees,
+      sets: workout.sets.map(set => ({
+        id: set.id,
+        exerciceId: set.exerciceId,
+        repetitions: set.repetitions,
+        poids: set.poids,
+        duree: set.duree,
+        tempsRepos: set.tempsRepos,
+        notes: set.notes
+      }))
+    }));
 
-    return NextResponse.json(workoutsWithStringId);
+    return NextResponse.json(formattedWorkouts);
   } catch (error) {
     console.error('Error fetching workouts:', error);
     return NextResponse.json(
@@ -52,36 +74,53 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { db } = await connectToDatabase();
+    // Créer le workout avec ses sets
+    const newWorkout = await prisma.workout.create({
+      data: {
+        nom: workoutData.nom,
+        date: new Date(workoutData.date),
+        type: workoutData.type,
+        duree: workoutData.duree || 0,
+        description: workoutData.description || '',
+        userId: workoutData.userId,
+        ressenti: workoutData.ressenti || 3,
+        caloriesBrulees: workoutData.caloriesBrulees,
+        sets: {
+          create: (workoutData.sets || []).map((set: any) => ({
+            exerciceId: set.exerciceId,
+            repetitions: set.repetitions,
+            poids: set.poids,
+            duree: set.duree,
+            tempsRepos: set.tempsRepos || 0,
+            notes: set.notes
+          }))
+        }
+      },
+      include: {
+        sets: true
+      }
+    });
 
-    // Générer un ID unique pour cet utilisateur
-    const lastWorkout = await db.collection('workouts').findOne(
-      { userId: workoutData.userId }, 
-      { sort: { id: -1 } }
-    );
-    const maxId = lastWorkout?.id ? parseInt(lastWorkout.id) : 0;
-    const newId = (maxId + 1).toString();
-
-    const newWorkout: Workout = {
-      id: newId,
-      nom: workoutData.nom,
-      date: workoutData.date,
-      type: workoutData.type,
-      duree: workoutData.duree || 0,
-      description: workoutData.description || '',
-      userId: workoutData.userId,
-      sets: workoutData.sets || [],
-      ressenti: workoutData.ressenti || 3,
-      caloriesBrulees: workoutData.caloriesBrulees
-    };
-
-    // Insérer dans MongoDB
-    await db.collection('workouts').insertOne(newWorkout);
-
-    // Retourner sans l'_id MongoDB
+    // Formatter la réponse
     const responseWorkout = {
-      ...newWorkout,
-      _id: undefined
+      id: newWorkout.id,
+      nom: newWorkout.nom,
+      date: newWorkout.date.toISOString(),
+      duree: newWorkout.duree,
+      type: newWorkout.type,
+      description: newWorkout.description,
+      userId: newWorkout.userId,
+      ressenti: newWorkout.ressenti,
+      caloriesBrulees: newWorkout.caloriesBrulees,
+      sets: newWorkout.sets.map(set => ({
+        id: set.id,
+        exerciceId: set.exerciceId,
+        repetitions: set.repetitions,
+        poids: set.poids,
+        duree: set.duree,
+        tempsRepos: set.tempsRepos,
+        notes: set.notes
+      }))
     };
 
     return NextResponse.json(responseWorkout, { status: 201 });
