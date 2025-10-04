@@ -1,0 +1,87 @@
+{
+  "name": "Calisthénie Tracker - Suivi d'Entraînements",
+  "short_name": "Calisthénie",
+  "description": "Application de suivi d'entraînements de calisthénie avec analyse de performance et graphiques de progression",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1318",
+  "theme_color": "#fd7014",
+  "orientation": "portrait-primary",
+  "lang": "fr-FR",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "health",
+    "fitness",
+    "sports",
+    "lifestyle"
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/screenshot-desktop.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Mes Entraînements",
+      "short_name": "Entraînements",
+      "description": "Accéder à l'historique des entraînements",
+      "url": "/entrainements",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Exercices",
+      "short_name": "Exercices",
+      "description": "Voir la base d'exercices",
+      "url": "/exercices",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Mes Progrès",
+      "short_name": "Progrès",
+      "description": "Analyser mes performances",
+      "url": "/progres",
+      "icons": [
+        {
+          "src": "/icon-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
+

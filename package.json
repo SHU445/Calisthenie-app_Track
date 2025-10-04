@@ -44,7 +44,7 @@
     "date-fns": "^4.1.0",
     "eslint": "^9.29.0",
     "eslint-config-next": "^15.3.4",
-    "firebase-cli": "^1.2.0",
+    "firebase-cli": "^0.2.0",
     "mongodb": "^6.18.0",
     "mongoose": "^8.17.1",
     "next": "^15.3.4",

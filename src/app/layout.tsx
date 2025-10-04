@@ -1,19 +1,19 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
+import Script from 'next/script';
 import './globals.css';
+import { defaultMetadata } from '@/config/seo';
+import JsonLd, { organizationSchema, webApplicationSchema, websiteSchema } from '@/components/JsonLd';
 
-export const metadata: Metadata = {
-  title: 'Calisthénie Tracker',
-  description: 'Application de suivi d\'entraînements de calisthénie avec thème sportif moderne',
-  keywords: ['calisthénie', 'fitness', 'tracker', 'sport', 'entraînement'],
-  authors: [{ name: 'Calisthénie Tracker Team' }],
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
+export const metadata: Metadata = defaultMetadata;
 
-export const viewport = {
+export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: dark)', color: '#0f1318' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+  ],
 };
 
 export default function RootLayout({
@@ -23,6 +23,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className="dark">
+      <head>
+        {/* Données structurées JSON-LD pour le SEO */}
+        <JsonLd data={organizationSchema} />
+        <JsonLd data={webApplicationSchema} />
+        <JsonLd data={websiteSchema} />
+        
+        {/* Preconnect pour améliorer les performances */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+      </head>
       <body className="antialiased">
         <div className="min-h-screen bg-sport-dark text-white">
           {children}
