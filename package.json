@@ -1,7 +1,7 @@
 {
   "name": "calisthenie-tracker",
   "version": "1.0.0",
-  "description": "Application web de suivi d'entraînements de calisthénie avec thème sportif moderne",
+  "description": "Application web de suivi d'entraînements de callisthénie avec thème sportif moderne",
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "ngrok": "ngrok http 3000 --log=stdout",
@@ -21,7 +21,7 @@
     "test:workout": "node scripts/test-workout-fix.js"
   },
   "keywords": [
-    "calisthénie",
+    "callisthénie",
     "fitness",
     "tracker",
     "sport",

@@ -1,8 +1,8 @@
-# Design System Martial - Calisthénie Tracker
+# Design System Martial - Callisthénie Tracker
 
 ## 🎯 Vue d'ensemble
 
-Ce Design System modernise l'interface de l'application de calisthénie avec une **ambiance martiale** alliant discipline, intensité et ordre, tout en conservant ergonomie et clarté.
+Ce Design System modernise l'interface de l'application de callisthénie avec une **ambiance martiale** alliant discipline, intensité et ordre, tout en conservant ergonomie et clarté.
 
 ### Objectifs Produit
 - ✅ Augmenter la motivation des utilisateurs
@@ -577,5 +577,5 @@ import LogoShowcase from '@/components/logos/LogoShowcase';
 
 ---
 
-*Design System Martial - Calisthénie Tracker v1.0.0*  
+*Design System Martial - Callisthénie Tracker v1.0.0*  
 *Développé avec discipline, intensité et ordre. 🎖️*

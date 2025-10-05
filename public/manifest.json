@@ -1,7 +1,7 @@
 {
-  "name": "Calisthénie Tracker - Suivi d'Entraînements",
-  "short_name": "Calisthénie",
-  "description": "Application de suivi d'entraînements de calisthénie avec analyse de performance et graphiques de progression",
+  "name": "Callisthénie Tracker - Suivi d'Entraînements",
+  "short_name": "Callisthénie",
+  "description": "Application de suivi d'entraînements de callisthénie avec analyse de performance et graphiques de progression",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0f1318",

@@ -1,8 +1,8 @@
-# 🚀 Configuration SEO - Calisthénie Tracker
+# 🚀 Configuration SEO - Callisthénie Tracker
 
 ## 📋 Vue d'ensemble
 
-Cette documentation décrit la configuration SEO complète mise en place pour l'application Calisthénie Tracker. La configuration vise à optimiser le référencement naturel (SEO) tout en préservant l'intégrité de l'application.
+Cette documentation décrit la configuration SEO complète mise en place pour l'application Callisthénie Tracker. La configuration vise à optimiser le référencement naturel (SEO) tout en préservant l'intégrité de l'application.
 
 ## 🎯 Objectifs SEO
 
@@ -25,7 +25,7 @@ Fichier principal de configuration contenant :
 ```typescript
 // Structure principale
 {
-  name: 'Calisthénie Tracker',
+  name: 'Callisthénie Tracker',
   description: '...',
   url: 'https://calisthenie-track.vercel.app',
   keywords: [...], // 20+ mots-clés ciblés
@@ -96,7 +96,7 @@ Priorités définies :
 Les mots-clés suivants sont optimisés dans les métadonnées :
 
 ### Principaux
-- calisthénie / callisthénie
+- callisthénie
 - fitness
 - street workout
 - exercices au poids du corps
@@ -117,12 +117,12 @@ Les mots-clés suivants sont optimisés dans les métadonnées :
 ## 📊 Métadonnées par page
 
 ### Page d'accueil (`/`)
-- **Title** : "Accueil - Votre compagnon d'entraînement en calisthénie"
+- **Title** : "Accueil - Votre compagnon d'entraînement en callisthénie"
 - **Description** : Focus sur les fonctionnalités principales
 - **Priorité SEO** : 1.0 (Maximum)
 
 ### Exercices (`/exercices`)
-- **Title** : "Base d'exercices - Bibliothèque complète de calisthénie"
+- **Title** : "Base d'exercices - Bibliothèque complète de callisthénie"
 - **Description** : Mise en avant de la collection d'exercices
 - **Priorité SEO** : 0.9 (Très élevée)
 
@@ -145,7 +145,7 @@ openGraph: {
   title: '...',
   description: '...',
   url: '...',
-  siteName: 'Calisthénie Tracker',
+  siteName: 'Callisthénie Tracker',
   locale: 'fr_FR',
   type: 'website',
   images: [{

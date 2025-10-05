@@ -1,6 +1,6 @@
-# 🏋️ Calisthénie Tracker
+# 🏋️ Callisthénie Tracker
 
-Une application web moderne de suivi d'entraînements de calisthénie avec un thème sportif élégant.
+Une application web moderne de suivi d'entraînements de callisthénie avec un thème sportif élégant.
 
 ## 🌟 Fonctionnalités
 
@@ -11,7 +11,7 @@ Une application web moderne de suivi d'entraînements de calisthénie avec un th
 - **Compte de démonstration** disponible
 
 ### 📚 Base d'exercices
-- **Plus de 20 exercices** de calisthénie détaillés
+- **Plus de 20 exercices** de callisthénie détaillés
 - **Instructions étape par étape** pour chaque exercice
 - **Catégorisation** par groupe musculaire
 - **Niveaux de difficulté** : Débutant, Intermédiaire, Avancé, Expert
@@ -233,5 +233,5 @@ Pour toute question ou problème :
 
 ---
 
-**Transformez votre corps avec la calisthénie ! 💪** 
+**Transformez votre corps avec la callisthénie ! 💪** 
 test

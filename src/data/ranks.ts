@@ -4,7 +4,7 @@ export const RANKS: RankInfo[] = [
   {
     rank: 'F',
     name: 'Niveau de base',
-    description: 'Les exercices de ce niveau sont accessibles à presque tout le monde et servent de point de départ pour les personnes débutant la calisthénie (aucune expérience sportive préalable).',
+    description: 'Les exercices de ce niveau sont accessibles à presque tout le monde et servent de point de départ pour les personnes débutant la callisthénie (aucune expérience sportive préalable).',
     timeframe: 'Immédiat',
     skills: ['Pompes', 'Rowing inversé'],
     color: '#22C55E' // Vert frais (débutant accessible)

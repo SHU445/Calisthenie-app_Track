@@ -181,7 +181,7 @@ function ExercicesContent() {
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4">
-                Une collection complète d'exercices de calisthénie pour tous les rangs
+                Une collection complète d'exercices de callisthénie pour tous les rangs
               </p>
               
               {/* Link to ranks documentation */}

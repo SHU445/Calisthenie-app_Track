@@ -4,7 +4,7 @@
 
 ### 1. Configuration centralisée
 - ✅ Fichier `src/config/seo.ts` créé avec toutes les métadonnées
-- ✅ Plus de 20 mots-clés SEO ciblés pour la calisthénie
+- ✅ Plus de 20 mots-clés SEO ciblés pour la callisthénie
 - ✅ Configuration Open Graph et Twitter Cards
 
 ### 2. Métadonnées par page
@@ -101,7 +101,7 @@ git push
 
 ### Mots-clés principaux
 ```
-calisthénie, fitness, street workout, exercices poids du corps,
+callisthénie, fitness, street workout, exercices poids du corps,
 pompes, tractions, dips, muscle-ups, planche, handstand,
 suivi sportif, analyse performance, progression, tracker
 ```

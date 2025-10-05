@@ -23,11 +23,11 @@ const Footer = () => {
                 <DocumentMagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
               </div>
               <span className="text-base sm:text-lg font-bold sport-text-gradient">
-                Calisthénie Tracker
+                Callisthénie Tracker
               </span>
             </div>
             <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-              Compagnon d'entraînement pour la calisthénie. 
+              Compagnon d'entraînement pour la callisthénie. 
               Suivez vos progrès, découvrez de nouveaux exercices et 
               atteignez vos objectifs.
             </p>
@@ -102,7 +102,7 @@ const Footer = () => {
         <div className="border-t border-sport-gray-light mt-6 sm:mt-8 pt-4 sm:pt-6">
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0 text-center sm:text-left">
             <div className="text-gray-400 text-xs sm:text-sm">
-              © {currentYear} Calisthénie Tracker.
+              © {currentYear} Callisthénie Tracker.
             </div>
             <div className="flex items-center space-x-4 sm:space-x-6">
               <span className="text-gray-400 text-xs sm:text-sm">

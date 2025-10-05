@@ -54,7 +54,7 @@ const LogoShowcase: React.FC = () => {
             Propositions de Logo
           </h1>
           <p className="text-lg text-martial-steel max-w-2xl mx-auto">
-            Trois concepts d'identité visuelle pour l'application de calisthénie, 
+            Trois concepts d'identité visuelle pour l'application de callisthénie, 
             alliant ambiance martiale et modernité.
           </p>
         </header>

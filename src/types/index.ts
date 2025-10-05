@@ -1,4 +1,4 @@
-// Types pour l'application Calisthenics Tracker
+// Types pour l'application Callisthenics Tracker
 
 export type DifficultyRank = 'F' | 'D' | 'C' | 'B' | 'A' | 'S' | 'SS';
 

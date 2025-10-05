@@ -55,7 +55,7 @@ export const webApplicationSchema = {
     ratingCount: '150',
   },
   featureList: [
-    'Suivi d\'entraînements de calisthénie',
+    'Suivi d\'entraînements de callisthénie',
     'Base d\'exercices complète',
     'Analyse de progression',
     'Graphiques de performance',

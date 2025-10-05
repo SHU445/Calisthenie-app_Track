@@ -50,7 +50,7 @@ const Navigation = () => {
               <DocumentMagnifyingGlassIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
             </div>
             <span className="text-base sm:text-xl font-bold sport-text-gradient hidden xs:block sm:block">
-              Calisthénie Tracker
+              Callisthénie Tracker
             </span>
           </Link>
 

@@ -99,7 +99,7 @@ export default function RegisterPage() {
               Créer un compte
             </h2>
             <p className="text-gray-400">
-              Rejoignez la communauté Calisthénie Tracker
+              Rejoignez la communauté Callisthénie Tracker
             </p>
           </div>
 

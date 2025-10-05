@@ -236,7 +236,7 @@ export default function AjouterExercicePage() {
                   Ajouter un exercice
                 </h1>
                 <p className="text-xl text-gray-300">
-                  Contribuez à la base d'exercices en ajoutant votre propre exercice de calisthénie
+                  Contribuez à la base d'exercices en ajoutant votre propre exercice de callisthénie
                 </p>
               </div>
             </div>

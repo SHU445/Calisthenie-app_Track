@@ -58,7 +58,7 @@ const DesignSystemShowcase: React.FC = () => {
                   DESIGN SYSTEM MARTIAL
                 </h1>
                 <p className="text-xl text-martial-steel max-w-4xl mx-auto leading-relaxed">
-                  Interface modernisée pour application de calisthénie avec ambiance martiale : 
+                  Interface modernisée pour application de callisthénie avec ambiance martiale : 
                   discipline, intensité, ordre. Ergonomie préservée, motivation renforcée.
                 </p>
               </header>

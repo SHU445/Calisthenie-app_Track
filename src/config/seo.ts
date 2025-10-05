@@ -1,19 +1,18 @@
 /**
- * Configuration SEO centralisée pour l'application Calisthénie Tracker
+ * Configuration SEO centralisée pour l'application Callisthénie Tracker
  */
 
 import type { Metadata } from 'next';
 
 export const siteConfig = {
-  name: 'Calisthénie Tracker',
-  description: 'Application web de suivi d\'entraînements de calisthénie avec thème sportif moderne. Suivez vos progrès, analysez vos performances et dépassez vos limites.',
+  name: 'Callisthénie Tracker',
+  description: 'Application web de suivi d\'entraînements de callisthénie avec thème sportif moderne. Suivez vos progrès, analysez vos performances et dépassez vos limites.',
   url: 'https://calisthenie-track.vercel.app',
   ogImage: 'https://calisthenie-track.vercel.app/og-image.jpg',
   links: {
     github: 'https://github.com/votre-repo/calisthenie-tracker',
   },
   keywords: [
-    'calisthénie',
     'callisthénie',
     'fitness',
     'musculation',
@@ -34,10 +33,10 @@ export const siteConfig = {
     'records personnels',
     'statistiques sportives',
   ],
-  creator: 'Calisthénie Tracker Team',
+  creator: 'Callisthénie Tracker Team',
   authors: [
     {
-      name: 'Calisthénie Tracker',
+      name: 'Callisthénie Tracker',
       url: 'https://calisthenie-track.vercel.app',
     },
   ],
@@ -100,39 +99,39 @@ export const defaultMetadata: Metadata = {
  */
 export const pageMetadata = {
   home: {
-    title: 'Accueil - Votre compagnon d\'entraînement en calisthénie',
-    description: 'Suivez vos entraînements de calisthénie, analysez vos progrès et dépassez vos limites. Plus de 20 exercices détaillés, suivi de performances et graphiques de progression.',
-    keywords: ['calisthénie', 'tracker', 'entraînement', 'sport', 'fitness', 'exercices au poids du corps', 'street workout'],
+    title: 'Accueil - Votre compagnon d\'entraînement en callisthénie',
+    description: 'Suivez vos entraînements de callisthénie, analysez vos progrès et dépassez vos limites. Plus de 20 exercices détaillés, suivi de performances et graphiques de progression.',
+    keywords: ['callisthénie', 'tracker', 'entraînement', 'sport', 'fitness', 'exercices au poids du corps', 'street workout'],
   },
   exercises: {
-    title: 'Base d\'exercices - Bibliothèque complète de calisthénie',
-    description: 'Découvrez notre collection complète d\'exercices de calisthénie : pompes, tractions, dips, muscle-ups et plus. Instructions détaillées, niveaux de difficulté et muscles ciblés.',
-    keywords: ['exercices calisthénie', 'pompes', 'tractions', 'dips', 'muscle-ups', 'planche', 'handstand', 'exercices poids du corps'],
+    title: 'Base d\'exercices - Bibliothèque complète de callisthénie',
+    description: 'Découvrez notre collection complète d\'exercices de callisthénie : pompes, tractions, dips, muscle-ups et plus. Instructions détaillées, niveaux de difficulté et muscles ciblés.',
+    keywords: ['exercices callisthénie', 'pompes', 'tractions', 'dips', 'muscle-ups', 'planche', 'handstand', 'exercices poids du corps'],
   },
   workouts: {
     title: 'Mes entraînements - Historique et suivi de séances',
     description: 'Gérez vos séances d\'entraînement, suivez vos séries et répétitions. Historique complet avec statistiques détaillées et analyse de performances.',
-    keywords: ['entraînements calisthénie', 'suivi séances', 'historique sport', 'séries répétitions', 'gestion entraînement'],
+    keywords: ['entraînements callisthénie', 'suivi séances', 'historique sport', 'séries répétitions', 'gestion entraînement'],
   },
   progress: {
     title: 'Mes progrès - Analyse et statistiques de performance',
     description: 'Analysez vos performances avec des graphiques détaillés. Suivez vos records personnels, visualisez votre évolution et optimisez votre progression.',
-    keywords: ['progrès calisthénie', 'statistiques sport', 'analyse performance', 'graphiques progression', 'records personnels'],
+    keywords: ['progrès callisthénie', 'statistiques sport', 'analyse performance', 'graphiques progression', 'records personnels'],
   },
   ranks: {
     title: 'Système de rangs - Niveaux de difficulté des exercices',
-    description: 'Comprendre le système de rangs de D à SSS pour les exercices de calisthénie. Progressez à votre rythme du débutant à l\'expert.',
-    keywords: ['rangs calisthénie', 'niveaux difficulté', 'progression sportive', 'débutant à expert'],
+    description: 'Comprendre le système de rangs de D à SSS pour les exercices de callisthénie. Progressez à votre rythme du débutant à l\'expert.',
+    keywords: ['rangs callisthénie', 'niveaux difficulté', 'progression sportive', 'débutant à expert'],
   },
   auth: {
     login: {
       title: 'Connexion - Accéder à votre compte',
-      description: 'Connectez-vous à votre compte Calisthénie Tracker pour accéder à vos entraînements et suivre vos progrès.',
+      description: 'Connectez-vous à votre compte Callisthénie Tracker pour accéder à vos entraînements et suivre vos progrès.',
       keywords: ['connexion', 'login', 'compte'],
     },
     register: {
       title: 'Inscription - Créer un compte gratuit',
-      description: 'Créez votre compte gratuit et commencez à suivre vos entraînements de calisthénie dès aujourd\'hui.',
+      description: 'Créez votre compte gratuit et commencez à suivre vos entraînements de callisthénie dès aujourd\'hui.',
       keywords: ['inscription', 'créer compte', 'gratuit'],
     },
   },

@@ -115,7 +115,7 @@ const HomeMockup: React.FC = () => {
         <div className="flex items-center justify-between">
           <ChevronLogo size={32} variant="danger" />
           <h1 className="font-display font-bold text-martial-highlight">
-            CALISTHENIE TRACKER
+            CALLISTHENIE TRACKER
           </h1>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -136,7 +136,7 @@ const HomeMockup: React.FC = () => {
           <div className="flex items-center space-x-4">
             <ChevronLogo size={36} variant="danger" />
             <span className="font-display font-bold text-xl text-martial-highlight">
-              CALISTHENIE TRACKER
+              CALLISTHENIE TRACKER
             </span>
           </div>
           

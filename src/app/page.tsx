@@ -32,7 +32,7 @@ export default function Home() {
     {
       icon: BookOpenIcon,
       title: 'Base d\'exercices complète',
-      description: 'Plus de 20 exercices de calisthénie détaillés avec instructions et niveaux de difficulté',
+      description: 'Plus de 20 exercices de callisthénie détaillés avec instructions et niveaux de difficulté',
       color: 'text-sport-accent'
     },
     {
@@ -85,7 +85,7 @@ export default function Home() {
                 <span className="text-white">Tracker</span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 leading-relaxed animate-fade-in-up">
-                Le compagnon d'entraînement pour la calisthénie.
+                Le compagnon d'entraînement pour la callisthénie.
                 <br className="hidden sm:block" />
                 <span className="sm:hidden"> </span>
                 Suivez vos progrès, dépassez vos limites.
@@ -159,7 +159,7 @@ export default function Home() {
                 Ce dont vous avez besoin :
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto px-4">
-                Une suite complète d'outils pour optimiser vos entraînements de calisthénie
+                Une suite complète d'outils pour optimiser vos entraînements de callisthénie
               </p>
             </div>
 
@@ -194,10 +194,10 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12 items-center">
               <div>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6">
-                  Pourquoi choisir la calisthénie ?
+                  Pourquoi choisir la callisthénie ?
                 </h2>
                 <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 leading-relaxed">
-                  La calisthénie est l'art de s'entraîner avec son propre poids. 
+                  La callisthénie est l'art de s'entraîner avec son propre poids. 
                   C'est accessible, efficace et permet de développer une force fonctionnelle 
                   exceptionnelle.
                 </p>
@@ -219,7 +219,7 @@ export default function Home() {
                     </h3>
                     <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6">
                       Rejoignez des milliers de pratiquants qui ont transformé leur corps 
-                      avec la calisthénie.
+                      avec la callisthénie.
                     </p>
                     {!isAuthenticated && (
                       <Link

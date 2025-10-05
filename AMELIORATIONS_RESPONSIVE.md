@@ -1,8 +1,8 @@
-# Améliorations du Responsive Design - Calisthénie Tracker
+# Améliorations du Responsive Design - Callisthénie Tracker
 
 ## 📱 Vue d'ensemble
 
-Ce document décrit toutes les améliorations apportées au responsive design de l'application Calisthénie Tracker pour garantir une expérience optimale sur tous les types et tailles d'écran.
+Ce document décrit toutes les améliorations apportées au responsive design de l'application Callisthénie Tracker pour garantir une expérience optimale sur tous les types et tailles d'écran.
 
 ## ✨ Modifications principales
 
@@ -46,7 +46,7 @@ Ce document décrit toutes les améliorations apportées au responsive design de
 ### 2. **Navigation** (`src/components/Navigation.tsx`)
 
 #### Logo
-- Version complète sur écrans moyens et plus : "Calisthénie Tracker"
+- Version complète sur écrans moyens et plus : "Callisthénie Tracker"
 - Version abrégée "CT" sur très petits écrans
 - Tailles d'icônes adaptées : h-5 w-5 sm:h-6 sm:w-6
 

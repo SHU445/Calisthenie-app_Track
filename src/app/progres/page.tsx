@@ -300,7 +300,7 @@ export default function ProgressPage() {
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
-                Analysez vos performances et suivez votre évolution dans vos exercices de calisthénie
+                Analysez vos performances et suivez votre évolution dans vos exercices de callisthénie
               </p>
             </div>
           </div>

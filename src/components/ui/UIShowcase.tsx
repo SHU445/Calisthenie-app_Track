@@ -189,7 +189,7 @@ const UIShowcase: React.FC = () => {
             {/* Carte d'exercice */}
             <WorkoutCard 
               difficulty="advanced" 
-              category="CALISTHENICS"
+              category="CALLISTHENICS"
               className="col-span-full md:col-span-2"
             >
               <CardHeader>

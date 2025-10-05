@@ -30,7 +30,7 @@ export default function RangsPage() {
                 Système de Rangs
               </h1>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Comprenez le système de classification des exercices de calisthénie par rang de difficulté
+                Comprenez le système de classification des exercices de callisthénie par rang de difficulté
               </p>
             </div>
 
@@ -55,7 +55,7 @@ export default function RangsPage() {
                 À propos du système de rangs
               </h2>
               <p className="text-gray-300 mb-4">
-                Le système de rangs classe les exercices de calisthénie selon leur difficulté et le temps 
+                Le système de rangs classe les exercices de callisthénie selon leur difficulté et le temps 
                 nécessaire pour les maîtriser. Chaque rang représente une étape dans votre progression, 
                 du niveau de base (F) jusqu'au niveau élite (SS).
               </p>

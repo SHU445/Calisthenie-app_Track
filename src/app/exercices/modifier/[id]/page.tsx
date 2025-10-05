@@ -279,7 +279,7 @@ export default function ModifierExercicePage() {
                   Modifier l'exercice
                 </h1>
                 <p className="text-xl text-gray-300">
-                  Modifiez les informations de l'exercice de calisthénie
+                  Modifiez les informations de l'exercice de callisthénie
                 </p>
               </div>
             </div>
