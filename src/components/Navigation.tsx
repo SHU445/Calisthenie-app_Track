@@ -52,9 +52,6 @@ const Navigation = () => {
             <span className="text-base sm:text-xl font-bold sport-text-gradient hidden xs:block sm:block">
               Calisthénie Tracker
             </span>
-            <span className="text-base font-bold sport-text-gradient xs:hidden">
-              CT
-            </span>
           </Link>
 
           {/* Navigation desktop */}

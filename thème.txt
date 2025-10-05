@@ -274,3 +274,149 @@ IDENTITÉ VISUELLE :
 * Ombres subtiles pour relief
 * Typographie claire et moderne
 * Responsive & accessibilité optimisée
+
+
+SECOND THEME : GOTHIC VIOLET -
+Couleurs principales
+primaire : #5A2D82 (Violet profond gothique)
+
+secondaire : #7B3FA5 (Violet moyen)
+
+accent : #B788E8 (Lavande lumineuse)
+
+dark : #3A1E57 (Violet très foncé)
+
+dark-light : #512A75 (Violet sombre clair)
+
+Couleurs fonctionnelles
+success : #30B77F (Vert émeraude doux)
+
+warning : #E1A33E (Ambre doré)
+
+danger : #D94F70 (Rose foncé)
+
+Couleurs de niveaux
+gray-light : #4B3C56 (Gris violet)
+
+gray-lighter : #6C5C7C (Gris lavande)
+
+Couleurs de récompenses
+gold : #C89F3B (Or antique)
+
+silver : #A7A4B8 (Argent lavande)
+
+bronze : #A3693F (Bronze chaud)
+
+Couleurs des rangs système
+Rang F : #6C5C7C (Gris lavande)
+
+Rang D : #30B77F (Vert doux)
+
+Rang C : #7B3FA5 (Violet moyen)
+
+Rang B : #B788E8 (Lavande lumineuse)
+
+Rang A : #C89F3B (Or antique)
+
+Rang S : #D94F70 (Rose foncé)
+
+Couleurs de graphiques
+Série 1 : #B788E8 (Lavande)
+
+Série 2 : #30B77F (Vert émeraude)
+
+Série 3 : #7B3FA5 (Violet moyen)
+
+Série 4 : #E1A33E (Ambre)
+
+Série 5 : #D94F70 (Rose foncé)
+
+Arrières plans
+body (principal) : linear-gradient(135deg, #3A1E57 0%, #512A75 50%, #5A2D82 100%)
+
+sport-card : linear-gradient(145deg, #512A75 0%, #3A1E57 100%)
+
+sport-navbar : linear-gradient(90deg, #5A2D82 0%, #7B3FA5 100%)
+
+sport-gradient : linear-gradient(135deg, #5A2D82 0%, #7B3FA5 50%, #B788E8 100%)
+
+backdrop-blur-sport : rgba(58, 30, 87, 0.8) + blur(12px)
+
+border-gradient : linear-gradient(145deg, #512A75, #3A1E57) + linear-gradient(45deg, #B788E8, #30B77F)
+
+Texte principal
+titre : #EFEAF8 (Blanc très doux)
+
+texte-accent : gradient violet (#B788E8 → #30B77F)
+
+texte-secondary : #A7A4B8 (Gris lavande)
+
+placeholder : #A7A4B8 (Gris lavande)
+
+Texte état
+success : #30B77F
+
+warning : #E1A33E
+
+danger : #D94F70
+
+accent : #B788E8
+
+Texte navigation
+normal : #CFC6E3 (Gris clair violet)
+
+hover : #B788E8
+
+active : #EFEAF8
+
+Boutons
+Bouton primaire
+
+fond : #B788E8
+
+hover : rgba(183, 136, 232, 0.9)
+
+texte : #3A1E57
+
+ombre : rgba(183, 136, 232, 0.3)
+
+Bouton secondaire
+
+fond : #512A75
+
+hover : #6C5C7C
+
+bordure : #B788E8
+
+texte : #EFEAF8
+
+Bouton success
+
+fond : #30B77F
+
+hover : rgba(48, 183, 127, 0.9)
+
+texte : #EFEAF8
+
+Bouton danger
+
+fond : #D94F70
+
+hover : rgba(217, 79, 112, 0.9)
+
+texte : #EFEAF8
+
+Bordures
+Bordure principale
+
+sport-gray-light : #6C5C7C
+
+sport-accent : #B788E8
+
+transparent : utilisé avec gradients
+
+Bordure gradient
+
+intérieur : linear-gradient(145deg, #512A75, #3A1E57)
+
+extérieur : linear-gradient(45deg, #B788E8, #30B77F)

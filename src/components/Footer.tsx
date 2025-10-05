@@ -85,11 +85,11 @@ const Footer = () => {
             <ul className="space-y-1.5 sm:space-y-2">
               <li className="flex items-center space-x-2 text-gray-400 text-xs sm:text-sm py-1">
                 <InformationCircleIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span>Application de sport</span>
+                <span>Application de sport | Callisthenics | Street Workout</span>
               </li>
               <li className="flex items-center space-x-2 text-gray-400 text-xs sm:text-sm py-1">
                 <ShieldCheckIcon className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span>Données stockées sur mongo</span>
+                <span>Données stockées sur Néon</span>
               </li>
               <li className="text-gray-400 text-xs sm:text-sm py-1">
                 Version 1.0.0

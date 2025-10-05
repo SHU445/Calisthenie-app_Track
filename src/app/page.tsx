@@ -80,7 +80,7 @@ export default function Home() {
           <div className="sport-container">
             <div className="text-center max-w-4xl mx-auto px-4">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 animate-fade-in-up">
-                <span className="sport-text-gradient">Calisthénie</span>
+                <span className="sport-text-gradient">Callisthénie</span>
                 <br />
                 <span className="text-white">Tracker</span>
               </h1>
