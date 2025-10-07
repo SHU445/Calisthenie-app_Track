@@ -13,7 +13,8 @@ import {
   ChartBarIcon,
   UserIcon,
   ArrowRightOnRectangleIcon,
-  DocumentMagnifyingGlassIcon
+  DocumentMagnifyingGlassIcon,
+  Cog6ToothIcon
 } from '@heroicons/react/24/outline';
 
 const Navigation = () => {
@@ -75,10 +76,15 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
             {isAuthenticated ? (
               <div className="flex items-center space-x-2 lg:space-x-4">
-                <div className="flex items-center space-x-2">
-                  <UserIcon className="h-4 w-4 lg:h-5 lg:w-5 text-sport-accent" />
-                  <span className="text-xs lg:text-sm text-gray-300 max-w-[100px] truncate">{user?.username}</span>
-                </div>
+                <Link
+                  href="/parametres"
+                  className="flex items-center space-x-2 sport-hover px-3 py-2 rounded-lg transition-all duration-200 group"
+                  title="Gérer mon compte"
+                >
+                  <UserIcon className="h-4 w-4 lg:h-5 lg:w-5 text-sport-accent group-hover:scale-110 transition-transform" />
+                  <span className="text-xs lg:text-sm text-gray-300 max-w-[100px] truncate group-hover:text-sport-accent transition-colors">{user?.username}</span>
+                  <Cog6ToothIcon className="h-3 w-3 lg:h-4 lg:w-4 text-gray-500 group-hover:text-sport-accent group-hover:rotate-90 transition-all" />
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="flex items-center space-x-1 lg:space-x-2 sport-btn-secondary text-xs lg:text-sm py-2 px-3 lg:px-4"
@@ -143,10 +149,15 @@ const Navigation = () => {
             <div className="border-t border-sport-gray-light pt-4 mt-4">
               {isAuthenticated ? (
                 <div className="space-y-3">
-                  <div className="flex items-center space-x-3 py-2 px-3">
+                  <Link
+                    href="/parametres"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center space-x-3 py-3 px-3 rounded-lg text-gray-300 hover:text-sport-accent hover:bg-sport-primary/50 transition-all duration-200 touch-target"
+                  >
                     <UserIcon className="h-5 w-5 text-sport-accent" />
-                    <span className="text-sm text-gray-300">{user?.username}</span>
-                  </div>
+                    <span className="text-base flex-1">{user?.username}</span>
+                    <Cog6ToothIcon className="h-5 w-5 text-gray-500" />
+                  </Link>
                   <button
                     onClick={handleLogout}
                     className="flex items-center space-x-2 w-full sport-btn-secondary justify-center touch-target"

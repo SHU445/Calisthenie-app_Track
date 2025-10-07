@@ -58,14 +58,26 @@ module.exports = {
           'overlay': 'rgba(11, 15, 18, 0.85)',
           'surface-alpha': 'rgba(19, 23, 26, 0.8)',
         },
+        // Palettes de couleurs pour les thèmes alternatifs
+        theme: {
+          'violet': '#8B5CF6',          // violet principal
+          'violet-light': '#A78BFA',    // violet hover
+          'violet-dark': '#7C3AED',     // violet pressed
+          'green': '#10B981',           // vert émeraude
+          'green-light': '#34D399',     // vert hover
+          'green-dark': '#059669',      // vert pressed
+          'blue': '#3B82F6',            // bleu électrique
+          'blue-light': '#60A5FA',      // bleu hover
+          'blue-dark': '#2563EB',       // bleu pressed
+        },
         // Alias pour compatibilité (mapping sport -> martial)
         sport: {
           primary: '#13171A',           // surface-1
           secondary: '#1A1F23',         // surface-hover
-          accent: '#9E1B1B',            // danger-accent
+          accent: '#9E1B1B',            // danger-accent (overridé par thème CSS)
           success: '#2D5A2D',           // success
           warning: '#8B6914',           // warning
-          danger: '#9E1B1B',            // danger-accent
+          danger: '#9E1B1B',            // danger-accent (overridé par thème CSS)
           dark: '#0B0F12',              // primary-bg
           'dark-light': '#13171A',      // surface-1
           'gray-light': '#13171A',      // surface-1

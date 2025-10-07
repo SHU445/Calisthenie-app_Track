@@ -3,6 +3,7 @@ import Script from 'next/script';
 import './globals.css';
 import { defaultMetadata } from '@/config/seo';
 import JsonLd, { organizationSchema, webApplicationSchema, websiteSchema } from '@/components/JsonLd';
+import ThemeProvider from '@/components/ThemeProvider';
 
 export const metadata: Metadata = defaultMetadata;
 
@@ -37,9 +38,11 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>
       <body className="antialiased">
-        <div className="min-h-screen bg-sport-dark text-white">
-          {children}
-        </div>
+        <ThemeProvider>
+          <div className="min-h-screen bg-sport-dark text-white">
+            {children}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,0 +1,940 @@
+# ═══════════════════════════════════════════════════════════════════════
+# 🎨 ANALYSE COMPLÈTE DU THÈME ACTUEL - CALLISTHÉNIE TRACKER APP
+# ═══════════════════════════════════════════════════════════════════════
+# Date d'analyse : 7 octobre 2025
+# Version : 1.0.0
+# Framework : Next.js 15.3.4 + Tailwind CSS 3.4.0
+# ═══════════════════════════════════════════════════════════════════════
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🎯 THÈME ACTUELLEMENT ACTIF : MARTIAL (Dark Mode)                  │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## 📸 OBSERVATIONS VISUELLES DES SCREENSHOTS
+
+### Interface Générale
+- Ambiance : Sombre, martiale, militaire, sobre et professionnelle
+- Style : Design system moderne avec typographie impactante
+- Contraste : Excellent entre le fond sombre et les accents rouges
+- Lisibilité : Optimale avec texte off-white sur fond très sombre
+
+### Navigation
+- Fond : Gradient horizontal gunmetal avec backdrop blur
+- Logo : Cercle rouge (#9E1B1B) avec icône de livre/dossier blanc
+- Texte logo : "Callisthénie Tracker" en rouge (#9E1B1B) et gris clair
+- Liens : Gris clair avec icônes, hover probable en rouge
+- Boutons action : "CONNEXION" (bordure), "INSCRIPTION" (fond rouge)
+
+### Page d'accueil (Hero)
+- Titre principal : "CALLISTHÉNIE TRACKER" 
+  - "CALLISTHÉNIE" en rouge (#9E1B1B)
+  - "TRACKER" en blanc off-white (#DFD9CB)
+- Typographie : Bebas Neue (Display font) très impactante
+- Boutons CTA : Rouge vif avec ombre lumineuse rouge
+- Statistiques : Cercles rouges avec icônes + chiffres blancs
+
+### Cartes (Cards)
+- Fond : Gradient gunmetal (#13171A vers #0B0F12)
+- Bordure : Subtile gris-acier semi-transparent
+- Ombre : Ombre sombre avec légère teinte
+- Icônes : Couleurs variées (doré, bleu-vert, rouge)
+- Hover : Bordure rouge avec glow effect
+
+### Badges de Rangs (System de Difficulté)
+Observés sur la page "Système de Rangs" :
+
+**F (Rang F - Base)** : 
+- Badge : Cercle VERT (#10B981 ou similaire vert émeraude/militaire)
+- Style : Lettres blanches sur fond vert
+- Contexte : "Niveau de base - Immédiat"
+
+**D (Rang D - Débutant)** :
+- Badge : Cercle CYAN/TURQUOISE (#47B7CC ou bleu-cyan clair)
+- Style : Lettres blanches sur fond cyan
+- Contexte : "Niveau débutant - 1 à 2 mois"
+
+**C (Rang C - Débutant avancé)** :
+- Badge : Cercle BLEU (#2E79C5 ou bleu moyen)
+- Style : Lettres blanches sur fond bleu
+- Contexte : "Niveau débutant avancé - 2 à 6 mois"
+
+**B (Rang B - Intermédiaire)** :
+- Badge : Cercle VIOLET (#7B3FA5 ou violet moyen)
+- Style : Lettres blanches sur fond violet
+- Contexte : "Niveau intermédiaire - 6 à 15 mois"
+
+**A (Rang A - Intermédiaire supérieur)** :
+- Badge : Cercle ORANGE (#F59E0B ou ambre/orange)
+- Style : Lettres blanches/noires sur fond orange
+- Contexte : "Intermédiaire supérieur - 15 à 36 mois"
+
+**S (Rang S - Avancé)** :
+- Badge : Cercle ROUGE (#EF4444 ou #9E1B1B rouge vif)
+- Style : Lettres blanches sur fond rouge
+- Contexte : "Avancé - 3 à 5 ans"
+
+**SS (Rang SS - Élite)** :
+- Badge : Cercle VIOLET/LAVANDE (#B788E8 ou violet clair)
+- Style : Lettres noires sur fond lavande
+- Contexte : "Élite - Jusqu'à 5 ans+"
+
+### Formulaires (Page Login)
+- Container : Card sombre avec bordure subtile
+- Champs input : Fond gunmetal (#13171A) avec bordure gris-acier
+- Icônes : Gris clair dans les inputs (utilisateur, cadenas)
+- Labels : Texte gris clair off-white
+- Placeholder : Gris moyen steel (#AEB6BD)
+- Bouton principal : Rouge crimson pleine largeur
+- Liens : Texte rouge pour "S'inscrire gratuitement"
+- Encadré démo : Fond très légèrement différent
+
+### Footer
+- Fond : Semi-transparent avec backdrop blur
+- Logo : Cercle rouge identique à la navigation
+- Texte : Gris clair (#AEB6BD ou #BCC4CB)
+- Sections : Navigation, À propos
+- Copyright : Gris plus sombre
+- Liens : Hover probable en rouge
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🎨 PALETTE DE COULEURS COMPLÈTE - THÈME MARTIAL                     │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === COULEURS PRINCIPALES MARTIAL ===
+
+### Arrière-plans (Backgrounds)
+```css
+primary-bg:         #0B0F12    /* Near-black - Arrière-plan principal */
+surface-1:          #13171A    /* Gunmetal - Surfaces, cartes */
+surface-hover:      #1A1F23    /* Gunmetal hover - État hover des surfaces */
+surface-alpha:      rgba(19, 23, 26, 0.8)  /* Surface semi-transparente */
+overlay:            rgba(11, 15, 18, 0.85) /* Overlay modal/backdrop */
+```
+
+**Gradient principal body :**
+```css
+background: linear-gradient(135deg, #0B0F12 0%, #13171A 50%, #1A1F23 100%);
+```
+
+### Couleurs d'accent (Accents)
+```css
+danger-accent:      #9E1B1B    /* Deep crimson - Accent principal, CTA */ [gothic violet] [gothic vert] [gothic bleu]
+danger-light:       #B53E3E    /* Danger hover - État hover du danger */  [gothic violet] [gothic vert] [gothic bleu]
+danger-dark:        #7A1515    /* Danger pressed - État pressed */        [gothic violet] [gothic vert] [gothic bleu]
+```
+
+### Textes (Typography Colors)
+```css
+highlight:          #DFD9CB    /* Off-white warm - Texte principal */
+steel:              #AEB6BD    /* Muted steel - Texte secondaire, accents */
+steel-light:        #BCC4CB    /* Steel light - Texte tertiaire */
+steel-dark:         #9BA3AA    /* Steel dark - Texte désactivé */
+```
+
+### États fonctionnels (Functional States)
+```css
+success:            #2D5A2D    /* Vert militaire - Succès, validation */
+warning:            #8B6914    /* Jaune olive - Avertissements */
+info:               #1F3A5F    /* Bleu sombre - Informations */
+```
+
+## === COULEURS DES RANGS (Badges) ===
+
+### Système de rangs observé visuellement
+```css
+rang-F-badge:       #10B981    /* Vert émeraude - Rang F (Base) */
+rang-D-badge:       #47B7CC    /* Cyan turquoise - Rang D (Débutant) */
+rang-C-badge:       #2E79C5    /* Bleu moyen - Rang C (Débutant avancé) */
+rang-B-badge:       #7B3FA5    /* Violet moyen - Rang B (Intermédiaire) */
+rang-A-badge:       #F59E0B    /* Orange ambre - Rang A (Inter. supérieur) */
+rang-S-badge:       #EF4444    /* Rouge vif - Rang S (Avancé) */
+rang-SS-badge:      #B788E8    /* Lavande violet - Rang SS (Élite) */
+```
+
+## === COULEURS DE NAVIGATION ===
+
+### Navbar
+```css
+navbar-bg:          linear-gradient(90deg, #13171A 0%, #1A1F23 100%)
+navbar-border:      rgba(174, 182, 189, 0.2)  /* Border steel semi-transparent */
+navbar-backdrop:    backdrop-filter: blur(12px)
+logo-circle-bg:     #9E1B1B    /* Cercle rouge du logo */   [gothic violet] [gothic vert] [gothic bleu]
+logo-icon:          #FFFFFF    /* Icône blanche dans le cercle */
+logo-text-accent:   #9E1B1B    /* "Callisthénie" en rouge */    [gothic violet] [gothic vert] [gothic bleu]
+logo-text-normal:   #AEB6BD    /* "Tracker" en gris clair */
+nav-link:           #AEB6BD    /* Liens normaux */
+nav-link-hover:     #9E1B1B    /* Liens en hover (probable) */  [gothic violet] [gothic vert] [gothic bleu]
+nav-link-active:    #DFD9CB    /* Lien actif */
+```
+
+## === COULEURS DE BOUTONS ===
+
+### Bouton Primary (CTA principal)
+```css
+btn-primary-bg:         #9E1B1B    /* Fond rouge crimson */ [gothic violet] [gothic vert] [gothic bleu]
+btn-primary-hover:      #B53E3E    /* Hover plus clair */   [gothic violet] [gothic vert] [gothic bleu]
+btn-primary-active:     #7A1515    /* Active plus sombre */ [gothic violet] [gothic vert] [gothic bleu]
+btn-primary-text:       #DFD9CB    /* Texte off-white */
+btn-primary-shadow:     0 4px 15px rgba(158, 27, 27, 0.4)   [gothic violet] [gothic vert] [gothic bleu]
+btn-primary-glow:       0 0 16px rgba(158, 27, 27, 0.4)  /* Effet glow */   [gothic violet] [gothic vert] [gothic bleu]
+```
+
+### Bouton Secondary
+```css
+btn-secondary-bg:       #13171A    /* Fond gunmetal */
+btn-secondary-hover:    #1A1F23    /* Hover surface-hover */
+btn-secondary-border:   rgba(174, 182, 189, 0.3)  /* Bordure steel */
+btn-secondary-text:     #DFD9CB    /* Texte off-white */
+```
+
+### Bouton Success
+```css
+btn-success-bg:         #2D5A2D    /* Vert militaire */
+btn-success-hover:      rgba(45, 90, 45, 0.9)
+btn-success-text:       #DFD9CB
+```
+
+### Bouton outline (Connexion)
+```css
+btn-outline-bg:         transparent
+btn-outline-border:     rgba(174, 182, 189, 0.3)
+btn-outline-text:       #DFD9CB
+btn-outline-hover-bg:   rgba(19, 23, 26, 0.5)
+```
+
+## === COULEURS DE CARTES (Cards) ===
+
+### Carte Martial Standard
+```css
+card-bg:            linear-gradient(145deg, #13171A 0%, #0B0F12 100%)
+card-border:        rgba(174, 182, 189, 0.2)
+card-shadow:        0 8px 16px rgba(11, 15, 18, 0.2)
+card-hover-shadow:  0 12px 24px rgba(11, 15, 18, 0.25)
+```
+
+### Carte Hover avec accent
+```css
+card-hover-border:  rgba(158, 27, 27, 0.5)  /* Bordure rouge en hover */    [gothic violet] [gothic vert] [gothic bleu]
+card-hover-glow:    0 0 16px rgba(158, 27, 27, 0.4)  /* Glow rouge */       [gothic violet] [gothic vert] [gothic bleu]
+```
+
+## === COULEURS DE FORMULAIRES ===
+
+### Input Fields
+```css
+input-bg:               #13171A    /* Fond gunmetal */
+input-border:           rgba(174, 182, 189, 0.3)  /* Bordure steel */
+input-border-focus:     rgba(158, 27, 27, 0.5)    /* Focus rouge */ [gothic violet] [gothic vert] [gothic bleu]
+input-text:             #DFD9CB    /* Texte off-white */
+input-placeholder:      #AEB6BD    /* Placeholder steel */
+input-icon:             #AEB6BD    /* Couleur des icônes */
+input-shadow-focus:     0 0 0 3px rgba(158, 27, 27, 0.1)  /* Ring focus */  [gothic violet] [gothic vert] [gothic bleu]
+```
+
+### Select & Textarea
+```css
+select-bg:              #13171A
+select-border:          rgba(174, 182, 189, 0.3)
+select-arrow:           #AEB6BD
+textarea-bg:            #13171A
+textarea-resize:        none
+textarea-min-height:    100px
+```
+
+## === COULEURS DE BADGES ===
+
+### Badge Success
+```css
+badge-success-bg:       rgba(45, 90, 45, 0.1)
+badge-success-text:     #2D5A2D
+badge-success-border:   #2D5A2D
+```
+
+### Badge Warning
+```css
+badge-warning-bg:       rgba(139, 105, 20, 0.1)
+badge-warning-text:     #8B6914
+badge-warning-border:   #8B6914
+```
+
+### Badge Danger
+```css
+badge-danger-bg:        rgba(158, 27, 27, 0.1)
+badge-danger-text:      #9E1B1B
+badge-danger-border:    #9E1B1B
+```
+
+### Badge Rank (Generic)
+```css
+badge-rank-bg:          rgba(174, 182, 189, 0.1)
+badge-rank-text:        #AEB6BD
+badge-rank-border:      #AEB6BD
+```
+
+## === COULEURS D'OMBRES (Shadows) ===
+
+```css
+shadow-sm:              0 2px 4px rgba(11, 15, 18, 0.1)
+shadow-md:              0 4px 8px rgba(11, 15, 18, 0.15)
+shadow-lg:              0 8px 16px rgba(11, 15, 18, 0.2)
+shadow-xl:              0 12px 24px rgba(11, 15, 18, 0.25)
+shadow-2xl:             0 16px 32px rgba(11, 15, 18, 0.3)
+shadow-inner:           inset 0 2px 4px rgba(11, 15, 18, 0.1)
+shadow-glow-danger:     0 0 16px rgba(158, 27, 27, 0.4)         [gothic violet] [gothic vert] [gothic bleu]
+shadow-glow-steel:      0 0 12px rgba(174, 182, 189, 0.3)
+```
+
+## === BORDURES (Borders) ===
+
+```css
+border-radius-sm:       6px
+border-radius-md:       8px
+border-radius-lg:       12px
+border-radius-xl:       16px
+border-radius-2xl:      24px
+border-radius-full:     9999px
+
+border-steel-light:     rgba(174, 182, 189, 0.2)
+border-steel-medium:    rgba(174, 182, 189, 0.3)
+border-danger:          rgba(158, 27, 27, 0.3)  [gothic violet] [gothic vert] [gothic bleu]
+border-danger-strong:   rgba(158, 27, 27, 0.5)  [gothic violet] [gothic vert] [gothic bleu]
+```
+
+## === GRADIENTS ===
+
+### Gradient principal
+```css
+martial-gradient:       linear-gradient(135deg, #0B0F12 0%, #13171A 50%, #1A1F23 100%)
+```
+
+### Gradient navbar
+```css
+navbar-gradient:        linear-gradient(90deg, #13171A 0%, #1A1F23 100%)
+```
+
+### Gradient carte
+```css
+card-gradient:          linear-gradient(145deg, #13171A 0%, #0B0F12 100%)
+```
+
+### Gradient texte accent
+```css
+text-gradient:          linear-gradient(to right, #9E1B1B, #AEB6BD) [gothic violet] [gothic vert] [gothic bleu]
+```
+
+### Gradient bordure
+```css
+border-gradient-inner:  linear-gradient(145deg, #13171A, #0B0F12)
+border-gradient-outer:  linear-gradient(45deg, #9E1B1B, #AEB6BD)    [gothic violet] [gothic vert] [gothic bleu]
+```
+
+## === SCROLLBAR ===
+
+```css
+scrollbar-width:        8px
+scrollbar-track:        #13171A
+scrollbar-thumb:        #AEB6BD
+scrollbar-thumb-hover:  #BCC4CB
+```
+
+# ┌──────────────────────────────────────────────────────────────────┐
+# │ 🎨 PALETTE DE COULEURS - THÈME VIOLET (Gothic) - NON DISPONIBLE │
+# └──────────────────────────────────────────────────────────────────┘
+
+## === COULEURS PRINCIPALES GOTHIC VIOLET ===
+
+### Arrière-plans
+```css
+primary-bg:         #3A1E57    /* Violet très foncé */
+surface-1:          #512A75    /* Violet sombre clair */
+surface-hover:      #6C5C7C    /* Gris lavande */
+surface-alpha:      rgba(58, 30, 87, 0.8)
+overlay:            rgba(58, 30, 87, 0.8)
+```
+
+**Gradient principal body (mode violet) :**
+```css
+background: linear-gradient(135deg, #3A1E57 0%, #512A75 50%, #5A2D82 100%);
+```
+
+### Couleurs d'accent
+```css
+primary:            #5A2D82    /* Violet profond gothique */
+secondary:          #7B3FA5    /* Violet moyen */
+accent:             #B788E8    /* Lavande lumineuse */
+```
+
+### Textes
+```css
+highlight:          #EFEAF8    /* Blanc très doux */
+steel:              #A7A4B8    /* Argent lavande */
+```
+
+### États fonctionnels
+```css
+success:            #30B77F    /* Vert émeraude doux */
+warning:            #E1A33E    /* Ambre doré */
+danger:             #D94F70    /* Rose foncé */
+```
+
+### Boutons (mode violet)
+```css
+btn-primary-bg:     #B788E8    /* Lavande */
+btn-primary-text:   #3A1E57    /* Texte sombre sur lavande */
+btn-secondary-bg:   #512A75
+btn-secondary-text: #EFEAF8
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 📐 TYPOGRAPHIE                                                       │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === FAMILLES DE POLICES ===
+
+```css
+font-display:       'Bebas Neue', 'Oswald', 'Bebas Neue Condensed', sans-serif
+font-body:          'Inter', 'Poppins', system-ui, sans-serif
+```
+
+**Import Google Fonts :**
+```
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Bebas+Neue&family=Oswald:wght@400;500;600;700&display=swap');
+```
+
+## === TAILLES DE POLICE ===
+
+```css
+text-xs:        12px / line-height: 16px / letter-spacing: 0.025em
+text-sm:        14px / line-height: 20px / letter-spacing: 0.02em
+text-base:      16px / line-height: 24px / letter-spacing: 0.01em
+text-lg:        18px / line-height: 28px / letter-spacing: 0.01em
+text-xl:        20px / line-height: 30px / letter-spacing: 0em
+text-2xl:       24px / line-height: 32px / letter-spacing: -0.01em
+text-3xl:       30px / line-height: 36px / letter-spacing: -0.02em
+text-4xl:       36px / line-height: 40px / letter-spacing: -0.025em
+text-5xl:       48px / line-height: 52px / letter-spacing: -0.03em
+text-6xl:       60px / line-height: 64px / letter-spacing: -0.035em
+```
+
+## === POIDS DE POLICE ===
+
+```css
+font-light:         300
+font-normal:        400
+font-medium:        500
+font-semibold:      600
+font-bold:          700
+font-black:         900
+```
+
+## === STYLES TYPOGRAPHIQUES ===
+
+### Titres (H1-H6)
+```css
+font-family:        'Bebas Neue', 'Oswald', sans-serif
+font-weight:        600
+letter-spacing:     -0.02em
+color:              #DFD9CB (highlight)
+```
+
+### Corps de texte
+```css
+font-family:        'Inter', 'Poppins', system-ui, sans-serif
+font-weight:        400
+color:              #DFD9CB (principal)
+                    #AEB6BD (secondaire)
+```
+
+### Texte avec effet de tampon (Stamped)
+```css
+font-family:        'Bebas Neue', 'Oswald', sans-serif
+font-weight:        900
+letter-spacing:     0.1em
+text-transform:     uppercase
+text-shadow:        0 1px 0 rgba(11, 15, 18, 0.8),
+                    0 2px 0 rgba(11, 15, 18, 0.6),
+                    0 3px 0 rgba(11, 15, 18, 0.4)
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 📏 ESPACEMENTS & LAYOUT                                              │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === GRILLE D'ESPACEMENT (8px base) ===
+
+```css
+spacing-xs:     4px      /* 0.5 × 8px */
+spacing-sm:     8px      /* 1 × 8px (base) */
+spacing-md:     16px     /* 2 × 8px */
+spacing-lg:     24px     /* 3 × 8px */
+spacing-xl:     32px     /* 4 × 8px */
+spacing-2xl:    40px     /* 5 × 8px */
+spacing-3xl:    48px     /* 6 × 8px */
+spacing-4xl:    64px     /* 8 × 8px */
+spacing-5xl:    80px     /* 10 × 8px */
+spacing-6xl:    96px     /* 12 × 8px */
+```
+
+## === GUTTERS RESPONSIFS ===
+
+```css
+gutter-mobile:      16px
+gutter-tablet:      24px
+gutter-desktop:     32px
+```
+
+## === BREAKPOINTS ===
+
+```css
+sm:     640px
+md:     768px
+lg:     1024px
+xl:     1280px
+2xl:    1536px
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🎭 ANIMATIONS & TRANSITIONS                                          │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === DURÉES ===
+
+```css
+duration-fast:      150ms
+duration-normal:    250ms
+duration-slow:      350ms
+```
+
+## === EASING FUNCTIONS ===
+
+```css
+ease-out:           cubic-bezier(0.25, 0.46, 0.45, 0.94)
+ease-in:            cubic-bezier(0.55, 0.055, 0.675, 0.19)
+ease-in-out:        cubic-bezier(0.645, 0.045, 0.355, 1)
+```
+
+## === ANIMATIONS PERSONNALISÉES ===
+
+### Pulse Slow
+```css
+animation:          pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite
+```
+
+### Scale Press (Click feedback)
+```css
+animation:          scalePress 0.15s ease-out
+keyframes:          0% { transform: scale(1) }
+                    50% { transform: scale(0.96) }
+                    100% { transform: scale(1) }
+```
+
+### Timer Pulse
+```css
+animation:          timerPulse 1s ease-in-out infinite
+keyframes:          0%, 100% { transform: scale(1); opacity: 1 }
+                    50% { transform: scale(1.05); opacity: 0.8 }
+```
+
+### Martial Float
+```css
+animation:          martialFloat 4s ease-in-out infinite
+keyframes:          0%, 100% { transform: translateY(0px) }
+                    50% { transform: translateY(-8px) }
+```
+
+### Martial Glow
+```css
+animation:          martialGlow 2s ease-in-out infinite alternate
+keyframes:          from { text-shadow: 0 0 5px rgba(158, 27, 27, 0.6) }
+                    to { text-shadow: 0 0 30px rgba(158, 27, 27, 0.4) }
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🔧 Z-INDEX SCALE                                                     │
+# └─────────────────────────────────────────────────────────────────────┘
+
+```css
+z-auto:         auto
+z-base:         0
+z-docked:       10
+z-dropdown:     1000
+z-sticky:       1100
+z-banner:       1200
+z-overlay:      1300
+z-modal:        1400
+z-popover:      1500
+z-skipLink:     1600
+z-toast:        1700
+z-tooltip:      1800
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🎪 EFFETS SPÉCIAUX                                                   │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === BACKDROP BLUR ===
+
+```css
+backdrop-blur-martial:          blur(12px) + rgba(11, 15, 18, 0.85)
+backdrop-blur-martial-light:    blur(8px) + rgba(19, 23, 26, 0.8)
+```
+
+## === TEXT SHADOWS ===
+
+```css
+text-shadow-martial:        0 2px 4px rgba(11, 15, 18, 0.6)
+text-shadow-martial-lg:     0 4px 8px rgba(11, 15, 18, 0.8)
+text-glow-danger:           0 0 10px rgba(158, 27, 27, 0.6)
+```
+
+## === TEXTURE MÉTALLIQUE ===
+
+```css
+texture-metal:
+    radial-gradient(circle at 20% 50%, rgba(174, 182, 189, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(174, 182, 189, 0.04) 0%, transparent 50%)
+```
+
+## === TEXTURE GRAIN ===
+
+```css
+texture-grain:
+    SVG noise filter with feTurbulence (baseFrequency='0.9', opacity='0.06')
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🎯 CLASSES CSS UTILITAIRES PERSONNALISÉES                           │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === BOUTONS ===
+
+```css
+.martial-btn                /* Bouton de base avec transitions */
+.martial-btn-primary        /* Bouton rouge crimson */
+.martial-btn-secondary      /* Bouton gunmetal avec bordure */
+.martial-btn-success        /* Bouton vert militaire */
+.martial-btn-cta            /* Bouton CTA avec glow et taille XL */
+```
+
+## === CARTES ===
+
+```css
+.martial-card               /* Carte de base avec gradient */
+.martial-card-hover         /* Carte avec effet hover rouge */
+```
+
+## === INPUTS ===
+
+```css
+.martial-input              /* Input de base */
+.martial-select             /* Select avec cursor pointer */
+.martial-textarea           /* Textarea avec min-height */
+```
+
+## === NAVIGATION ===
+
+```css
+.martial-navbar             /* Navbar avec gradient et backdrop blur */
+```
+
+## === BADGES ===
+
+```css
+.martial-badge              /* Badge de base avec style stencil */
+.martial-badge-success      /* Badge vert */
+.martial-badge-warning      /* Badge jaune olive */
+.martial-badge-danger       /* Badge rouge */
+.martial-badge-rank         /* Badge gris acier */
+```
+
+## === CONTENEURS ===
+
+```css
+.martial-container          /* Container responsive avec max-width */
+.martial-section            /* Section avec padding vertical */
+.martial-grid               /* Grid avec gap */
+.martial-grid-2             /* Grid 2 colonnes responsive */
+.martial-grid-3             /* Grid 3 colonnes responsive */
+.martial-grid-4             /* Grid 4 colonnes responsive */
+```
+
+## === SCROLLBAR ===
+
+```css
+.martial-scrollbar          /* Scrollbar personnalisée */
+```
+
+## === FOCUS & HOVER ===
+
+```css
+.martial-focus              /* Style focus avec ring rouge */
+.martial-hover              /* Hover avec background transition */
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 📋 COMPOSANTS SPÉCIAUX                                               │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === HERO SECTION ===
+
+```css
+Titre principal:            text-6xl font-display text-shadow-martial-lg
+Sous-titre:                 text-lg text-steel
+CTA buttons:                martial-btn-cta avec glow effect
+Stats circles:              bg-danger-accent avec border-4 et shadow-glow
+```
+
+## === FOOTER ===
+
+```css
+Background:                 rgba(19, 23, 26, 0.8) backdrop-blur
+Border top:                 border-steel-light
+Logo:                       Identique à navbar
+Links:                      text-steel hover:text-danger-accent
+Copyright:                  text-steel-dark text-sm
+```
+
+## === MODAL ===
+
+```css
+Overlay:                    backdrop-blur-martial avec rgba overlay
+Content:                    martial-card avec max-width et scrollbar
+Border:                     border-danger avec alpha 0.3
+```
+
+## === PROGRESS BAR ===
+
+```css
+Track:                      bg-surface-1 h-2 rounded-full
+Bar:                        bg-danger-accent avec chevron pattern
+Pattern:                    repeating-linear-gradient 45deg
+```
+
+## === TIMER (Workout Player) ===
+
+```css
+Normal:                     text-6xl font-black text-highlight
+Critical:                   text-danger-accent animate-timer-pulse
+Text shadow:                0 0 20px rgba(158, 27, 27, 0.6)
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🌐 RESPONSIVE DESIGN                                                 │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === STRATÉGIE MOBILE-FIRST ===
+
+- Base : Design pour mobile (320px+)
+- Breakpoint sm (640px) : Ajustements tablet
+- Breakpoint md (768px) : Tablet landscape
+- Breakpoint lg (1024px) : Desktop
+- Breakpoint xl (1280px) : Large desktop
+
+## === CLASSES RESPONSIVE ===
+
+```css
+.mobile-only                /* Visible seulement sur mobile */
+.desktop-only               /* Visible seulement sur desktop */
+.tablet-up                  /* Visible à partir de tablet */
+.mobile-tablet              /* Visible mobile et tablet */
+```
+
+## === TEXT RESPONSIVE ===
+
+```css
+.text-responsive-xs         /* text-xs sm:text-sm */
+.text-responsive-sm         /* text-sm sm:text-base */
+.text-responsive-lg         /* text-lg sm:text-xl md:text-2xl */
+.text-responsive-3xl        /* text-3xl sm:text-4xl md:text-5xl lg:text-6xl */
+```
+
+## === TOUCH TARGETS ===
+
+```css
+.touch-target               /* min-h-[44px] min-w-[44px] */
+/* Tous les boutons et inputs : min-height: 44px pour accessibilité mobile */
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ ♿ ACCESSIBILITÉ                                                     │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === CONTRASTES ===
+
+- Texte principal (#DFD9CB) sur fond sombre (#0B0F12) : ✅ WCAG AAA
+- Texte secondaire (#AEB6BD) sur fond sombre : ✅ WCAG AA
+- Boutons rouges (#9E1B1B) avec texte blanc : ✅ WCAG AA
+- Focus ring visible : ring-2 ring-danger-accent ring-offset-2
+
+## === FOCUS STATES ===
+
+```css
+Tous les éléments interactifs:
+- focus:outline-none
+- focus:ring-2
+- focus:ring-danger-accent
+- focus:ring-offset-2
+- focus:ring-offset-primary-bg
+```
+
+## === ANIMATIONS RESPECTUEUSES ===
+
+```css
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🔄 SYSTÈME DE THÈMES                                                 │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === IMPLÉMENTATION ===
+
+**Store Zustand** (`themeStore.ts`) :
+- État : 'dark' (Martial) | 'violet' (Gothic)
+- Persistance : localStorage
+- Fonction : `setTheme()`, `toggleTheme()`
+
+**Provider** (`ThemeProvider.tsx`) :
+- Applique classe `.violet` sur `<html>` si mode violet
+- Effet de synchronisation avec le store
+- Détection initiale depuis localStorage
+
+**Configuration** (`tailwind.config.js`) :
+- Palette `martial.*` pour le thème sombre
+- Palette `gothic.*` pour le thème violet
+- Alias `sport.*` pour rétrocompatibilité
+
+**Styles** (`globals.css`) :
+- Règles de base pour `.dark` (par défaut)
+- Surcharges `.violet` pour tous les composants
+- Transitions automatiques entre thèmes
+
+## === ACTIVATION DU THÈME ===
+
+**Via page Paramètres** (`/parametres`) :
+1. Sélection "Mode Sombre" ou "Mode Violet"
+2. Sauvegarde dans localStorage ('theme')
+3. Application immédiate via store
+4. Classe CSS ajoutée/retirée dynamiquement
+
+## === CLASSES AVEC SUPPORT DUAL-THEME ===
+
+Toutes les classes `martial-*` et `sport-*` s'adaptent :
+- Mode dark : Couleurs martial (rouge/gris)
+- Mode violet : Couleurs gothic (violet/lavande)
+- Transition fluide entre les deux
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 📊 GRAPHIQUES & VISUALISATIONS                                       │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === COULEURS DE GRAPHIQUES (Chart.js) ===
+
+### Mode Martial (Dark)
+```css
+série-1:        #9E1B1B    /* Rouge crimson */
+série-2:        #2D5A2D    /* Vert militaire */
+série-3:        #1F3A5F    /* Bleu sombre info */
+série-4:        #8B6914    /* Jaune olive */
+série-5:        #AEB6BD    /* Gris acier */
+```
+
+### Mode Violet (Gothic)
+```css
+série-1:        #B788E8    /* Lavande */
+série-2:        #30B77F    /* Vert émeraude */
+série-3:        #7B3FA5    /* Violet moyen */
+série-4:        #E1A33E    /* Ambre */
+série-5:        #D94F70    /* Rose foncé */
+```
+
+## === CONTENEUR DE GRAPHIQUES ===
+
+```css
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    background: rgba(19, 23, 26, 0.3);
+    border-radius: 8px;
+    padding: 16px;
+}
+```
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 📝 NOTES TECHNIQUES                                                  │
+# └─────────────────────────────────────────────────────────────────────┘
+
+## === STACK TECHNIQUE ===
+
+- **Framework** : Next.js 15.3.4 (App Router)
+- **Styling** : Tailwind CSS 3.4.0
+- **State Management** : Zustand 5.0.2
+- **Database** : Prisma 6.16.3 + Neon PostgreSQL
+- **Charts** : Chart.js 4.5.0 + react-chartjs-2 5.3.0
+- **Icons** : Heroicons React 2.2.0
+- **Fonts** : Google Fonts (Inter, Poppins, Bebas Neue, Oswald)
+
+## === COMPATIBILITÉ NAVIGATEURS ===
+
+- Chrome/Edge : ✅ Full support
+- Firefox : ✅ Full support
+- Safari : ✅ Full support (avec prefixes)
+- Mobile browsers : ✅ Optimisé
+
+## === PERFORMANCE ===
+
+- Critical CSS inline
+- Font-display: swap
+- Lazy loading des images
+- Code splitting automatique (Next.js)
+- Backdrop-filter optimisé
+
+## === COMPATIBILITÉ ANCIEN/NOUVEAU ===
+
+Alias créés pour migration en douceur :
+- `.sport-*` → `.martial-*`
+- Couleurs `sport.*` → `martial.*`
+- Permet utilisation des deux nomenclatures
+
+# ┌─────────────────────────────────────────────────────────────────────┐
+# │ 🎨 RÉSUMÉ VISUEL DU THÈME ACTIF (MARTIAL)                           │
+# └─────────────────────────────────────────────────────────────────────┘
+
+**Philosophie du design :**
+- Ambiance martiale, militaire, sobre et professionnelle
+- Contraste fort : Noir profond vs Rouge crimson vs Off-white
+- Typographie impactante avec Bebas Neue pour les titres
+- Ombres et glows subtils pour créer de la profondeur
+- Bordures fines et élégantes
+- Animations douces et fluides
+- Responsive mobile-first
+- Accessibilité WCAG AA minimum
+
+**Palette émotionnelle :**
+- 🖤 Noir/Gunmetal : Force, détermination, sérieux
+- ❤️ Rouge crimson : Énergie, passion, action, danger
+- 🤍 Off-white : Clarté, lisibilité, élégance
+- 🩶 Gris acier : Neutralité, sophistication, modernité
+
+**Identité visuelle :**
+- Logo : Cercle rouge avec icône de livre/dossier
+- Accent signature : #9E1B1B (Deep Crimson) [gothic violet] [gothic vert] [gothic bleu]
+- Typographie signature : Bebas Neue (Display)
+- Effet signature : Glow rouge sur hover et CTA
+
+# ═══════════════════════════════════════════════════════════════════════
+# 🎯 FIN DE L'ANALYSE - THÈME DOCUMENTÉ AVEC SUCCÈS
+# ═══════════════════════════════════════════════════════════════════════
+# Screenshots analysés : 4 (Homepage, Exercices, Rangs, Login)
+# Fichiers de configuration analysés : 3 (tailwind.config.js, globals.css, tokens.ts)
+# Couleurs documentées : 100+
+# Composants analysés : 20+
+# ═══════════════════════════════════════════════════════════════════════
+

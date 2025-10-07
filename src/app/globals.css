@@ -694,4 +694,256 @@
     transform: scale(1.05);
     text-shadow: 0 0 30px rgba(158, 27, 27, 0.9);
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* 🎨 SYSTÈME DE THÈMES - Override des couleurs d'accent uniquement        */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* === THÈME PAR DÉFAUT (DARK/ROUGE) === */
+.theme-dark,
+:root {
+  --theme-accent: #9E1B1B;
+  --theme-accent-light: #B53E3E;
+  --theme-accent-dark: #7A1515;
+  --theme-accent-rgb: 158, 27, 27;
+}
+
+/* === THÈME VIOLET === */
+.theme-violet {
+  --theme-accent: #8B5CF6;
+  --theme-accent-light: #A78BFA;
+  --theme-accent-dark: #7C3AED;
+  --theme-accent-rgb: 139, 92, 246;
+}
+
+/* === THÈME VERT === */
+.theme-green {
+  --theme-accent: #10B981;
+  --theme-accent-light: #34D399;
+  --theme-accent-dark: #059669;
+  --theme-accent-rgb: 16, 185, 129;
+}
+
+/* === THÈME BLEU === */
+.theme-blue {
+  --theme-accent: #3B82F6;
+  --theme-accent-light: #60A5FA;
+  --theme-accent-dark: #2563EB;
+  --theme-accent-rgb: 59, 130, 246;
+}
+
+/* === OVERRIDE DES COMPOSANTS === */
+
+/* Texte accent */
+.text-sport-accent,
+.text-martial-danger-accent {
+  color: var(--theme-accent) !important;
+}
+
+/* Backgrounds accent */
+.bg-sport-accent,
+.bg-martial-danger-accent {
+  background-color: var(--theme-accent) !important;
+}
+
+/* Bordures accent */
+.border-sport-accent,
+.border-martial-danger-accent {
+  border-color: var(--theme-accent) !important;
+}
+
+/* Boutons primaires */
+.sport-btn-primary,
+.martial-btn-primary,
+.sport-btn-danger {
+  background-color: var(--theme-accent) !important;
+  box-shadow: 0 4px 15px rgba(var(--theme-accent-rgb), 0.4) !important;
+}
+
+.sport-btn-primary:hover,
+.martial-btn-primary:hover,
+.sport-btn-danger:hover {
+  background-color: var(--theme-accent-light) !important;
+}
+
+.sport-btn-primary:active,
+.martial-btn-primary:active,
+.sport-btn-danger:active {
+  background-color: var(--theme-accent-dark) !important;
+}
+
+/* Boutons CTA */
+.martial-btn-cta {
+  background-color: var(--theme-accent) !important;
+  box-shadow: 0 8px 25px rgba(var(--theme-accent-rgb), 0.5) !important;
+}
+
+.martial-btn-cta:hover {
+  background-color: var(--theme-accent-light) !important;
+}
+
+/* Cartes avec hover accent */
+.martial-card-hover:hover,
+.sport-card-hover:hover {
+  border-color: rgba(var(--theme-accent-rgb), 0.5) !important;
+  box-shadow: 0 0 16px rgba(var(--theme-accent-rgb), 0.4) !important;
+}
+
+/* Inputs focus */
+.martial-input:focus,
+.sport-input:focus,
+.martial-select:focus,
+.sport-select:focus,
+.martial-textarea:focus,
+.sport-textarea:focus {
+  border-color: rgba(var(--theme-accent-rgb), 0.5) !important;
+  ring-color: var(--theme-accent) !important;
+  box-shadow: 0 0 0 3px rgba(var(--theme-accent-rgb), 0.1) !important;
+}
+
+/* Focus ring */
+.martial-focus:focus,
+.sport-focus:focus {
+  outline-color: rgba(var(--theme-accent-rgb), 0.6) !important;
+  ring-color: var(--theme-accent) !important;
+}
+
+/* Liens hover */
+a:hover .text-sport-accent {
+  color: var(--theme-accent-light) !important;
+}
+
+/* Navigation hover states */
+.hover\:text-sport-accent:hover {
+  color: var(--theme-accent) !important;
+}
+
+.group:hover .group-hover\:text-sport-accent {
+  color: var(--theme-accent) !important;
+}
+
+/* Badges danger/accent */
+.martial-badge-danger,
+.sport-badge-danger {
+  color: var(--theme-accent) !important;
+  background-color: rgba(var(--theme-accent-rgb), 0.1) !important;
+  border-color: var(--theme-accent) !important;
+}
+
+/* Ombres glow */
+.shadow-glow-danger {
+  box-shadow: 0 0 16px rgba(var(--theme-accent-rgb), 0.4) !important;
+}
+
+/* Text glow */
+.text-glow-danger {
+  text-shadow: 0 0 10px rgba(var(--theme-accent-rgb), 0.6) !important;
+}
+
+/* Gradients texte */
+.sport-text-gradient,
+.martial-text-gradient {
+  background: linear-gradient(to right, var(--theme-accent), #AEB6BD) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Bordures gradient */
+.border-martial-gradient,
+.border-gradient {
+  background: 
+    linear-gradient(145deg, #13171A, #0B0F12) padding-box,
+    linear-gradient(45deg, var(--theme-accent), #AEB6BD) border-box !important;
+}
+
+/* Modal borders */
+.modal-content {
+  border-color: rgba(var(--theme-accent-rgb), 0.3) !important;
+}
+
+/* Progress bar */
+.martial-progress-bar {
+  background-color: var(--theme-accent) !important;
+}
+
+/* Timer critical */
+@keyframes timerCriticalThemed {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(var(--theme-accent-rgb), 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    text-shadow: 0 0 30px rgba(var(--theme-accent-rgb), 0.9);
+  }
+}
+
+.martial-timer-critical {
+  color: var(--theme-accent) !important;
+  animation: timerCriticalThemed 1s ease-in-out infinite !important;
+}
+
+/* Logo et navigation */
+.logo-accent {
+  color: var(--theme-accent) !important;
+  background-color: var(--theme-accent) !important;
+}
+
+/* Backgrounds avec alpha */
+.bg-sport-accent\/10 {
+  background-color: rgba(var(--theme-accent-rgb), 0.1) !important;
+}
+
+.bg-sport-accent\/20 {
+  background-color: rgba(var(--theme-accent-rgb), 0.2) !important;
+}
+
+.bg-sport-accent\/30 {
+  background-color: rgba(var(--theme-accent-rgb), 0.3) !important;
+}
+
+/* Bordures avec alpha */
+.border-sport-accent\/20 {
+  border-color: rgba(var(--theme-accent-rgb), 0.2) !important;
+}
+
+.border-sport-accent\/30 {
+  border-color: rgba(var(--theme-accent-rgb), 0.3) !important;
+}
+
+.border-sport-accent\/40 {
+  border-color: rgba(var(--theme-accent-rgb), 0.4) !important;
+}
+
+.border-sport-accent\/50 {
+  border-color: rgba(var(--theme-accent-rgb), 0.5) !important;
+}
+
+/* Hover states */
+.hover\:border-sport-accent\/40:hover {
+  border-color: rgba(var(--theme-accent-rgb), 0.4) !important;
+}
+
+.hover\:border-sport-accent\/50:hover {
+  border-color: rgba(var(--theme-accent-rgb), 0.5) !important;
+}
+
+.hover\:bg-sport-accent\/20:hover {
+  background-color: rgba(var(--theme-accent-rgb), 0.2) !important;
+}
+
+/* Animations glow */
+@keyframes martialGlowThemed {
+  from {
+    text-shadow: 0 0 5px rgba(var(--theme-accent-rgb), 0.6), 0 0 10px rgba(var(--theme-accent-rgb), 0.4);
+  }
+  to {
+    text-shadow: 0 0 10px rgba(var(--theme-accent-rgb), 0.8), 0 0 20px rgba(var(--theme-accent-rgb), 0.6), 0 0 30px rgba(var(--theme-accent-rgb), 0.4);
+  }
+}
+
+.animate-martial-glow {
+  animation: martialGlowThemed 2s ease-in-out infinite alternate !important;
 } 
