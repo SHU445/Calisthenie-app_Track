@@ -154,7 +154,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
       );
     } else {
       return (
-        <Bar 
+        <Line 
           data={data} 
           options={{
             ...chartOptions,
