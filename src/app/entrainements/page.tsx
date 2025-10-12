@@ -7,6 +7,7 @@ import { WorkoutType } from '@/types';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import WorkoutExport from '@/components/WorkoutExport';
 import {
   CalendarDaysIcon,
   PlusIcon,
@@ -16,7 +17,8 @@ import {
   TrashIcon,
   ClockIcon,
   FireIcon,
-  ChartBarIcon
+  ChartBarIcon,
+  DocumentArrowDownIcon
 } from '@heroicons/react/24/outline';
 
 const workoutTypes: WorkoutType[] = [
@@ -35,6 +37,7 @@ export default function EntrainementsPage() {
   const [dateFilter, setDateFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState<WorkoutType | ''>('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
+  const [showExport, setShowExport] = useState<string | null>(null);
 
   useEffect(() => {
     if (user?.id) {
@@ -270,6 +273,13 @@ export default function EntrainementsPage() {
                         >
                           <EyeIcon className="h-5 w-5" />
                         </Link>
+                        <button
+                          onClick={() => setShowExport(workout.id)}
+                          className="inline-flex items-center justify-center w-10 h-10 bg-green-600/20 hover:bg-green-600/40 text-green-400 hover:text-white rounded-lg transition-colors border border-green-500/30 hover:border-green-400/50"
+                          title="Exporter"
+                        >
+                          <DocumentArrowDownIcon className="h-5 w-5" />
+                        </button>
                         <Link
                           href={`/entrainements/modifier/${workout.id}`}
                           className="inline-flex items-center justify-center w-10 h-10 bg-sport-secondary hover:bg-sport-secondary/80 text-sport-accent hover:text-white rounded-lg transition-colors border border-sport-accent/20"
@@ -337,6 +347,19 @@ export default function EntrainementsPage() {
           </div>
         </div>
       )}
+
+      {/* Modal d'export */}
+      {showExport && (() => {
+        const workout = workouts.find(w => w.id === showExport);
+        return workout ? (
+          <WorkoutExport
+            workout={workout}
+            exercises={[]} // Les exercices seront chargés dans le composant
+            personalRecords={[]} // Les records seront chargés dans le composant
+            onClose={() => setShowExport(null)}
+          />
+        ) : null;
+      })()}
 
       <Footer />
     </div>

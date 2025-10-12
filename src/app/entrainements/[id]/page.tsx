@@ -30,11 +30,13 @@ import {
   ChartBarIcon,
   StarIcon,
   TrophyIcon,
-  BoltIcon
+  BoltIcon,
+  DocumentArrowDownIcon
 } from '@heroicons/react/24/outline';
 import {
   StarIcon as StarIconSolid
 } from '@heroicons/react/24/solid';
+import WorkoutExport from '@/components/WorkoutExport';
 
 interface ExerciseGroup {
   exerciceId: string;
@@ -80,6 +82,7 @@ export default function DetailSeancePage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('cards');
+  const [showExport, setShowExport] = useState(false);
 
   const workout = workouts.find(w => w.id === workoutId);
 
@@ -351,6 +354,13 @@ export default function DetailSeancePage() {
                 </Link>
                 
                 <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setShowExport(true)}
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 sm:px-4 rounded-lg transition-colors text-sm sm:text-base touch-target"
+                  >
+                    <DocumentArrowDownIcon className="h-4 w-4" />
+                    <span>Exporter</span>
+                  </button>
                   <Link
                     href={`/entrainements/modifier/${workout.id}`}
                     className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 sm:px-4 rounded-lg transition-colors text-sm sm:text-base touch-target"
@@ -756,6 +766,16 @@ export default function DetailSeancePage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Modal d'export */}
+      {showExport && workout && (
+        <WorkoutExport
+          workout={workout}
+          exercises={exercises}
+          personalRecords={personalRecords}
+          onClose={() => setShowExport(false)}
+        />
       )}
 
       <Footer />
