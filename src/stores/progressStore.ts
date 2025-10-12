@@ -1,8 +1,5 @@
 import { create } from 'zustand';
 import { ProgressState, PersonalRecord } from '@/types';
-import { storage, generateId } from '@/lib/utils';
-
-const RECORDS_STORAGE_KEY = 'calisthenie_records';
 
 interface ProgressStore extends ProgressState {}
 
@@ -15,13 +12,13 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      // Récupérer tous les records du localStorage
-      const allRecords: PersonalRecord[] = storage.get(RECORDS_STORAGE_KEY) || [];
+      const response = await fetch(`/api/personal-records?userId=${userId}`);
+      if (!response.ok) {
+        throw new Error('Erreur lors du chargement des records');
+      }
       
-      // Filtrer les records de l'utilisateur connecté
-      const userRecords = allRecords.filter(record => record.userId === userId);
-      
-      set({ personalRecords: userRecords, isLoading: false });
+      const personalRecords = await response.json();
+      set({ personalRecords, isLoading: false });
     } catch (error) {
       set({ 
         error: error instanceof Error ? error.message : 'Erreur lors du chargement des records',
@@ -40,60 +37,42 @@ export const useProgressStore = create<ProgressStore>((set, get) => ({
     set({ isLoading: true, error: null });
     
     try {
-      // Récupérer tous les records existants
-      const allRecords: PersonalRecord[] = storage.get(RECORDS_STORAGE_KEY) || [];
+      const response = await fetch('/api/personal-records', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          exerciceId,
+          type,
+          valeur,
+          workoutId
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la mise à jour du record');
+      }
+
+      const updatedRecord = await response.json();
       
-      // Chercher un record existant pour cet exercice, ce type et cet utilisateur
-      const existingRecordIndex = allRecords.findIndex(
+      // Mettre à jour le state local
+      const { personalRecords } = get();
+      const existingIndex = personalRecords.findIndex(
         record => record.exerciceId === exerciceId && 
                  record.userId === userId && 
                  record.type === type
       );
 
-      const currentDate = new Date().toISOString();
-
-      if (existingRecordIndex !== -1) {
-        // Mettre à jour le record existant si la nouvelle valeur est meilleure
-        const existingRecord = allRecords[existingRecordIndex];
-        
-        let isNewRecord = false;
-        if (type === 'temps') {
-          // Pour le temps, une valeur plus petite est meilleure (moins de temps)
-          isNewRecord = valeur < existingRecord.valeur;
-        } else {
-          // Pour répétitions et poids, plus c'est haut, mieux c'est
-          isNewRecord = valeur > existingRecord.valeur;
-        }
-
-        if (isNewRecord) {
-          allRecords[existingRecordIndex] = {
-            ...existingRecord,
-            valeur,
-            date: currentDate,
-            workoutId
-          };
-        }
+      if (existingIndex !== -1) {
+        personalRecords[existingIndex] = updatedRecord;
       } else {
-        // Créer un nouveau record
-        const newRecord: PersonalRecord = {
-          id: generateId(),
-          userId,
-          exerciceId,
-          type,
-          valeur,
-          date: currentDate,
-          workoutId
-        };
-        allRecords.push(newRecord);
+        personalRecords.push(updatedRecord);
       }
 
-      // Sauvegarder tous les records
-      storage.set(RECORDS_STORAGE_KEY, allRecords);
-
-      // Mettre à jour le state local avec les records de l'utilisateur
-      const userRecords = allRecords.filter(record => record.userId === userId);
       set({ 
-        personalRecords: userRecords,
+        personalRecords: [...personalRecords],
         isLoading: false 
       });
     } catch (error) {

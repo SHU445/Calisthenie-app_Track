@@ -15,7 +15,6 @@ import {
   formatDensity, 
   formatWorkoutDensity,
   calculateExerciseIntensity,
-  calculateWorkoutIntensity,
   formatIntensity,
   getIntensityColor
 } from '@/lib/utils';
@@ -94,6 +93,7 @@ export default function DetailSeancePage() {
     if (user?.id && personalRecords.length === 0) {
       fetchPersonalRecords(user.id);
     }
+    
   }, [user?.id, workouts.length, exercises.length, personalRecords.length, fetchWorkouts, fetchExercises, fetchPersonalRecords]);
 
   const handleDeleteWorkout = async () => {
@@ -163,9 +163,6 @@ export default function DetailSeancePage() {
       uniqueExercises: 0,
       workoutDensity: 0,
       workoutDensityFormatted: { perSecond: '0.000 unités/s', perMinute: '≈ 0 unités/min' },
-      workoutIntensity: 0,
-      workoutIntensityFormatted: '0%',
-      workoutIntensityInfo: { color: 'text-gray-400', label: 'Non défini' },
       hasWeights: false
     };
     
@@ -183,11 +180,6 @@ export default function DetailSeancePage() {
     const workoutDensity = calculateWorkoutDensity(workout.sets, exercises);
     const workoutDensityFormatted = formatWorkoutDensity(workoutDensity);
     
-    // Calculer l'intensité totale de la séance
-    const workoutIntensity = calculateWorkoutIntensity(workout.sets, exercises, personalRecords);
-    const workoutIntensityFormatted = formatIntensity(workoutIntensity);
-    const workoutIntensityInfo = getIntensityColor(workoutIntensity);
-    
     return { 
       totalSets, 
       totalReps, 
@@ -197,9 +189,6 @@ export default function DetailSeancePage() {
       uniqueExercises,
       workoutDensity,
       workoutDensityFormatted,
-      workoutIntensity,
-      workoutIntensityFormatted,
-      workoutIntensityInfo,
       hasWeights
     };
   };
@@ -407,7 +396,7 @@ export default function DetailSeancePage() {
         <section className="pb-6 sm:pb-8">
           <div className="sport-container">
             <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6 sm:mb-8">
                 <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
                   <TrophyIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
                   <div className="text-2xl sm:text-3xl font-bold text-white">{stats.uniqueExercises}</div>
@@ -426,7 +415,7 @@ export default function DetailSeancePage() {
                     {stats.totalHoldTime > 0 && (
                       <>
                         <div className="text-xl sm:text-2xl font-bold text-sport-accent">{formatExerciseTime(stats.totalHoldTime)}</div>
-                        <div className="text-xs text-gray-400">temps total</div>
+                        <div className="text-xs text-gray-400">hold total</div>
                       </>
                     )}
                   </div>
@@ -441,14 +430,6 @@ export default function DetailSeancePage() {
                   <div className="text-xl sm:text-2xl font-bold text-white">{Math.round(stats.workoutDensity * 60)}</div>
                   <div className="text-xs sm:text-sm text-gray-400">unités/min</div>
                   <div className="text-xs text-gray-500">Densité</div>
-                </div>
-                <div className="sport-card p-4 sm:p-6 text-center group hover:scale-105 transition-transform">
-                  <BoltIcon className="h-6 w-6 sm:h-8 sm:w-8 text-sport-accent mx-auto mb-1.5 sm:mb-2" />
-                  <div className={`text-xl sm:text-2xl font-bold ${stats.workoutIntensityInfo.color}`}>
-                    {stats.workoutIntensityFormatted}
-                  </div>
-                  <div className="text-xs text-gray-400">{stats.workoutIntensityInfo.label}</div>
-                  <div className="text-xs text-gray-500">Intensité</div>
                 </div>
               </div>
             </div>

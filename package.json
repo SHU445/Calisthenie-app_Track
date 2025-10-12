@@ -15,7 +15,6 @@
     "prisma:seed": "node scripts/seed-exercises.js",
     "prisma:migrate": "node scripts/migrate-to-prisma.js",
     "postinstall": "prisma generate",
-    "migrate": "node scripts/migrate-data.js",
     "test:api": "node scripts/test-functionality.js",
     "test:delete": "node scripts/test-delete-fix.js",
     "test:workout": "node scripts/test-workout-fix.js"
@@ -45,8 +44,6 @@
     "eslint": "^9.29.0",
     "eslint-config-next": "^15.3.4",
     "firebase-cli": "^0.2.0",
-    "mongodb": "^6.18.0",
-    "mongoose": "^8.17.1",
     "next": "^15.3.4",
     "next-sitemap": "^4.2.3",
     "nodemailer": "^7.0.5",

@@ -172,7 +172,8 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
     }
   };
 
-  const renderSetsChart = (stats: ExerciseStats, colorIndex: number) => {
+
+  const renderSetsLineChart = (stats: ExerciseStats, colorIndex: number) => {
     const data = {
       labels: stats.data.map(d => d.date),
       datasets: [
@@ -181,13 +182,19 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
           data: stats.data.map(d => ({ x: d.date, y: d.sets })),
           backgroundColor: colors[colorIndex % colors.length].bg,
           borderColor: colors[colorIndex % colors.length].border,
-          borderWidth: 2,
+          borderWidth: 3,
+          tension: 0.4,
+          pointBackgroundColor: colors[colorIndex % colors.length].border,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 5,
+          fill: false,
         },
       ],
     };
 
     return (
-      <Bar 
+      <Line 
         data={data} 
         options={{
           ...chartOptions,
@@ -283,7 +290,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
   };
 
   if (singleExercise && exerciseStats.length === 1) {
-    // Pour un seul exercice : graphiques côte à côte
+    // Pour un seul exercice : valeurs et séries en courbes côte à côte
     const stats = exerciseStats[0];
     return (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -291,7 +298,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
           {renderValueChart(stats, 0)}
         </div>
         <div className="h-80">
-          {renderSetsChart(stats, 0)}
+          {renderSetsLineChart(stats, 0)}
         </div>
       </div>
     );
@@ -333,7 +340,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
                 {renderValueChart(stats, index)}
               </div>
               <div className="h-64">
-                {renderSetsChart(stats, index)}
+                {renderSetsLineChart(stats, index)}
               </div>
             </div>
           ))}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { updatePersonalRecords } from '@/lib/personalRecords';
 import { Workout } from '@/types';
 
 // GET - Récupérer un entraînement spécifique
@@ -139,6 +140,20 @@ export async function PUT(
         notes: set.notes
       }))
     };
+
+    // Mettre à jour les records personnels si des sets ont été modifiés
+    if (updateData.sets) {
+      const formattedSets = updatedWorkout.sets.map(set => ({
+        id: set.id,
+        exerciceId: set.exerciceId,
+        repetitions: set.repetitions,
+        poids: set.poids ?? undefined,
+        duree: set.duree ?? undefined,
+        tempsRepos: set.tempsRepos,
+        notes: set.notes ?? undefined
+      }));
+      await updatePersonalRecords(formattedSets, updatedWorkout.id, updatedWorkout.userId);
+    }
 
     return NextResponse.json(responseWorkout);
   } catch (error) {

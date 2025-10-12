@@ -56,35 +56,6 @@ export function formatDuration(seconds: number): string {
   return `${secs}s`;
 }
 
-// Stockage local temporaire pour compatibilité
-export const storage = {
-  get: (key: string) => {
-    if (typeof window === 'undefined') return null;
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : null;
-    } catch {
-      return null;
-    }
-  },
-  set: (key: string, value: any) => {
-    if (typeof window === 'undefined') return;
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      // Ignorer les erreurs de stockage
-    }
-  },
-  remove: (key: string) => {
-    if (typeof window === 'undefined') return;
-    try {
-      localStorage.removeItem(key);
-    } catch {
-      // Ignorer les erreurs de stockage
-    }
-  }
-};
-
 // Validation des emails
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

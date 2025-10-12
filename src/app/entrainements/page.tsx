@@ -98,10 +98,21 @@ export default function EntrainementsPage() {
     });
   };
 
-  const getWorkoutSummary = (workout: any) => {
-    const exerciseCount = workout.sets.length;
+  const getWorkoutSummary = (workout: any, isMobile: boolean = false) => {
+    // Compter le nombre d'exercices uniques
+    const uniqueExercises = new Set(workout.sets.map((set: any) => set.exerciceId));
+    const exerciseCount = uniqueExercises.size;
+    
+    // Pour mobile, afficher seulement le nombre d'exercices
+    if (isMobile) {
+      return `${exerciseCount} exercice${exerciseCount > 1 ? 's' : ''}`;
+    }
+    
+    // Pour desktop, afficher toutes les informations
+    const totalSets = workout.sets.length;
     const totalReps = workout.sets.reduce((sum: number, set: any) => sum + (set.repetitions || 0), 0);
-    return `${exerciseCount} exercice${exerciseCount > 1 ? 's' : ''} • ${totalReps} rép.`;
+    
+    return `${exerciseCount} exercice${exerciseCount > 1 ? 's' : ''} • ${totalSets} série${totalSets > 1 ? 's' : ''} • ${totalReps} rép.`;
   };
 
   return (
@@ -238,7 +249,14 @@ export default function EntrainementsPage() {
                             </div>
                           </div>
                           <div className="text-sm text-gray-300">
-                            {getWorkoutSummary(workout)}
+                            {/* Version mobile - seulement exercices */}
+                            <span className="block sm:hidden">
+                              {getWorkoutSummary(workout, true)}
+                            </span>
+                            {/* Version desktop - toutes les infos */}
+                            <span className="hidden sm:block">
+                              {getWorkoutSummary(workout, false)}
+                            </span>
                           </div>
                         </div>
                       </div>

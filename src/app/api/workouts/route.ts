@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { Workout } from '@/types';
+import { updatePersonalRecords } from '@/lib/personalRecords';
 
 // GET - Récupérer tous les entraînements d'un utilisateur
 export async function GET(request: NextRequest) {
@@ -122,6 +123,18 @@ export async function POST(request: NextRequest) {
         notes: set.notes
       }))
     };
+
+    // Mettre à jour les records personnels
+    const formattedSets = newWorkout.sets.map(set => ({
+      id: set.id,
+      exerciceId: set.exerciceId,
+      repetitions: set.repetitions,
+      poids: set.poids ?? undefined,
+      duree: set.duree ?? undefined,
+      tempsRepos: set.tempsRepos,
+      notes: set.notes ?? undefined
+    }));
+    await updatePersonalRecords(formattedSets, newWorkout.id, workoutData.userId);
 
     return NextResponse.json(responseWorkout, { status: 201 });
   } catch (error) {

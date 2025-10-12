@@ -208,8 +208,7 @@ export default function ParametresPage() {
                         <div className="h-10 w-10 rounded-full bg-[#9E1B1B]"></div>
                       </div>
                       <div className="text-center">
-                        <span className="font-bold text-lg block">Rouge</span>
-                        <span className="text-xs text-gray-400 block mt-1">Thème par défaut</span>
+                        <span className="font-bold text-lg block">Rouge (défaut)</span>
                       </div>
                       {theme === 'dark' && (
                         <div className="absolute -top-2 -right-2 animate-bounce">
@@ -243,7 +242,6 @@ export default function ParametresPage() {
                       </div>
                       <div className="text-center">
                         <span className="font-bold text-lg block">Violet</span>
-                        <span className="text-xs text-gray-400 block mt-1">Mystique</span>
                       </div>
                       {theme === 'violet' && (
                         <div className="absolute -top-2 -right-2 animate-bounce">
@@ -277,7 +275,6 @@ export default function ParametresPage() {
                       </div>
                       <div className="text-center">
                         <span className="font-bold text-lg block">Vert</span>
-                        <span className="text-xs text-gray-400 block mt-1">Naturel</span>
                       </div>
                       {theme === 'green' && (
                         <div className="absolute -top-2 -right-2 animate-bounce">
@@ -311,7 +308,6 @@ export default function ParametresPage() {
                       </div>
                       <div className="text-center">
                         <span className="font-bold text-lg block">Bleu</span>
-                        <span className="text-xs text-gray-400 block mt-1">Énergique</span>
                       </div>
                       {theme === 'blue' && (
                         <div className="absolute -top-2 -right-2 animate-bounce">
@@ -329,10 +325,10 @@ export default function ParametresPage() {
                   <p className="text-sm text-gray-300 flex items-start gap-2">
                     <SparklesIcon className="h-5 w-5 text-sport-accent flex-shrink-0 mt-0.5" />
                     <span>
-                      {theme === 'dark' && 'Thème rouge classique avec ambiance martiale et sombre'}
-                      {theme === 'violet' && 'Thème violet mystique conservant l\'aspect sombre et métallique'}
-                      {theme === 'green' && 'Thème vert naturel avec l\'élégance du design métallique'}
-                      {theme === 'blue' && 'Thème bleu énergique allié à la sophistication martiale'}
+                      {theme === 'dark' && 'Thème rouge classique'}
+                      {theme === 'violet' && 'Thème violet'}
+                      {theme === 'green' && 'Thème vert'}
+                      {theme === 'blue' && 'Thème bleu'}
                     </span>
                   </p>
                 </div>
