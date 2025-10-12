@@ -203,15 +203,20 @@ export default function WorkoutExport({ workout, exercises: propExercises, perso
 
     setIsExporting(true);
     try {
+      // Calculer la largeur optimale basée sur la largeur réelle du contenu
+      const contentWidth = Math.max(800, exportRef.current.scrollWidth);
+      
       const dataUrl = await toPng(exportRef.current, {
         quality: 1.0,
         pixelRatio: 2,
         backgroundColor: '#111827', // bg-gray-900
-        width: 800,
+        width: contentWidth,
         height: exportRef.current.scrollHeight,
         style: {
           transform: 'scale(1)',
           transformOrigin: 'top left',
+          width: `${contentWidth}px`,
+          minWidth: '800px',
         }
       });
 
@@ -263,16 +268,17 @@ export default function WorkoutExport({ workout, exercises: propExercises, perso
         </div>
 
         {/* Aperçu de l'export */}
-        <div className="border border-sport-gray-light/30 rounded-lg p-4 bg-sport-gray-light/5">
+        <div className="border border-sport-gray-light/30 rounded-lg p-4 bg-sport-gray-light/5 overflow-x-auto">
           <p className="text-sm text-gray-400 mb-4">Aperçu de l'export :</p>
           
           <div 
             ref={exportRef}
             className="bg-gray-900 text-white p-8 rounded-lg shadow-lg"
             style={{ 
-              width: '100%',
+              width: '800px',
               minHeight: '800px',
-              fontFamily: 'Inter, system-ui, sans-serif'
+              fontFamily: 'Inter, system-ui, sans-serif',
+              margin: '0 auto'
             }}
           >
             {/* Header de l'export */}
