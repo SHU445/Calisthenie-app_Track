@@ -63,11 +63,11 @@ export default function Home() {
 
   const benefits = [
     'Entraînement au poids du corps uniquement',
-    'Progression adaptée à votre niveau',
+    'Possibilité de créer des exercices personnalisés',
+    'Progression adaptée à tout niveau',
     'Suivi détaillé de vos performances',
     'Interface moderne et intuitive',
-    'Données stockées sur mongo',
-    'Accès gratuit à toutes les fonctionnalités'
+    'Données stockées sur Néon',
   ];
 
   return (
@@ -218,7 +218,7 @@ export default function Home() {
                       Prêt à commencer ?
                     </h3>
                     <p className="text-sm sm:text-base text-gray-300 mb-4 sm:mb-6">
-                      Rejoignez des milliers de pratiquants qui ont transformé leur corps 
+                      Rejoignez des milliers de pratiquants qui ont transforment leur corps 
                       avec la callisthénie.
                     </p>
                     {!isAuthenticated && (
@@ -241,7 +241,7 @@ export default function Home() {
         <section className="sport-section bg-sport-gradient">
           <div className="sport-container text-center">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 sm:mb-6 px-4">
-              Commencez votre transformation aujourd'hui
+              Commencez votre entrainement aujourd'hui
             </h2>
             <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
               Chaque expert était autrefois un débutant. 
