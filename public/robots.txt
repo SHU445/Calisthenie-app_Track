@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://calisthenie-track.vercel.app/sitemap.xml
+Sitemap: https://calisthenie-tracker.vercel.app/sitemap.xml
