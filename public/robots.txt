@@ -10,7 +10,7 @@ User-agent: Googlebot
 Allow: /
 
 # Host
-Host: https://calisthenie-tracker.vercel.app
+Host: https://calisthenie-tracker.vercel.app/
 
 # Sitemaps
 Sitemap: https://calisthenie-tracker.vercel.app/sitemap.xml
