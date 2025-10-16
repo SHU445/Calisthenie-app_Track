@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || "https://calisthenie-track.vercel.app",
+  siteUrl: process.env.SITE_URL || "https://calisthenie-tracker.vercel.app",
   generateRobotsTxt: true,
   generateIndexSitemap: false,
   changefreq: 'daily',
@@ -28,7 +28,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      'https://calisthenie-track.vercel.app/sitemap.xml',
+      'https://calisthenie-tracker.vercel.app/sitemap.xml',
     ],
   },
   transform: async (config, path) => {
