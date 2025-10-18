@@ -309,7 +309,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
         {/* Graphiques de répartition polar area */}
         {distributionData && distributionData.labels.length > 1 && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div className="rounded-lg shadow-md p-6">
               <div className="h-80">
                 {renderDistributionChart(
                   distributionData.values, 
@@ -319,7 +319,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
                 )}
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+            <div className="rounded-lg shadow-md p-6">
               <div className="h-80">
                 {renderDistributionChart(
                   distributionData.sets, 
