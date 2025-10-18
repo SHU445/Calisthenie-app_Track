@@ -54,9 +54,10 @@ interface ProgressChartsProps {
   exerciseStats: ExerciseStats[];
   singleExercise: boolean;
   distributionData?: DistributionData;
+  totalRepsPerSessionData?: { date: string; totalReps: number; exerciseName: string }[];
 }
 
-const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: ProgressChartsProps) => {
+const ProgressCharts = ({ exerciseStats, singleExercise, distributionData, totalRepsPerSessionData }: ProgressChartsProps) => {
   const isDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   const chartOptions = {
@@ -213,6 +214,55 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
     );
   };
 
+  const renderTotalRepsPerSessionChart = () => {
+    if (!totalRepsPerSessionData || totalRepsPerSessionData.length === 0) return null;
+
+    // Grouper les données par exercice
+    const exerciseGroups = totalRepsPerSessionData.reduce((acc, item) => {
+      if (!acc[item.exerciseName]) {
+        acc[item.exerciseName] = [];
+      }
+      acc[item.exerciseName].push(item);
+      return acc;
+    }, {} as Record<string, typeof totalRepsPerSessionData>);
+
+    const datasets = Object.entries(exerciseGroups).map(([exerciseName, data], index) => ({
+      label: exerciseName,
+      data: data.map(d => ({ x: d.date, y: d.totalReps })),
+      backgroundColor: colors[index % colors.length].bg,
+      borderColor: colors[index % colors.length].border,
+      borderWidth: 2,
+      tension: 0.4,
+      pointBackgroundColor: colors[index % colors.length].border,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      pointRadius: 4,
+      fill: false,
+    }));
+
+    const data = {
+      labels: Array.from(new Set(totalRepsPerSessionData.map(d => d.date))).sort(),
+      datasets,
+    };
+
+    return (
+      <Line 
+        data={data} 
+        options={{
+          ...chartOptions,
+          plugins: {
+            ...chartOptions.plugins,
+            title: {
+              display: true,
+              text: 'Total de répétitions par séance',
+              color: isDark ? '#E5E7EB' : '#374151',
+            },
+          },
+        }} 
+      />
+    );
+  };
+
   const renderDistributionChart = (data: number[], labels: string[], title: string, unit: string) => {
     const polarOptions = {
       responsive: true,
@@ -293,16 +343,23 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
   };
 
   if (singleExercise && exerciseStats.length === 1) {
-    // Pour un seul exercice : valeurs et séries en courbes côte à côte
+    // Pour un seul exercice : valeurs, séries et total de répétitions par séance
     const stats = exerciseStats[0];
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="h-80">
-          {renderValueChart(stats, 0)}
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="h-80">
+            {renderValueChart(stats, 0)}
+          </div>
+          <div className="h-80">
+            {renderSetsLineChart(stats, 0)}
+          </div>
         </div>
-        <div className="h-80">
-          {renderSetsLineChart(stats, 0)}
-        </div>
+        {totalRepsPerSessionData && totalRepsPerSessionData.length > 0 && (
+          <div className="h-80">
+            {renderTotalRepsPerSessionChart()}
+          </div>
+        )}
       </div>
     );
   } else {
@@ -331,6 +388,15 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
                   'séries'
                 )}
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Graphique de total de répétitions par séance */}
+        {totalRepsPerSessionData && totalRepsPerSessionData.length > 0 && (
+          <div className="rounded-lg shadow-md p-6 mb-8">
+            <div className="h-80">
+              {renderTotalRepsPerSessionChart()}
             </div>
           </div>
         )}

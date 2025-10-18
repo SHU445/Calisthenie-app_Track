@@ -75,6 +75,32 @@ function ProgressPageContent() {
   const exerciseStats = useMemo(() => {
     if (selectedExerciseIds.length === 0) return [];
 
+    // Calculer la date de début de la période
+    const now = new Date();
+    const periodDate = new Date();
+    
+    switch (averagePeriod) {
+      case '1week':
+        periodDate.setDate(now.getDate() - 7);
+        break;
+      case '1month':
+        periodDate.setMonth(now.getMonth() - 1);
+        break;
+      case '2months':
+        periodDate.setMonth(now.getMonth() - 2);
+        break;
+      case '3months':
+        periodDate.setMonth(now.getMonth() - 3);
+        break;
+      default:
+        periodDate.setFullYear(2000); // Toutes les données
+    }
+
+    // Filtrer les entraînements selon la période
+    const periodWorkouts = filteredWorkouts.filter(workout => 
+      new Date(workout.date) >= periodDate
+    );
+
     return selectedExerciseIds.map(exerciseId => {
       const exercise = exercises.find(e => e.id === exerciseId);
       if (!exercise) return null;
@@ -89,10 +115,10 @@ function ProgressPageContent() {
           exercise.nom.toLowerCase().includes('handstand') ||
           exercise.categorie === 'Core/Abdos';
 
-      // Collecter toutes les séries pour cet exercice
+      // Collecter toutes les séries pour cet exercice dans la période
       const exerciseSets: Array<{ date: string; set: WorkoutSet; workout: Workout }> = [];
       
-      filteredWorkouts.forEach(workout => {
+      periodWorkouts.forEach(workout => {
         workout.sets
           .filter(set => set.exerciceId === exerciseId)
           .forEach(set => {
@@ -134,30 +160,8 @@ function ProgressPageContent() {
       const totalValue = allValues.reduce((sum, val) => sum + val, 0);
       const totalSets = exerciseSets.length;
 
-      // Calculer les moyennes selon la période sélectionnée
-      const now = new Date();
-      const periodDate = new Date();
-      
-      switch (averagePeriod) {
-        case '1week':
-          periodDate.setDate(now.getDate() - 7);
-          break;
-        case '1month':
-          periodDate.setMonth(now.getMonth() - 1);
-          break;
-        case '2months':
-          periodDate.setMonth(now.getMonth() - 2);
-          break;
-        case '3months':
-          periodDate.setMonth(now.getMonth() - 3);
-          break;
-        default:
-          periodDate.setFullYear(2000); // Toutes les données
-      }
-
-      const periodSets = exerciseSets.filter(({ date }) => 
-        new Date(date) >= periodDate
-      );
+      // Calculer les moyennes (toutes les données sont déjà filtrées par période)
+      const periodSets = exerciseSets;
 
       const periodValues = periodSets.map(({ set }) => 
         isTimeBasedExercise ? (set.duree || 0) : set.repetitions
@@ -191,11 +195,79 @@ function ProgressPageContent() {
     }).filter(Boolean) as ExerciseStats[];
   }, [selectedExerciseIds, exercises, filteredWorkouts, averagePeriod]);
 
+  // Calculer les données de total de répétitions par séance
+  const totalRepsPerSessionData = useMemo(() => {
+    if (selectedExerciseIds.length === 0) return [];
+
+    // Calculer la date de début de la période
+    const now = new Date();
+    const periodDate = new Date();
+    
+    switch (averagePeriod) {
+      case '1week':
+        periodDate.setDate(now.getDate() - 7);
+        break;
+      case '1month':
+        periodDate.setMonth(now.getMonth() - 1);
+        break;
+      case '2months':
+        periodDate.setMonth(now.getMonth() - 2);
+        break;
+      case '3months':
+        periodDate.setMonth(now.getMonth() - 3);
+        break;
+      default:
+        periodDate.setFullYear(2000); // Toutes les données
+    }
+
+    // Filtrer les entraînements selon la période
+    const periodWorkouts = filteredWorkouts.filter(workout => 
+      new Date(workout.date) >= periodDate
+    );
+
+    const sessionData: { date: string; totalReps: number; exerciseName: string }[] = [];
+
+    periodWorkouts.forEach(workout => {
+      selectedExerciseIds.forEach(exerciseId => {
+        const exercise = exercises.find(e => e.id === exerciseId);
+        if (!exercise) return;
+
+        // Déterminer le type d'exercice
+        const isTimeBasedExercise = exercise.typeQuantification 
+          ? exercise.typeQuantification === 'hold'
+          : exercise.nom.toLowerCase().includes('hold') || 
+            exercise.nom.toLowerCase().includes('planche') ||
+            exercise.nom.toLowerCase().includes('l-sit') ||
+            exercise.nom.toLowerCase().includes('handstand') ||
+            exercise.categorie === 'Core/Abdos';
+
+        // Calculer le total pour cet exercice dans cette séance
+        const exerciseSets = workout.sets.filter(set => set.exerciceId === exerciseId);
+        if (exerciseSets.length === 0) return;
+
+        const totalReps = exerciseSets.reduce((sum, set) => {
+          const value = isTimeBasedExercise ? (set.duree || 0) : set.repetitions;
+          return sum + value;
+        }, 0);
+
+        if (totalReps > 0) {
+          sessionData.push({
+            date: workout.date,
+            totalReps,
+            exerciseName: exercise.nom
+          });
+        }
+      });
+    });
+
+    return sessionData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  }, [selectedExerciseIds, exercises, filteredWorkouts, averagePeriod]);
+
   // Calculer les données de répartition pour les graphiques polar area
   const distributionData = useMemo((): DistributionData | undefined => {
     if (selectedExerciseIds.length <= 1) return undefined;
 
-    // Filtrer les entraînements selon la période de calcul des moyennes
+    // Calculer la date de début de la période
     const now = new Date();
     const periodDate = new Date();
     
@@ -521,6 +593,7 @@ function ProgressPageContent() {
                           exerciseStats={[stats]} 
                           singleExercise={true}
                           distributionData={distributionData}
+                          totalRepsPerSessionData={totalRepsPerSessionData}
                         />
                       </div>
                     </div>
@@ -579,6 +652,7 @@ function ProgressPageContent() {
                       exerciseStats={exerciseStats} 
                       singleExercise={false}
                       distributionData={distributionData}
+                      totalRepsPerSessionData={totalRepsPerSessionData}
                     />
                   </div>
                 </div>
