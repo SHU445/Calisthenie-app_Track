@@ -15,9 +15,10 @@ export function useAuth() {
     } else if (status === 'authenticated' && session?.user) {
       useAuthStore.setState({
         user: {
-          id: session.user.id,
-          username: session.user.username,
-          email: session.user.email,
+          id: session.user.id ?? '',
+          username: session.user.username ?? '',
+          email: session.user.email ?? undefined,
+          password: '', // Add a default or empty password to satisfy the type requirement
           dateCreation: new Date().toISOString(),
           preferences: {
             theme: 'dark',

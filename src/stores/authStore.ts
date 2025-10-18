@@ -122,6 +122,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
           id: session.user.id,
           username: session.user.username || session.user.name,
           email: session.user.email,
+          password: '', // Champ requis par le type User, mais non fourni par la session
+          dateCreation: session.user.dateCreation || '', // Idem, par sécurité
         },
         isAuthenticated: true,
         isLoading: false

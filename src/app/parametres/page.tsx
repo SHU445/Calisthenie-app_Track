@@ -86,7 +86,7 @@ function ParametresPageContent() {
                     <div className="p-2 bg-sport-accent/10 rounded-lg">
                       <UserCircleIcon className="h-5 w-5 text-sport-accent" />
                     </div>
-                    <span className="text-gray-100 font-medium">{user.username}</span>
+                    <span className="text-gray-100 font-medium">{user?.username || 'Chargement...'}</span>
                     <CheckBadgeIcon className="h-5 w-5 text-green-500 ml-auto" />
                   </div>
                 </div>
@@ -100,7 +100,7 @@ function ParametresPageContent() {
                     <div className="p-2 bg-sport-accent/10 rounded-lg">
                       <EnvelopeIcon className="h-5 w-5 text-sport-accent" />
                     </div>
-                    <span className="text-gray-100 font-medium">{user.email}</span>
+                    <span className="text-gray-100 font-medium">{user?.email || 'Non renseigné'}</span>
                   </div>
                 </div>
 
@@ -348,7 +348,7 @@ function ParametresPageContent() {
               <div className="p-4 bg-gradient-to-br from-sport-primary/50 to-sport-secondary/30 rounded-xl border border-sport-gray-light/20 hover:border-sport-accent/40 transition-all">
                 <p className="text-xs text-gray-400 mb-1">Membre depuis</p>
                 <p className="text-lg font-bold text-sport-accent">
-                  {new Date(user.dateCreation || Date.now()).toLocaleDateString('fr-FR', { 
+                  {new Date(user?.dateCreation || Date.now()).toLocaleDateString('fr-FR', { 
                     day: 'numeric', 
                     month: 'long', 
                     year: 'numeric' 
