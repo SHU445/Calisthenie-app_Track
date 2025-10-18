@@ -4,6 +4,7 @@ import './globals.css';
 import { defaultMetadata } from '@/config/seo';
 import JsonLd, { organizationSchema, webApplicationSchema, websiteSchema } from '@/components/JsonLd';
 import ThemeProvider from '@/components/ThemeProvider';
+import NextAuthProvider from '@/components/NextAuthProvider';
 
 export const metadata: Metadata = defaultMetadata;
 
@@ -38,11 +39,13 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
       </head>
       <body className="antialiased">
-        <ThemeProvider>
-          <div className="min-h-screen bg-sport-dark text-white">
-            {children}
-          </div>
-        </ThemeProvider>
+        <NextAuthProvider>
+          <ThemeProvider>
+            <div className="min-h-screen bg-sport-dark text-white">
+              {children}
+            </div>
+          </ThemeProvider>
+        </NextAuthProvider>
       </body>
     </html>
   );

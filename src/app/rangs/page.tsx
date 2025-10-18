@@ -3,6 +3,7 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { RANKS } from '@/data/ranks';
 import Link from 'next/link';
 import {
@@ -13,7 +14,7 @@ import {
   StarIcon
 } from '@heroicons/react/24/outline';
 
-export default function RangsPage() {
+function RangsPageContent() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -190,5 +191,13 @@ export default function RangsPage() {
 
       <Footer />
     </div>
+  );
+}
+
+export default function RangsPage() {
+  return (
+    <ProtectedRoute>
+      <RangsPageContent />
+    </ProtectedRoute>
   );
 } 

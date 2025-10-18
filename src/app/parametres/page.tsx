@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { useThemeStore } from '@/stores/themeStore';
 import {
   UserCircleIcon,
@@ -17,22 +18,12 @@ import {
   UserCircleIcon as UserCircleIconSolid,
 } from '@heroicons/react/24/solid';
 
-export default function ParametresPage() {
+function ParametresPageContent() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuthStore();
+  const { user } = useAuth();
   const { theme, setTheme } = useThemeStore();
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
-  // Redirection si non connecté
-  React.useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/auth/login');
-    }
-  }, [isAuthenticated, router]);
-
-  if (!isAuthenticated || !user) {
-    return null;
-  }
 
   return (
     <div className="min-h-screen pb-12">
@@ -369,6 +360,14 @@ export default function ParametresPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ParametresPage() {
+  return (
+    <ProtectedRoute>
+      <ParametresPageContent />
+    </ProtectedRoute>
   );
 }
 

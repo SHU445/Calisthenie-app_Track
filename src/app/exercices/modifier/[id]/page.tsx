@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useExerciseStore } from '@/stores/exerciseStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
 import { RANKS } from '@/data/ranks';
 import { ExerciseCategory, DifficultyRank, QuantificationType } from '@/types';
 import Navigation from '@/components/Navigation';
@@ -110,7 +110,7 @@ export default function ModifierExercicePage() {
   const params = useParams();
   const exerciseId = params.id as string;
   const { exercises, updateExercise, fetchExercises } = useExerciseStore();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   
   const [formData, setFormData] = useState({
     nom: '',

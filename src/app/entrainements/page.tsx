@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import { useWorkoutStore } from '@/stores/workoutStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { WorkoutType } from '@/types';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -32,7 +33,7 @@ const workoutTypes: WorkoutType[] = [
 ];
 
 export default function EntrainementsPage() {
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const { workouts, fetchWorkouts, deleteWorkout, isLoading } = useWorkoutStore();
   const [dateFilter, setDateFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState<WorkoutType | ''>('');
@@ -119,10 +120,11 @@ export default function EntrainementsPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navigation />
-      
-      <main className="flex-1">
+    <ProtectedRoute>
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        
+        <main className="flex-1">
         {/* Header */}
         <section className="sport-section pt-16 sm:pt-20 pb-10 sm:pb-12">
           <div className="sport-container">
@@ -361,7 +363,8 @@ export default function EntrainementsPage() {
         ) : null;
       })()}
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </ProtectedRoute>
   );
 } 

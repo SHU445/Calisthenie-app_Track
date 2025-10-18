@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import {
@@ -22,7 +22,7 @@ export default function LoginPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
 
-  const { login, isLoading, error } = useAuthStore();
+  const { login, isLoading, error } = useAuth();
   const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

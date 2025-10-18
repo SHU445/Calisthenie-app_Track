@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
 import { useProgressStore } from '@/stores/progressStore';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -75,7 +75,7 @@ export default function DetailSeancePage() {
   const params = useParams();
   const router = useRouter();
   const workoutId = params.id as string;
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const { workouts, fetchWorkouts, deleteWorkout, isLoading } = useWorkoutStore();
   const { exercises, fetchExercises } = useExerciseStore();
   const { personalRecords, fetchPersonalRecords } = useProgressStore();

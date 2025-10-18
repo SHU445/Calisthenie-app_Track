@@ -3,7 +3,8 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useExerciseStore } from '@/stores/exerciseStore';
 import { useWorkoutStore } from '@/stores/workoutStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { Exercise, Workout, WorkoutSet, QuantificationType } from '@/types';
 import { 
   ChevronDownIcon, 
@@ -37,8 +38,8 @@ interface DistributionData {
   sets: number[];
 }
 
-export default function ProgressPage() {
-  const { user } = useAuthStore();
+function ProgressPageContent() {
+  const { user } = useAuth();
   const { exercises, fetchExercises } = useExerciseStore();
   const { workouts, fetchWorkouts } = useWorkoutStore();
 
@@ -589,5 +590,13 @@ export default function ProgressPage() {
       
       <Footer />
     </div>
+  );
+}
+
+export default function ProgressPage() {
+  return (
+    <ProtectedRoute>
+      <ProgressPageContent />
+    </ProtectedRoute>
   );
 }

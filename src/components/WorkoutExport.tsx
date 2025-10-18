@@ -6,7 +6,7 @@ import { Workout } from '@/types';
 import { useThemeStore } from '@/stores/themeStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
 import { useProgressStore } from '@/stores/progressStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
 import { 
   ArrowDownTrayIcon,
   DocumentArrowDownIcon,
@@ -50,7 +50,7 @@ interface ExerciseGroup {
 export default function WorkoutExport({ workout, exercises: propExercises, personalRecords: propPersonalRecords, onClose }: WorkoutExportProps) {
   const exportRef = useRef<HTMLDivElement>(null);
   const { theme } = useThemeStore();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const { exercises, fetchExercises } = useExerciseStore();
   const { personalRecords, fetchPersonalRecords } = useProgressStore();
   const [isExporting, setIsExporting] = useState(false);

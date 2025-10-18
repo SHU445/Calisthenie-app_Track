@@ -3,7 +3,8 @@
 import React, { useEffect, useState, useMemo, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useExerciseStore } from '@/stores/exerciseStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { getRankColor, getRankName, RANKS } from '@/data/ranks';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -24,7 +25,7 @@ import {
 // Composant qui utilise useSearchParams
 function ExercicesContent() {
   const { exercises, fetchExercises, isLoading, deleteExercise } = useExerciseStore();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRanks, setSelectedRanks] = useState<string[]>([]);
@@ -512,8 +513,10 @@ function LoadingFallback() {
 // Export principal avec Suspense
 export default function ExercicesPage() {
   return (
-    <Suspense fallback={<LoadingFallback />}>
-      <ExercicesContent />
-    </Suspense>
+    <ProtectedRoute>
+      <Suspense fallback={<LoadingFallback />}>
+        <ExercicesContent />
+      </Suspense>
+    </ProtectedRoute>
   );
 } 

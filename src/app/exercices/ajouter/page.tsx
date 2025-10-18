@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useExerciseStore } from '@/stores/exerciseStore';
-import { useAuthStore } from '@/stores/authStore';
+import { useAuth } from '@/hooks/useAuth';
 import { RANKS } from '@/data/ranks';
 import { ExerciseCategory, DifficultyRank, QuantificationType } from '@/types';
 import Navigation from '@/components/Navigation';
@@ -108,7 +108,7 @@ const allMuscles = [
 export default function AjouterExercicePage() {
   const router = useRouter();
   const { addExercise } = useExerciseStore();
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   
   const [formData, setFormData] = useState({
     nom: '',
