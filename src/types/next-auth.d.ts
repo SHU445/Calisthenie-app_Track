@@ -8,10 +8,6 @@ declare module 'next-auth' {
       email?: string | null;
       name?: string | null;
       image?: string | null;
-      theme: string;
-      units: string;
-      language: string;
-      dateCreation: string;
     };
   }
 
@@ -21,19 +17,12 @@ declare module 'next-auth' {
     email?: string | null;
     name?: string | null;
     image?: string | null;
-    theme: string;
-    units: string;
-    language: string;
-    dateCreation: string;
   }
 }
 
 declare module 'next-auth/jwt' {
   interface JWT {
+    id: string;
     username: string;
-    theme: string;
-    units: string;
-    language: string;
-    dateCreation: string;
   }
 }

@@ -1,61 +1,76 @@
 'use client';
 
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useAuthStore } from '@/stores/authStore';
+import { useEffect } from 'react';
 
 export function useAuth() {
   const { data: session, status } = useSession();
-  const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { user, isAuthenticated, isLoading, error, clearError } = useAuthStore();
 
-  const login = async (username: string, password: string): Promise<boolean> => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const result = await signIn('credentials', {
-        username,
-        password,
-        redirect: false,
+  // Synchroniser l'état NextAuth avec le store Zustand
+  useEffect(() => {
+    if (status === 'loading') {
+      useAuthStore.setState({ isLoading: true });
+    } else if (status === 'authenticated' && session?.user) {
+      useAuthStore.setState({
+        user: {
+          id: session.user.id,
+          username: session.user.username,
+          email: session.user.email,
+          dateCreation: new Date().toISOString(),
+          preferences: {
+            theme: 'dark',
+            units: 'metric',
+            language: 'fr'
+          }
+        },
+        isAuthenticated: true,
+        isLoading: false,
+        error: null
       });
+    } else if (status === 'unauthenticated') {
+      useAuthStore.setState({
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        error: null
+      });
+    }
+  }, [session, status]);
 
-      if (result?.error) {
-        setError('Nom d\'utilisateur ou mot de passe incorrect');
-        setIsLoading(false);
-        return false;
-      }
+  const login = async (username: string, password: string) => {
+    clearError();
+    const result = await signIn('credentials', {
+      username,
+      password,
+      redirect: false,
+    });
 
-      if (result?.ok) {
-        router.push('/');
-        return true;
-      }
-
-      return false;
-    } catch (error) {
-      setError('Erreur lors de la connexion');
-      setIsLoading(false);
+    if (result?.error) {
+      useAuthStore.setState({
+        error: 'Nom d\'utilisateur ou mot de passe incorrect',
+        isLoading: false
+      });
       return false;
     }
+
+    return result?.ok || false;
   };
 
   const logout = async () => {
-    setIsLoading(true);
-    try {
-      await signOut({ redirect: false });
-      router.push('/auth/login');
-    } catch (error) {
-      console.error('Erreur lors de la déconnexion:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    await signOut({ redirect: false });
+    useAuthStore.setState({
+      user: null,
+      isAuthenticated: false,
+      error: null
+    });
   };
 
-  const register = async (username: string, email: string, password: string): Promise<boolean> => {
-    setIsLoading(true);
-    setError(null);
-    
+  const register = async (username: string, email: string, password: string) => {
+    clearError();
+    useAuthStore.setState({ isLoading: true });
+
     try {
       const response = await fetch('/api/auth/register', {
         method: 'POST',
@@ -76,35 +91,37 @@ export function useAuth() {
         });
 
         if (loginResult?.ok) {
-          router.push('/');
+          useAuthStore.setState({
+            user: data.user,
+            isAuthenticated: true,
+            isLoading: false
+          });
           return true;
         }
-      } else {
-        setError(data.error || 'Erreur lors de l\'inscription');
-        setIsLoading(false);
-        return false;
       }
 
+      useAuthStore.setState({
+        error: data.error || 'Erreur lors de l\'inscription',
+        isLoading: false
+      });
       return false;
     } catch (error) {
-      setError('Erreur lors de l\'inscription');
-      setIsLoading(false);
+      useAuthStore.setState({
+        error: 'Erreur lors de l\'inscription',
+        isLoading: false
+      });
       return false;
     }
   };
 
-  const clearError = () => {
-    setError(null);
-  };
-
   return {
-    user: session?.user || null,
-    isAuthenticated: !!session,
+    user,
+    isAuthenticated,
     isLoading: isLoading || status === 'loading',
     error,
     login,
     logout,
     register,
-    clearError,
+    clearError
   };
 }

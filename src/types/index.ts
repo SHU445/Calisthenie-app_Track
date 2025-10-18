@@ -105,9 +105,10 @@ export interface AuthState {
   isLoading: boolean;
   error: string | null;
   login: (username: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  logout: () => Promise<void>;
   register: (username: string, email: string, password: string) => Promise<boolean>;
   clearError: () => void;
+  syncWithSession: (session: any) => void;
 }
 
 // États Zustand pour les exercices

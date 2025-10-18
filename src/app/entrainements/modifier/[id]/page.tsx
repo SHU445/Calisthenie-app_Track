@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthStore } from '@/stores/authStore';
 import { WorkoutType, WorkoutSet } from '@/types';
 import { generateId } from '@/lib/utils';
 import Navigation from '@/components/Navigation';
@@ -49,7 +49,7 @@ export default function ModifierSeancePage() {
   const params = useParams();
   const router = useRouter();
   const workoutId = params.id as string;
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const { workouts, updateWorkout, fetchWorkouts } = useWorkoutStore();
   const { exercises, fetchExercises } = useExerciseStore();
   

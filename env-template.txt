@@ -6,5 +6,5 @@ DATABASE_URL="postgresql://username:password@ep-example-123456.us-east-2.aws.neo
 # DIRECT_URL="postgresql://username:password@ep-example-123456.us-east-2.aws.neon.tech/neondb?sslmode=require"
 
 # Configuration NextAuth.js
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="votre-secret-nextauth-ici-changez-cette-valeur"
+NEXTAUTH_URL="https://calisthenie-tracker.vercel.app"
+NEXTAUTH_SECRET="votre-secret-super-securise-ici"

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useWorkoutStore } from '@/stores/workoutStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthStore } from '@/stores/authStore';
 import { WorkoutType, WorkoutSet } from '@/types';
 import { generateId } from '@/lib/utils';
 import Navigation from '@/components/Navigation';
@@ -46,7 +46,7 @@ interface WorkoutSetForm {
 
 export default function AjouterSeancePage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user } = useAuthStore();
   const { addWorkout } = useWorkoutStore();
   const { exercises, fetchExercises } = useExerciseStore();
   

@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuthStore } from '@/stores/authStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
@@ -20,7 +20,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function Home() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user } = useAuthStore();
   const { fetchExercises, exercises } = useExerciseStore();
 
   useEffect(() => {
