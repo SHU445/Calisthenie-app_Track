@@ -17,7 +17,6 @@ import {
 } from 'chart.js';
 import { Line, Bar, PolarArea } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
-import { useThemeStore } from '@/stores/themeStore';
 
 ChartJS.register(
   CategoryScale,
@@ -58,8 +57,7 @@ interface ProgressChartsProps {
 }
 
 const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: ProgressChartsProps) => {
-  const theme = useThemeStore((state) => state.theme);
-  const isDark = theme === 'dark';
+  const isDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   const chartOptions = {
     responsive: true,
@@ -89,19 +87,21 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
           },
         },
         grid: {
-          color: isDark ? '#374151' : '#E5E7EB',
+          color: '#374151',
+          drawBorder: false,
         },
         ticks: {
-          color: isDark ? '#9CA3AF' : '#6B7280',
+          color: '#6B7280',
         },
       },
       y: {
         beginAtZero: true,
         grid: {
-          color: isDark ? '#374151' : '#E5E7EB',
+          color: '#374151',
+          drawBorder: false,
         },
         ticks: {
-          color: isDark ? '#9CA3AF' : '#6B7280',
+          color: '#6B7280',
         },
       },
     },
@@ -130,7 +130,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
           borderWidth: 2,
           tension: stats.type === 'repetitions' ? 0.4 : 0,
           pointBackgroundColor: colors[colorIndex % colors.length].border,
-          pointBorderColor: isDark ? '#1F2937' : '#FFFFFF',
+          pointBorderColor: '#fff',
           pointBorderWidth: 2,
           pointRadius: 4,
         },
@@ -187,7 +187,7 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
           borderWidth: 3,
           tension: 0.4,
           pointBackgroundColor: colors[colorIndex % colors.length].border,
-          pointBorderColor: isDark ? '#1F2937' : '#FFFFFF',
+          pointBorderColor: '#fff',
           pointBorderWidth: 2,
           pointRadius: 5,
           fill: false,
@@ -258,13 +258,14 @@ const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: Pro
         r: {
           beginAtZero: true,
           grid: {
-            color: isDark ? '#374151' : '#E5E7EB',
+            color: '#374151',
+            drawBorder: false,
           },
           pointLabels: {
-            color: isDark ? '#9CA3AF' : '#6B7280',
+            color: '#6B7280',
           },
           ticks: {
-            color: isDark ? '#9CA3AF' : '#6B7280',
+            color: '#6B7280',
             backdropColor: 'transparent',
           },
         },
