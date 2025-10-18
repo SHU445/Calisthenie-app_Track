@@ -17,6 +17,7 @@ import {
 } from 'chart.js';
 import { Line, Bar, PolarArea } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
+import { useThemeStore } from '@/stores/themeStore';
 
 ChartJS.register(
   CategoryScale,
@@ -57,7 +58,8 @@ interface ProgressChartsProps {
 }
 
 const ProgressCharts = ({ exerciseStats, singleExercise, distributionData }: ProgressChartsProps) => {
-  const isDark = typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const theme = useThemeStore((state) => state.theme);
+  const isDark = theme === 'dark';
 
   const chartOptions = {
     responsive: true,
