@@ -238,6 +238,7 @@ export interface WorkoutForm {
   sets: Omit<WorkoutSet, 'id'>[];
 }
 
+
 // Types utilitaires
 export interface ApiResponse<T> {
   success: boolean;
