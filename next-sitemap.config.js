@@ -4,7 +4,7 @@ const siteUrl = 'https://calisthenie-track.vercel.app';
 module.exports = {
   siteUrl,
   generateRobotsTxt: true,
-  generateIndexSitemap: true, // désactive l'index, un seul sitemap simple
+  generateIndexSitemap: false, // un seul fichier sitemap.xml
   changefreq: 'daily',
   priority: 0.7,
   sitemapSize: 5000,
