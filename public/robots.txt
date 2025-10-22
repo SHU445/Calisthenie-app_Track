@@ -3,14 +3,9 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /auth/
-Disallow: /*.json$
-
-# Googlebot
-User-agent: Googlebot
-Allow: /
 
 # Host
-Host: https://calisthenie-tracker.vercel.app/
+Host: https://calisthenie-track.vercel.app
 
 # Sitemaps
-Sitemap: https://calisthenie-tracker.vercel.app/sitemap.xml
+Sitemap: https://calisthenie-track.vercel.app/sitemap.xml
