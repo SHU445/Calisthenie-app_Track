@@ -6,8 +6,8 @@ import { useWorkoutStore } from '@/stores/workoutStore';
 import { useExerciseStore } from '@/stores/exerciseStore';
 import { useAuthStore } from '@/stores/authStore';
 import { useProgressStore } from '@/stores/progressStore';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import { Header } from '@/components/refonte/Header';
+import { Footer } from '@/components/refonte/Footer';
 import Link from 'next/link';
 import { 
   calculateExerciseDensity, 
@@ -292,7 +292,7 @@ export default function DetailSeancePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Navigation />
+        <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sport-accent mx-auto mb-4"></div>
@@ -307,7 +307,7 @@ export default function DetailSeancePage() {
   if (!workout) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Navigation />
+        <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <CalendarDaysIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
@@ -333,11 +333,11 @@ export default function DetailSeancePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
+      <Header />
       
       <main className="flex-1">
         {/* Header amélioré */}
-        <section className="sport-section pt-16 sm:pt-20 pb-10 sm:pb-12 relative overflow-hidden">
+        <section className="sport-section pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-12 relative overflow-hidden">
           {/* Gradient de fond */}
           <div className="absolute inset-0 bg-gradient-to-br from-sport-primary via-sport-secondary to-sport-primary opacity-20"></div>
           

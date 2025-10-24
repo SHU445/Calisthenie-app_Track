@@ -32,7 +32,7 @@ function ParametresPageContent() {
         <div className="absolute inset-0 bg-gradient-to-br from-sport-accent/20 via-sport-primary to-sport-secondary"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-sport-accent/10 via-transparent to-transparent"></div>
         
-        <div className="sport-container relative py-12">
+        <div className="sport-container relative pt-28 sm:pt-32 md:pt-36 pb-12">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
               <button

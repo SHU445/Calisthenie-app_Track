@@ -139,7 +139,7 @@ const Badge = forwardRef<HTMLDivElement, BadgeProps>(
         {removable && onRemove && (
           <button
             onClick={onRemove}
-            className="flex-shrink-0 ml-1 hover:text-martial-danger-accent transition-colors"
+            className="flex-shrink-0 ml-1 hover-theme-accent transition-theme"
             type="button"
           >
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

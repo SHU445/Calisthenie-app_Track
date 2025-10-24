@@ -6,8 +6,8 @@ import { useExerciseStore } from '@/stores/exerciseStore';
 import { useAuthStore } from '@/stores/authStore';
 import { RANKS } from '@/data/ranks';
 import { ExerciseCategory, DifficultyRank, QuantificationType } from '@/types';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import { Header } from '@/components/refonte/Header';
+import { Footer } from '@/components/refonte/Footer';
 import Link from 'next/link';
 import {
   PencilIcon,
@@ -239,7 +239,7 @@ export default function ModifierExercicePage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Navigation />
+        <Header />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sport-accent mx-auto mb-4"></div>
@@ -253,11 +253,11 @@ export default function ModifierExercicePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
+      <Header />
       
       <main className="flex-1">
         {/* Header */}
-        <section className="sport-section pt-20 pb-12">
+        <section className="sport-section pt-28 sm:pt-32 md:pt-36 pb-12">
           <div className="sport-container">
             <div className="max-w-3xl mx-auto">
               {/* Back Link */}

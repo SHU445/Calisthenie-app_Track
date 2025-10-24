@@ -6,6 +6,3 @@ Disallow: /auth/
 
 # Host
 Host: https://calisthenie-track.vercel.app
-
-# Sitemaps
-Sitemap: https://calisthenie-track.vercel.app/sitemap.xml

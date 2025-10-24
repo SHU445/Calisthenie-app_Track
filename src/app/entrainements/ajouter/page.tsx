@@ -7,8 +7,8 @@ import { useExerciseStore } from '@/stores/exerciseStore';
 import { useAuthStore } from '@/stores/authStore';
 import { WorkoutType, WorkoutSet } from '@/types';
 import { generateId } from '@/lib/utils';
-import Navigation from '@/components/Navigation';
-import Footer from '@/components/Footer';
+import { Header } from '@/components/refonte/Header';
+import { Footer } from '@/components/refonte/Footer';
 import Link from 'next/link';
 import {
   PlusIcon,
@@ -288,11 +288,11 @@ export default function AjouterSeancePage() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navigation />
+      <Header />
       
       <main className="flex-1">
         {/* Header */}
-        <section className="sport-section pt-20 pb-12">
+        <section className="sport-section pt-28 sm:pt-32 md:pt-36 pb-12">
           <div className="sport-container">
             <div className="max-w-4xl mx-auto">
               {/* Back Link */}
